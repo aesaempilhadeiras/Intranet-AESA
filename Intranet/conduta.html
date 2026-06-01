@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>AESA — Código de Ética e Conduta</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --navy-xl: #1a3a8f;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --green-b: #a7f3d0;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --amber-b: #f0d080;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --blue-b: #bfdbfe;
+            --purple: #5b21b6;
+            --purple-l: #ede9fe;
+            --purple-b: #c4b5fd;
+            --teal: #0f766e;
+            --teal-l: #f0fdfa;
+            --white: #fff;
+            --bg: #f4f2ee;
+            --text: #0c1420;
+            --muted: #5a6273;
+            --border: #dde1e8;
+            --radius: 14px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 20px rgba(6, 24, 81, .1);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--orange);
+            z-index: 999;
+            width: 0;
+            transition: width .1s
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none
+        }
+
+        .hero-glow {
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(231, 59, 27, .15) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 60px 48px 52px
+        }
+
+        @media(max-width:700px) {
+            .hero-inner {
+                padding: 40px 24px 36px
+            }
+        }
+
+        .hero-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .5);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 20px;
+            padding: 5px 14px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all .15s;
+            text-decoration: none
+        }
+
+        .hero-back:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, .4)
+        }
+
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 12px
+        }
+
+        .hero-eyebrow-line {
+            width: 24px;
+            height: 2px;
+            background: var(--orange);
+            border-radius: 2px
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 4.5vw, 52px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            margin-bottom: 12px
+        }
+
+        .hero h1 span {
+            color: var(--orange)
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .6);
+            margin-bottom: 28px;
+            max-width: 460px
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .8);
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 20px;
+            padding: 5px 13px
+        }
+
+        .hero-pill svg {
+            width: 14px;
+            height: 14px;
+            color: var(--orange)
+        }
+
+        /* STRIP */
+        .strip {
+            background: var(--orange);
+            padding: 14px 48px
+        }
+
+        @media(max-width:700px) {
+            .strip {
+                padding: 14px 24px
+            }
+        }
+
+        .strip-inner {
+            max-width: 1060px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .strip-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .65);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 6px
+        }
+
+        .strip-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(255, 255, 255, .15);
+            border-radius: 20px;
+            padding: 4px 12px
+        }
+
+        .strip-value svg {
+            width: 13px;
+            height: 13px
+        }
+
+        /* LAYOUT */
+        .layout {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 40px 48px 64px;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 28px;
+            align-items: start
+        }
+
+        @media(max-width:860px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 28px 24px 48px
+            }
+
+            .toc {
+                display: none
+            }
+        }
+
+        /* TOC */
+        .toc {
+            position: sticky;
+            top: 20px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .toc-head {
+            background: var(--navy);
+            padding: 11px 15px;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .toc-head svg {
+            width: 14px;
+            height: 14px;
+            color: var(--orange)
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 15px;
+            font-size: 12px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all .15s
+        }
+
+        .toc-item:last-child {
+            border-bottom: none
+        }
+
+        .toc-item:hover {
+            background: var(--bg);
+            color: var(--navy)
+        }
+
+        .toc-item.active {
+            background: var(--orange-l);
+            color: var(--orange);
+            font-weight: 600;
+            border-left: 3px solid var(--orange)
+        }
+
+        .toc-item svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0
+        }
+
+        /* CONTENT */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 24px
+        }
+
+        /* INTRO */
+        .intro-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--navy);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-sm)
+        }
+
+        @media(max-width:700px) {
+            .intro-card {
+                padding: 20px
+            }
+        }
+
+        .intro-card h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -.3px
+        }
+
+        .intro-card h2 svg {
+            width: 22px;
+            height: 22px;
+            color: var(--orange)
+        }
+
+        .intro-card p {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.8;
+            margin-bottom: 10px
+        }
+
+        .intro-card p:last-of-type {
+            margin-bottom: 0
+        }
+
+        .policy-box {
+            background: var(--blue-l);
+            border: 1px solid var(--blue-b);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            margin-top: 16px
+        }
+
+        .policy-box svg {
+            width: 20px;
+            height: 20px;
+            color: var(--blue);
+            flex-shrink: 0;
+            margin-top: 2px
+        }
+
+        .policy-box h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e3a6e;
+            margin-bottom: 4px
+        }
+
+        .policy-box p {
+            font-size: 13px;
+            color: #1e3a6e;
+            line-height: 1.65
+        }
+
+        .alert-box {
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-top: 14px
+        }
+
+        .alert-box svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px
+        }
+
+        .alert-box h4 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 3px
+        }
+
+        .alert-box p {
+            font-size: 13px;
+            line-height: 1.65
+        }
+
+        .alert-green {
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            color: var(--green)
+        }
+
+        .alert-amber {
+            background: var(--amber-l);
+            border: 1px solid var(--amber-b);
+            color: #78350f
+        }
+
+        /* MVV */
+        .mvv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        @media(max-width:700px) {
+            .mvv-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .mvv-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden
+        }
+
+        .mvv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px
+        }
+
+        .mvv-card.m::before {
+            background: var(--orange)
+        }
+
+        .mvv-card.v::before {
+            background: var(--navy)
+        }
+
+        .mvv-card.val::before {
+            background: var(--green)
+        }
+
+        .mvv-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .mvv-label svg {
+            width: 16px;
+            height: 16px
+        }
+
+        .mvv-label.m {
+            color: var(--orange)
+        }
+
+        .mvv-label.v {
+            color: var(--navy)
+        }
+
+        .mvv-label.val {
+            color: var(--green)
+        }
+
+        .mvv-card p {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.75
+        }
+
+        /* SECTION CARD */
+        .section-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .section-head {
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        @media(max-width:700px) {
+            .section-head {
+                padding: 16px 20px
+            }
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .section-icon svg {
+            width: 24px;
+            height: 24px
+        }
+
+        .si-or {
+            background: var(--orange-l);
+            color: var(--orange)
+        }
+
+        .si-nv {
+            background: var(--blue-l);
+            color: var(--navy)
+        }
+
+        .si-gr {
+            background: var(--green-l);
+            color: var(--green)
+        }
+
+        .si-am {
+            background: var(--amber-l);
+            color: var(--amber)
+        }
+
+        .si-pu {
+            background: var(--purple-l);
+            color: var(--purple)
+        }
+
+        .section-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.15;
+            letter-spacing: -.3px
+        }
+
+        .section-tag {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .section-body {
+            padding: 24px 28px
+        }
+
+        @media(max-width:700px) {
+            .section-body {
+                padding: 18px 20px
+            }
+        }
+
+        .section-intro {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--orange);
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.8;
+            font-style: italic
+        }
+
+        /* PRINCIPLES */
+        .principle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .principle {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #fcfcfd;
+            transition: all .2s
+        }
+
+        .principle:hover {
+            background: var(--bg);
+            box-shadow: var(--shadow-sm);
+            transform: translateX(3px)
+        }
+
+        .p-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
+            background: var(--navy);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        .p-icon svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .p-icon.or {
+            background: var(--orange)
+        }
+
+        .p-icon.gr {
+            background: var(--green)
+        }
+
+        .principle h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 4px
+        }
+
+        .principle p {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.75
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--navy);
+            padding: 28px 48px;
+            margin-top: 48px
+        }
+
+        @media(max-width:700px) {
+            .footer {
+                padding: 24px
+            }
+        }
+
+        .footer-inner {
+            max-width: 1060px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .footer-mark {
+            width: 40px;
+            height: 40px;
+            background: var(--orange);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 13px
+        }
+
+        .footer-text {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3
+        }
+
+        .footer-text span {
+            display: block;
+            color: rgba(255, 255, 255, .4);
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2px
+        }
+
+        .footer-note {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .35);
+            text-align: right;
+            line-height: 1.6
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="progress" id="progress"></div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-inner">
+            <a href="index.html" class="hero-back"><i data-lucide="arrow-left" style="width:14px;height:14px"></i>Página
+                Inicial</a>
+            <div class="hero-eyebrow"><span class="hero-eyebrow-line"></span>Código de Ética e Conduta</div>
+            <h1>Nossos Valores<br>em <span>Foco</span></h1>
+            <p class="hero-sub">AESA Empilhadeiras — Ética. Excelência. Trabalho em Equipe.</p>
+            <div class="hero-pills">
+                <span class="hero-pill"><i data-lucide="scale"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Ética</span>
+                <span class="hero-pill"><i data-lucide="eye"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Transparência</span>
+                <span class="hero-pill"><i data-lucide="star"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Excelência</span>
+                <span class="hero-pill"><i data-lucide="users"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Trabalho em Equipe</span>
+                <span class="hero-pill"><i data-lucide="leaf"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Sustentabilidade</span>
+                <span class="hero-pill"><i data-lucide="shield-check"
+                        style="width:14px;height:14px;color:var(--orange)"></i>Proteção de Dados</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRIP -->
+    <div class="strip">
+        <div class="strip-inner">
+            <span class="strip-label">Nossos pilares:</span>
+            <span class="strip-value"><i data-lucide="scale" style="width:13px;height:13px"></i>Ética</span>
+            <span class="strip-value"><i data-lucide="eye" style="width:13px;height:13px"></i>Transparência</span>
+            <span class="strip-value"><i data-lucide="star" style="width:13px;height:13px"></i>Excelência</span>
+            <span class="strip-value"><i data-lucide="users" style="width:13px;height:13px"></i>Trabalho em
+                Equipe</span>
+            <span class="strip-value"><i data-lucide="leaf" style="width:13px;height:13px"></i>Sustentabilidade</span>
+            <span class="strip-value"><i data-lucide="shield-check" style="width:13px;height:13px"></i>Proteção de
+                Dados</span>
+        </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="layout">
+
+        <!-- TOC -->
+        <aside class="toc" id="toc">
+            <div class="toc-head"><i data-lucide="list" style="width:14px;height:14px;color:var(--orange)"></i>Conteúdo
+            </div>
+            <div class="toc-item active" onclick="scrollTo('intro')" id="toc-intro"><i data-lucide="book-open"
+                    style="width:15px;height:15px"></i>Introdução</div>
+            <div class="toc-item" onclick="scrollTo('mvv')" id="toc-mvv"><i data-lucide="target"
+                    style="width:15px;height:15px"></i>Missão, Visão e Valores</div>
+            <div class="toc-item" onclick="scrollTo('etica')" id="toc-etica"><i data-lucide="scale"
+                    style="width:15px;height:15px"></i>Ética</div>
+            <div class="toc-item" onclick="scrollTo('transp')" id="toc-transp"><i data-lucide="eye"
+                    style="width:15px;height:15px"></i>Transparência</div>
+            <div class="toc-item" onclick="scrollTo('excel')" id="toc-excel"><i data-lucide="star"
+                    style="width:15px;height:15px"></i>Excelência</div>
+            <div class="toc-item" onclick="scrollTo('equipe')" id="toc-equipe"><i data-lucide="users"
+                    style="width:15px;height:15px"></i>Trabalho em Equipe</div>
+            <div class="toc-item" onclick="scrollTo('sustent')" id="toc-sustent"><i data-lucide="leaf"
+                    style="width:15px;height:15px"></i>Sustentabilidade</div>
+            <div class="toc-item" onclick="scrollTo('dados')" id="toc-dados"><i data-lucide="shield-check"
+                    style="width:15px;height:15px"></i>Proteção de Dados</div>
+        </aside>
+
+        <!-- CONTENT -->
+        <div class="content-area">
+
+            <!-- INTRO -->
+            <div class="intro-card" id="intro">
+                <h2><i data-lucide="book-open" style="width:22px;height:22px;color:var(--orange)"></i>Seguindo o Código
+                </h2>
+                <p>O texto deste código define quem somos. Apesar das nossas diferenças pessoais, somos uma única
+                    empresa, uma única família, unidos por esses princípios compartilhados com objetivo de prosperar.
+                </p>
+                <p>Ainda que nossos negócios sejam conduzidos dentro das leis do Brasil, para nós não é suficiente.
+                    Buscamos mais do que isso. Através do nosso código de ética e conduta, imaginamos um ambiente de
+                    trabalho do qual todos possam se orgulhar, uma empresa admirada e respeitada por todos e a
+                    construção de um mundo melhor através de nossas ações.</p>
+                <p>Este código aplica-se às atividades diárias de todos os funcionários e sócios da AESA Empilhadeiras
+                    Ltda. Cada um de nós é individualmente responsável por ler o código, entendê-lo e aplicá-lo
+                    consistentemente.</p>
+                <div class="policy-box">
+                    <i data-lucide="alert-circle"
+                        style="width:20px;height:20px;color:var(--blue);flex-shrink:0;margin-top:2px"></i>
+                    <div>
+                        <h4>Responsabilidade e Direito de Relato</h4>
+                        <p>Se tomar conhecimento de uma situação que viole o código ou leis vigentes, é dever de cada um
+                            entrar em contato com o supervisor ou departamento de RH. As questões podem ser comunicadas
+                            pelo canal de comunicação anônima na intranet da AESA. Qualquer violação será tratada com
+                            urgência e pode resultar em ação disciplinar ou desligamento.</p>
+                    </div>
+                </div>
+                <div class="alert-box alert-green">
+                    <i data-lucide="shield-check"
+                        style="width:18px;height:18px;color:var(--green);flex-shrink:0;margin-top:2px"></i>
+                    <div>
+                        <h4>Política de Não Retaliação</h4>
+                        <p>A AESA Empilhadeiras não tomará qualquer ação contra um funcionário em razão de uma questão
+                            ética levantada em boa fé, e não admite qualquer tipo de represália por parte de um
+                            indivíduo contra quem transmita sua dúvida ou informação de boa fé.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MVV -->
+            <div class="section-card" id="mvv">
+                <div class="section-head">
+                    <div class="section-icon si-nv"><i data-lucide="target" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Fundamentos</div>
+                        <div class="section-title">Missão, Visão e Valores</div>
+                        <div class="section-tag">O que nos orienta em cada decisão</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="mvv-grid">
+                        <div class="mvv-card m">
+                            <div class="mvv-label m"><i data-lucide="rocket" style="width:16px;height:16px"></i>Missão
+                            </div>
+                            <p>Fornecer produtos e serviços de movimentação de materiais como solução para que nossos
+                                clientes possam focar em sua atividade central.</p>
+                        </div>
+                        <div class="mvv-card v">
+                            <div class="mvv-label v"><i data-lucide="telescope" style="width:16px;height:16px"></i>Visão
+                            </div>
+                            <p>Alcançar um século de existência sendo reconhecidamente a empresa de movimentação de
+                                materiais mais eficiente do Brasil, fornecendo soluções com tecnologia e custo adequados
+                                às necessidades dos nossos clientes.</p>
+                        </div>
+                        <div class="mvv-card val">
+                            <div class="mvv-label val"><i data-lucide="heart" style="width:16px;height:16px"></i>Valores
+                            </div>
+                            <p>Crescer de forma sustentável pautados pelo respeito ao ser humano e ao meio ambiente
+                                acima de tudo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTICA -->
+            <div class="section-card" id="etica">
+                <div class="section-head">
+                    <div class="section-icon si-or"><i data-lucide="scale" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Pilar 01</div>
+                        <div class="section-title">Ética</div>
+                        <div class="section-tag">Em todos os lugares, em todos os níveis hierárquicos</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">É um dever de todos nós e cada um de nós, em todos os lugares que
+                        estivermos, em todos os níveis hierárquicos, dentro e fora da empresa.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="users" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Trabalhamos em Conjunto</h4>
+                                <p>Esperamos que todos nossos funcionários trabalhem de forma harmoniosa e respeitosa
+                                    entre si. O trabalho em equipe é encorajado e os sucessos, assim como os fracassos,
+                                    devem ser compartilhados. Devemos ouvir as ideias das pessoas e reconhecer a
+                                    contribuição de cada um.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="hand" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Não Toleramos Desrespeito</h4>
+                                <p>A fala ofensiva, gestos impróprios, comentários racistas ou sexuais são intoleráveis
+                                    em nossa cultura organizacional. Somos uma família, um time harmonioso trabalhando
+                                    com um propósito único. Mantemos uma cultura de lealdade, solidariedade e respeito
+                                    pelas diferenças culturais.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="ban" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Repudiamos a Corrupção e Lavagem de Dinheiro</h4>
+                                <p>Não aceitamos nem oferecemos propinas, subornos, favores ou vantagens indevidas a
+                                    ninguém. Cumprimos as leis e normas que regulam as atividades financeiras e
+                                    comerciais da empresa. Mantemos registros e documentos transparentes que refletem a
+                                    realidade das operações.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRANSPARÊNCIA -->
+            <div class="section-card" id="transp">
+                <div class="section-head">
+                    <div class="section-icon si-nv"><i data-lucide="eye" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Pilar 02</div>
+                        <div class="section-title">Transparência</div>
+                        <div class="section-tag">A base de tudo que fazemos</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">As pessoas com as quais trabalhamos, convivemos e fazemos negócios podem
+                        confiar em nós. Nossas ações são alinhadas com nossas palavras e cumprimos o que prometemos.
+                        Construímos e consolidamos nossa reputação com base na confiança.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="message-circle-check"
+                                    style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Dizemos a Verdade</h4>
+                                <p>Mesmo que a verdade sejam as palavras mais difíceis de serem ditas. Prometemos
+                                    somente aquilo que podemos cumprir e nos empenhamos para cumprir o que foi
+                                    prometido. Nossos colegas, clientes, fornecedores e todos com os quais fazemos
+                                    negócios podem confiar no que dizemos.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="trophy" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Concorremos Honestamente</h4>
+                                <p>Em nosso relacionamento com concorrentes, evitamos acordos que limitem nossa
+                                    capacidade de concorrer. Não fazemos acordos sobre preço e condições de
+                                    fornecimento. Acreditamos que o livre comércio cria um ambiente que nos permite
+                                    atender melhor as necessidades dos nossos clientes.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="calculator" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Contabilizamos com Precisão</h4>
+                                <p>A exatidão dos relatórios financeiros da AESA está fundamentada na validação,
+                                    correção, pontualidade e inteligibilidade das informações. Asseguramos que todo
+                                    registro contábil ou financeiro reflete com exatidão a realidade da movimentação de
+                                    valores e produtos.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="x-circle" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Recusamos Pagamentos Impróprios</h4>
+                                <p>Não tentamos influenciar pessoas, direta ou indiretamente, com pagamento de propinas,
+                                    suborno ou qualquer outra medida que manche nossa reputação. Atitudes que se
+                                    assemelham a isso também devem ser evitadas, como brindes ou presentes fora do
+                                    contexto corporativo.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="git-merge" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Evitamos o Conflito de Interesse</h4>
+                                <p>Não nos envolvemos em situações que possam comprometer nossa integridade,
+                                    imparcialidade ou lealdade à empresa. Não usamos nossa posição ou informações
+                                    privilegiadas para obter benefícios pessoais. Divulgamos qualquer conflito de
+                                    interesse de forma ética e transparente.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="package-x" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Rejeitamos Peças Falsificadas</h4>
+                                <p>Não compramos nem vendemos peças de reposição produzidas por fabricantes não
+                                    autorizados. Seguimos os padrões de qualidade exigidos pelos fabricantes e
+                                    verificamos a procedência legal de todas as peças. Denunciamos qualquer indício de
+                                    falsificação às autoridades competentes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXCELÊNCIA -->
+            <div class="section-card" id="excel">
+                <div class="section-head">
+                    <div class="section-icon si-am"><i data-lucide="star" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Pilar 03</div>
+                        <div class="section-title">Excelência</div>
+                        <div class="section-tag">Uma forma de melhorar o mundo em que vivemos</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">A qualidade do nosso serviço reflete o orgulho que temos naquilo que
+                        fazemos. Somos apaixonados por pessoas, processos, máquinas e ferramentas. Somos determinados a
+                        atender nossos clientes com soluções criativas e melhoria contínua, sempre com senso de
+                        urgência.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="award" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Não Aceitamos Nada Menos Que o Melhor</h4>
+                                <p>Nos dedicamos à qualidade e nos orgulhamos de todos os produtos e serviços que
+                                    fornecemos. Temos uma dedicação incansável para superar as expectativas dos nossos
+                                    clientes e assumimos tudo aquilo que fazemos.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="coins" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Entregamos o Maior Valor ao Menor Custo</h4>
+                                <p>Construímos uma reputação de excelência porque ouvimos nossos clientes, entendemos
+                                    suas necessidades e fornecemos produtos e serviços dimensionados para que obtenham
+                                    sucesso com o menor custo possível.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="zap" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Entendemos o Senso de Urgência</h4>
+                                <p>Conhecemos bem a dinâmica produtiva de nossos clientes e sabemos que existe urgência
+                                    quando se trata de prazos na cadeia de produção. Prometemos somente os prazos que
+                                    podemos cumprir sem que a qualidade seja sacrificada.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="trending-up" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Proporcionamos Ambiente Favorável ao Crescimento</h4>
+                                <p>Pedimos que nossos funcionários não poupem esforços para aprimorar suas habilidades e
+                                    que aprendam com o sucesso e com as adversidades. Encorajamos o desenvolvimento
+                                    próprio e estamos comprometidos com o crescimento pessoal de cada um.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRABALHO EM EQUIPE -->
+            <div class="section-card" id="equipe">
+                <div class="section-head">
+                    <div class="section-icon si-nv"><i data-lucide="users" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Pilar 04</div>
+                        <div class="section-title">Trabalho em Equipe</div>
+                        <div class="section-tag">O sucesso nunca é alcançado individualmente</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">Somos uma equipe multidisciplinar, trabalhando e convivendo em harmonia
+                        para entregarmos o melhor serviço aos nossos clientes. Os diferentes pontos de vista, formações
+                        e experiências se combinam formando nossa cultura corporativa que, assim como uma pessoa, está
+                        em constante evolução.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="handshake" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Tratamos Todos com Respeito</h4>
+                                <p>O pleno potencial do indivíduo só pode ser alcançado em equipe quando tratamos todos
+                                    com respeito, confiança e a dignidade que esperamos em troca. A AESA exige um
+                                    ambiente de trabalho livre de intimidação e assédio de qualquer natureza.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="equal" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Proibimos a Discriminação</h4>
+                                <p>Tratamos todos os funcionários com igualdade e justiça. Acreditamos na força da
+                                    diversidade. Selecionamos e contratamos com base nas qualificações para o trabalho,
+                                    sem considerar raça, sexo, identidade sexual, orientação sexual, idade e/ou
+                                    deficiência física ou mental.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="puzzle" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Acreditamos na Inclusão</h4>
+                                <p>Valorizamos a diversidade de talentos, diferenças culturais e experiências únicas de
+                                    cada indivíduo. Somos a favor da inclusão de grupos minoritários e menos
+                                    favorecidos, favorecendo e influenciando positivamente a comunidade ao nosso redor.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="store" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Construímos Laços com Fornecedores</h4>
+                                <p>Consideramos fornecedores como uma extensão de nossa empresa e parte essencial de
+                                    nossa cadeia de valores. Buscamos aliados comerciais alinhados com o compromisso
+                                    ético deste código. Prezamos pelo crescimento e saúde operacional de nossos
+                                    parceiros.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="globe" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Respeitamos os Direitos Humanos</h4>
+                                <p>Respeitamos os direitos fundamentais do ser humano, conforme a Declaração Universal
+                                    dos Direitos Humanos. Combatemos o trabalho infantil em todas as suas formas,
+                                    repudiamos a escravidão moderna e o tráfico de pessoas, e respeitamos a liberdade de
+                                    associação e a negociação coletiva.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUSTENTABILIDADE -->
+            <div class="section-card" id="sustent">
+                <div class="section-head">
+                    <div class="section-icon si-gr"><i data-lucide="leaf" style="width:24px;height:24px"></i></div>
+                    <div>
+                        <div class="section-num">Pilar 05</div>
+                        <div class="section-title">Sustentabilidade</div>
+                        <div class="section-tag">Compromisso de construir um mundo melhor</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">Reconhecemos que o progresso envolve um equilíbrio entre responsabilidade
+                        social, compromisso ambiental e crescimento econômico. Levamos isso em consideração quando
+                        tomamos decisões quanto aos nossos processos, produtos e ações que gerarão impacto no ambiente
+                        ao nosso redor.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="heart-pulse" style="width:18px;height:18px"></i>
+                            </div>
+                            <div>
+                                <h4>Protegemos a Saúde e Segurança</h4>
+                                <p>Colocamos a segurança em primeiro lugar para impedir que lesões, doenças ocupacionais
+                                    e acidentes ocorram. Estimulamos e cobramos ativamente a saúde e segurança de todos
+                                    com políticas e programas práticos que auxiliam a proteção individual e coletiva.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="recycle" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Tornamos Nossos Clientes Mais Sustentáveis</h4>
+                                <p>Inovamos para trazer aos nossos clientes produtos e soluções que melhoram a
+                                    sustentabilidade do negócio. Usamos equipamentos com tecnologia de baixa emissão de
+                                    carbono e aplicamos a remanufatura de componentes, estimulando o mercado a fazer o
+                                    mesmo.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="zap" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Apoiamos Veículos Elétricos de Baixa Emissão</h4>
+                                <p>Atender a demanda crescente por energia exige alternativas para reduzir as emissões
+                                    de CO2. Incentivamos nossos clientes a adotarem soluções elétricas no lugar da
+                                    queima de combustível fóssil.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="trending-up" style="width:18px;height:18px"></i>
+                            </div>
+                            <div>
+                                <h4>Desenvolvemos a Melhor Equipe</h4>
+                                <p>Uma força de trabalho sustentável é aquela bem preparada para cumprir nossos
+                                    compromissos hoje e no futuro. Atraímos e desenvolvemos a melhor equipe de alto
+                                    desempenho e promovemos a participação de todos por meio de diálogo aberto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROTEÇÃO DE DADOS -->
+            <div class="section-card" id="dados">
+                <div class="section-head">
+                    <div class="section-icon si-pu"><i data-lucide="shield-check" style="width:24px;height:24px"></i>
+                    </div>
+                    <div>
+                        <div class="section-num">Pilar 06</div>
+                        <div class="section-title">Proteção de Dados</div>
+                        <div class="section-tag">Segurança no tratamento das informações</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="section-intro">Todas as informações obtidas no ambiente de trabalho, mesmo que não
+                        relacionadas a uma área específica e mesmo que não contenham aviso explícito, possuem tratamento
+                        sigiloso e não podem ser divulgadas por qualquer mídia ou meio que possibilite exposição ao
+                        público externo.</div>
+                    <div class="principle-list">
+                        <div class="principle">
+                            <div class="p-icon"><i data-lucide="file-badge" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Respeitamos a LGPD</h4>
+                                <p>As normas legais e orientações de autoridades competentes em matéria de proteção de
+                                    dados pessoais são respeitadas e levadas com seriedade em nossa empresa, incluindo a
+                                    existência, alteração de arquivos, direito de consulta e correção dos dados
+                                    pessoais.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon or"><i data-lucide="laptop" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Sistemas e Políticas Internas</h4>
+                                <p>Todos os programas, softwares e atuações da empresa devem estar de acordo com as
+                                    políticas instituídas internamente e com as regulamentações vigentes. Nenhum
+                                    software fora dessas diretrizes pode ser adicionado ao sistema, nem é admitida a
+                                    transmissão de arquivos ou mensagens não alinhados com os interesses da empresa.</p>
+                            </div>
+                        </div>
+                        <div class="principle">
+                            <div class="p-icon gr"><i data-lucide="copyright" style="width:18px;height:18px"></i></div>
+                            <div>
+                                <h4>Respeitamos a Propriedade Intelectual</h4>
+                                <p>Não copiamos nem usamos sem autorização as criações de outras pessoas ou empresas.
+                                    Reconhecemos o direito dos autores de explorar e lucrar com suas criações.
+                                    Valorizamos a inovação, a criatividade e a cultura como fontes de conhecimento e
+                                    desenvolvimento, cumprindo as leis que regulam a propriedade intelectual no Brasil e
+                                    no mundo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-box alert-amber" style="margin-top:16px">
+                        <i data-lucide="alert-triangle"
+                            style="width:18px;height:18px;color:var(--amber);flex-shrink:0;margin-top:2px"></i>
+                        <div>
+                            <h4>Dúvidas ou Irregularidades?</h4>
+                            <p>Comunique seu supervisor, o departamento de RH ou utilize o canal de comunicação anônima
+                                disponível na intranet da AESA Empilhadeiras.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <div class="footer-mark">AE</div>
+                <div class="footer-text">AESA Empilhadeiras<span>Código de Ética e Conduta — Rev. 3</span></div>
+            </div>
+            <div class="footer-note">Este documento aplica-se a todos os<br>funcionários e sócios da AESA Empilhadeiras
+                Ltda.</div>
+        </div>
+    </div>
+
+    <script>
+        // Embed mode
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            document.body.style.fontSize = '13px';
+        }
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+            document.getElementById('progress').style.width = pct + '%';
+        }, { passive: true });
+
+        // Scroll to section
+        function scrollTo(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Active TOC
+        const sections = ['intro', 'mvv', 'etica', 'transp', 'excel', 'equipe', 'sustent', 'dados'];
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    sections.forEach(s => document.getElementById('toc-' + s)?.classList.remove('active'));
+                    document.getElementById('toc-' + e.target.id)?.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px' });
+        sections.forEach(s => { const el = document.getElementById(s); if (el) obs.observe(el); });
+
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

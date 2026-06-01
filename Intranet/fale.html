@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Fale com a AESA</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-light: #0d2570;
+            --orange: #E73B1B;
+            --orange-hover: #c4320f;
+            --green: #065f46;
+            --green-light: #ecfdf5;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --text: #0f1923;
+            --text-muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --font: 'DM Sans', sans-serif;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 16px rgba(6, 24, 81, .10);
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 24px 48px;
+        }
+
+        /* HEADER */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--orange);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231, 59, 27, .35);
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .page-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .update-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+
+        .update-note i {
+            font-size: 13px;
+        }
+
+        /* NOTICE */
+        .notice-card {
+            background: #fff8e1;
+            border: 1px solid #f0d080;
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .notice-card i {
+            font-size: 18px;
+            color: #b45309;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .notice-card p {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        /* INFO ROW */
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .info-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-card-icon i {
+            font-size: 18px;
+        }
+
+        .ic-blue {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .ic-green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .ic-amber {
+            background: #fffbeb;
+            color: #b45309;
+        }
+
+        .info-card-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 3px;
+        }
+
+        .info-card-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* FORM CARD */
+        .form-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .form-card-head {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            background: #fafbfc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-card-head i {
+            font-size: 18px;
+            color: var(--navy);
+        }
+
+        .form-card-head-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .form-card-head-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .form-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .form-label .req {
+            color: var(--orange);
+            margin-left: 2px;
+        }
+
+        /* Destinatário fixo */
+        .dest-fixed {
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #f9fafb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .dest-fixed i {
+            font-size: 16px;
+            color: var(--green);
+        }
+
+        .dest-fixed-sub {
+            margin-left: auto;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .form-textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            transition: border-color .15s, box-shadow .15s;
+            outline: none;
+            padding: 12px 14px;
+            resize: vertical;
+            min-height: 160px;
+            line-height: 1.6;
+        }
+
+        .form-textarea:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 3px rgba(6, 24, 81, .08);
+        }
+
+        .char-count {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .char-count.warn {
+            color: var(--orange);
+        }
+
+        /* Category chips */
+        .category-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .cat-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all .15s;
+            user-select: none;
+        }
+
+        .cat-chip i {
+            font-size: 13px;
+        }
+
+        .cat-chip:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+            background: var(--bg);
+        }
+
+        .cat-chip.selected {
+            border-color: var(--navy);
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .cat-chip.selected.orange {
+            border-color: var(--orange);
+            background: var(--orange);
+        }
+
+        .cat-chip.selected.green {
+            border-color: var(--green);
+            background: var(--green);
+        }
+
+        .cat-chip.selected.blue {
+            border-color: #1e40af;
+            background: #1e40af;
+        }
+
+        /* Form footer */
+        .form-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            background: #fafbfc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .form-footer-note {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .form-footer-note i {
+            font-size: 14px;
+            color: var(--green);
+        }
+
+        .btn-send {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background .15s, transform .1s, box-shadow .15s;
+            box-shadow: 0 2px 8px rgba(6, 24, 81, .2);
+        }
+
+        .btn-send:hover {
+            background: var(--navy-light);
+            box-shadow: 0 4px 14px rgba(6, 24, 81, .25);
+            transform: translateY(-1px);
+        }
+
+        .btn-send:active {
+            transform: translateY(0);
+        }
+
+        .btn-send i {
+            font-size: 16px;
+        }
+
+        /* SUCCESS */
+        .success-overlay {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            padding: 48px 32px;
+            text-align: center;
+        }
+
+        .success-overlay.visible {
+            display: block;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 2px solid #a7f3d0;
+        }
+
+        .success-icon i {
+            font-size: 36px;
+            color: var(--green);
+        }
+
+        .success-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .success-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            max-width: 420px;
+            margin: 0 auto 24px;
+            line-height: 1.7;
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 18px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            transition: background .15s;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), opacity .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 17px;
+        }
+
+        @media (max-width: 768px) {
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-send {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <div class="logo-mark">AE</div>
+                <div>
+                    <div class="page-title">Fale com a AESA</div>
+                    <div class="page-sub">AESA Empilhadeiras — Canal anônimo</div>
+                </div>
+            </div>
+            <div class="update-note">
+                <i class="ti ti-clock"></i>
+                <span id="update-label">Carregando...</span>
+            </div>
+        </div>
+
+        <!-- AVISO -->
+        <div class="notice-card">
+            <i class="ti ti-info-circle"></i>
+            <p>
+                Bem-vindo(a) ao canal de comunicação anônima entre o colaborador e o RH / Diretoria da AESA.
+                Escreva sua mensagem e clique em <strong>Enviar</strong>. Utilize esta ferramenta para enviar
+                elogios, críticas, sugestões ou para relatar qualquer tipo de informação de maneira totalmente anônima.
+            </p>
+        </div>
+
+        <!-- INFO CARDS -->
+        <div class="info-row">
+            <div class="info-card">
+                <div class="info-card-icon ic-blue">
+                    <i data-lucide="shield" style="width:18px;height:18px"></i>
+                </div>
+                <div>
+                    <div class="info-card-title">Anonimato Garantido</div>
+                    <div class="info-card-desc">Sua mensagem é enviada sem qualquer vínculo com seu usuário, dispositivo
+                        ou endereço.</div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon ic-green">
+                    <i data-lucide="users" style="width:18px;height:18px"></i>
+                </div>
+                <div>
+                    <div class="info-card-title">Destinatários</div>
+                    <div class="info-card-desc">Sua mensagem é enviada diretamente para o RH e a Diretoria da AESA.
+                    </div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon ic-amber">
+                    <i data-lucide="mail-check" style="width:18px;height:18px"></i>
+                </div>
+                <div>
+                    <div class="info-card-title">Resposta considerada</div>
+                    <div class="info-card-desc">As mensagens são analisadas e consideradas. Melhorias podem ser
+                        implementadas com base no seu retorno.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="form-card" id="form-card">
+
+            <div class="form-card-head">
+                <i class="ti ti-send"></i>
+                <div>
+                    <div class="form-card-head-title">Nova Mensagem</div>
+                    <div class="form-card-head-sub">Preencha os campos abaixo e clique em Enviar</div>
+                </div>
+            </div>
+
+            <div class="form-body">
+
+                <!-- Destinatário fixo -->
+                <div class="form-group">
+                    <label class="form-label">Destinatário da Mensagem</label>
+                    <div class="dest-fixed">
+                        <i class="ti ti-users"></i>
+                        RH e Diretoria
+                        <span class="dest-fixed-sub">Mensagem enviada para ambos</span>
+                    </div>
+                </div>
+
+                <!-- Categoria -->
+                <div class="form-group">
+                    <label class="form-label">Categoria da Mensagem</label>
+                    <div class="category-chips">
+                        <div class="cat-chip" data-color="blue" onclick="selectCat(this)">
+                            <i class="ti ti-thumb-up"></i> Elogio
+                        </div>
+                        <div class="cat-chip" data-color="orange" onclick="selectCat(this)">
+                            <i class="ti ti-message-exclamation"></i> Crítica
+                        </div>
+                        <div class="cat-chip" data-color="green" onclick="selectCat(this)">
+                            <i class="ti ti-bulb"></i> Sugestão
+                        </div>
+                        <div class="cat-chip" data-color="orange" onclick="selectCat(this)">
+                            <i class="ti ti-alert-triangle"></i> Relato / Denúncia
+                        </div>
+                        <div class="cat-chip" data-color="" onclick="selectCat(this)">
+                            <i class="ti ti-dots-circle-horizontal"></i> Outro
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensagem -->
+                <div class="form-group">
+                    <label class="form-label" for="mensagem">Mensagem <span class="req">*</span></label>
+                    <textarea class="form-textarea" id="mensagem"
+                        placeholder="Escreva aqui sua mensagem de forma livre. Seja objetivo(a) e claro(a). Lembre-se: quanto mais detalhes, melhor poderemos entender e agir."
+                        maxlength="2000" oninput="updateCount(this)"></textarea>
+                    <div class="char-count" id="char-count">0 / 2000 caracteres</div>
+                </div>
+
+            </div>
+
+            <div class="form-footer">
+                <div class="form-footer-note">
+                    <i class="ti ti-lock"></i>
+                    Mensagem enviada com segurança. Nenhum nome, usuário AD ou e-mail é armazenado.
+                </div>
+                <button class="btn-send" onclick="enviarMensagem()">
+                    <i class="ti ti-send"></i>
+                    Enviar Mensagem
+                </button>
+            </div>
+
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="success-overlay" id="success-overlay">
+            <div class="success-icon">
+                <i class="ti ti-check"></i>
+            </div>
+            <div class="success-title">Mensagem enviada com sucesso!</div>
+            <div class="success-desc">
+                Sua mensagem foi recebida de forma anônima pelo RH e Diretoria da AESA. Obrigado por contribuir com a
+                melhoria da AESA.
+            </div>
+            <button class="btn-ghost" onclick="novaMensagem()">
+                <i class="ti ti-refresh"></i>
+                Enviar outra mensagem
+            </button>
+        </div>
+
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <i class="ti ti-alert-circle" id="toast-icon"></i>
+        <span id="toast-msg">Mensagem</span>
+    </div>
+
+    <script>
+        const API = 'http://10.1.1.54:3001';
+        let categoriaSelecionada = '';
+
+        /* Data de atualização */
+        const now = new Date();
+        document.getElementById('update-label').textContent =
+            'Atualizado em ' +
+            now.getDate().toString().padStart(2, '0') + '/' +
+            (now.getMonth() + 1).toString().padStart(2, '0') + '/' +
+            now.getFullYear();
+
+        /* Supabase proxy */
+        async function supabase(metodo, tabela, params, body) {
+            const res = await fetch(API + '/db', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ metodo, tabela, params: params || '', body: body || null })
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.mensagem || 'Erro ' + res.status);
+            return data;
+        }
+
+        /* Categoria */
+        function selectCat(el) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected', 'orange', 'green', 'blue'));
+            el.classList.add('selected');
+            if (el.dataset.color) el.classList.add(el.dataset.color);
+            categoriaSelecionada = el.textContent.trim();
+        }
+
+        /* Contador */
+        function updateCount(el) {
+            const count = el.value.length;
+            const counter = document.getElementById('char-count');
+            counter.textContent = count + ' / 2000 caracteres';
+            counter.classList.toggle('warn', count > 1800);
+        }
+
+        /* Enviar */
+        async function enviarMensagem() {
+            const msg = document.getElementById('mensagem').value.trim();
+            const btn = document.querySelector('.btn-send');
+
+            if (!msg) { showToast('Escreva sua mensagem antes de enviar.', true); return; }
+            if (msg.length < 10) { showToast('Escreva uma mensagem com pelo menos 10 caracteres.', true); return; }
+
+            const payload = {
+                destinatario: 'ambos',
+                categoria: categoriaSelecionada || 'Não informado',
+                mensagem: msg,
+                lida: false
+            };
+
+            try {
+                btn.disabled = true;
+                btn.style.opacity = '.65';
+                btn.style.cursor = 'not-allowed';
+                btn.innerHTML = '<i class="ti ti-loader-2"></i> Enviando...';
+
+                await supabase('POST', 'mensagens_anonimas', '', payload);
+
+                document.getElementById('form-card').style.display = 'none';
+                document.getElementById('success-overlay').classList.add('visible');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (e) {
+                showToast('Erro ao enviar: ' + e.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.style.cursor = '';
+                btn.innerHTML = '<i class="ti ti-send"></i> Enviar Mensagem';
+            }
+        }
+
+        /* Nova mensagem */
+        function novaMensagem() {
+            document.getElementById('mensagem').value = '';
+            document.getElementById('char-count').textContent = '0 / 2000 caracteres';
+            categoriaSelecionada = '';
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected', 'orange', 'green', 'blue'));
+            document.getElementById('form-card').style.display = '';
+            document.getElementById('success-overlay').classList.remove('visible');
+        }
+
+        /* Toast */
+        let toastTimer;
+        function showToast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            document.getElementById('toast-icon').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+        }
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

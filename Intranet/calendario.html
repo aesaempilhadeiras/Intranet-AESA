@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Calendário Corporativo</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <script src="auth.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --red: #991b1b;
+            --red-l: #fef2f2;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --purple: #6b21a8;
+            --purple-l: #faf5ff;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --bg-h: #e5e8ef;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 20px rgba(6, 24, 81, .11);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .shell {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 220px;
+            min-width: 220px;
+            background: var(--navy);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .1) transparent;
+        }
+
+        .sidebar-header {
+            padding: 18px 16px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            background: var(--orange);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(231, 59, 27, .4);
+        }
+
+        .logo-text {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .logo-text span {
+            display: block;
+            color: rgba(255, 255, 255, .4);
+            font-size: 10px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            padding: 16px 0 6px;
+        }
+
+        .nav-label {
+            padding: 0 14px 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            color: rgba(255, 255, 255, .6);
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            border-left-color: rgba(255, 255, 255, .2);
+        }
+
+        .nav-item.active {
+            background: rgba(231, 59, 27, .2);
+            color: #fff;
+            border-left-color: var(--orange);
+        }
+
+        .nav-item i {
+            font-size: 16px;
+            width: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 12px 14px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            flex-shrink: 0;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            color: rgba(255, 255, 255, .8);
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .user-info span {
+            display: block;
+            color: rgba(255, 255, 255, .4);
+            font-size: 10px;
+        }
+
+        .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 7px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: rgba(255, 255, 255, .55);
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(231, 59, 27, .25);
+            color: #fff;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .topbar {
+            height: 54px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .topbar-left h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-left p {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topbar-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .topbar-btn:hover {
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .topbar-btn i {
+            font-size: 17px;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px 24px 40px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        /* LAYOUT GRID */
+        .cal-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media(max-width:900px) {
+            .cal-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CALENDAR */
+        .cal-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .cal-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cal-nav-bar h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .cal-nav-btns {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cal-nav-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .12s;
+            color: var(--muted);
+        }
+
+        .cal-nav-btn:hover {
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .cal-nav-btn i {
+            font-size: 15px;
+        }
+
+        .cal-today-btn {
+            padding: 0 12px;
+            height: 30px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 7px;
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            transition: background .12s;
+        }
+
+        .cal-today-btn:hover {
+            background: var(--bg);
+        }
+
+        .cal-grid-wrap {
+            padding: 16px 12px;
+        }
+
+        .cal-dow-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .cal-dow {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 4px 0;
+        }
+
+        .cal-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .cal-day-cell {
+            min-height: 72px;
+            padding: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .12s;
+            position: relative;
+            border: 1.5px solid transparent;
+        }
+
+        .cal-day-cell:hover {
+            background: var(--bg);
+        }
+
+        .cal-day-cell.today {
+            border-color: var(--orange);
+            background: var(--orange-l);
+        }
+
+        .cal-day-cell.other-month {
+            opacity: .35;
+        }
+
+        .cal-day-cell.selected {
+            border-color: var(--navy);
+            background: #f0f4ff;
+        }
+
+        .day-num {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 3px;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .cal-day-cell.today .day-num {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .day-events {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .day-event-chip {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 5px;
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        /* TIPOS */
+        .tipo-feriado {
+            background: #dcfce7;
+            color: #065f46;
+        }
+
+        .tipo-evento {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tipo-reuniao {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
+        .tipo-treinamento {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tipo-aniversario {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .tipo-outro {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        /* SIDEBAR EVENTS */
+        .events-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .events-card-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .events-card-header h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .events-list {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            display: flex;
+            gap: 11px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color .15s;
+            border-left: 3px solid var(--border);
+        }
+
+        .event-item:hover {
+            border-color: var(--navy);
+        }
+
+        .event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .event-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .event-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-date {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .event-tipo {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+
+        /* BTNS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-h);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        .btn-danger {
+            background: var(--red-l);
+            color: var(--red);
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 5px 11px;
+            font-size: 12px;
+        }
+
+        .btn-sm i {
+            font-size: 13px;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 24, 81, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            backdrop-filter: blur(4px);
+            padding: 20px;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 60px rgba(6, 24, 81, .2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--navy);
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-header h3 i {
+            font-size: 17px;
+            color: var(--orange);
+        }
+
+        .modal-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: transparent;
+            color: rgba(255, 255, 255, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+        }
+
+        .modal-close i {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-footer {
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%;
+        }
+
+        .form-input,
+        .form-select {
+            height: 40px;
+            padding: 0 12px;
+        }
+
+        .form-textarea {
+            padding: 10px 12px;
+            resize: vertical;
+            min-height: 80px;
+            line-height: 1.6;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--navy);
+            background: #fff;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* TIPO PILLS SELECTOR */
+        .tipo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .tipo-opt {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all .15s;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tipo-opt:hover {
+            border-color: var(--muted);
+        }
+
+        .tipo-opt.sel {
+            border-color: var(--navy);
+            background: #f0f4ff;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 16px;
+        }
+
+        /* DETALHE */
+        .detalhe-tipo-banner {
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+    <script>
+        (function () {
+            if (new URLSearchParams(window.location.search).get('embed') !== '1') return;
+            const style = document.createElement('style');
+            style.textContent = `.sidebar, .topbar, aside.sidebar { display:none !important; } .main { width:100% !important; }`;
+            document.head.appendChild(style);
+        })();
+    </script>
+</head>
+
+<body>
+    <div style="display:flex;justify-content:flex-end;padding:16px 24px 0">
+        <button class="btn btn-orange btn-sm" id="btn-novo-evento" style="display:none" onclick="abrirModalNovo()">
+            <i class="ti ti-plus"></i>Novo Evento
+        </button>
+    </div>
+    <div class="content">
+        <div class="cal-layout">
+
+            <!-- CALENDÁRIO -->
+            <div class="cal-card">
+                <div class="cal-nav-bar">
+                    <h2 id="cal-titulo">Maio de 2025</h2>
+                    <div class="cal-nav-btns">
+                        <button class="cal-today-btn" onclick="irParaHoje()">Hoje</button>
+                        <button class="cal-nav-btn" onclick="mudarMes(-1)"><i class="ti ti-chevron-left"></i></button>
+                        <button class="cal-nav-btn" onclick="mudarMes(1)"><i class="ti ti-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="cal-grid-wrap">
+                    <div class="cal-dow-row">
+                        <div class="cal-dow">Dom</div>
+                        <div class="cal-dow">Seg</div>
+                        <div class="cal-dow">Ter</div>
+                        <div class="cal-dow">Qua</div>
+                        <div class="cal-dow">Qui</div>
+                        <div class="cal-dow">Sex</div>
+                        <div class="cal-dow">Sáb</div>
+                    </div>
+                    <div class="cal-days" id="cal-days"></div>
+                </div>
+            </div>
+
+            <!-- PAINEL LATERAL -->
+            <div style="display:flex;flex-direction:column;gap:16px">
+
+                <!-- Eventos do dia selecionado -->
+                <div class="events-card">
+                    <div class="events-card-header">
+                        <h3 id="eventos-dia-titulo">Eventos de hoje</h3>
+                        <button class="btn btn-primary btn-sm" id="btn-add-dia" style="display:none"
+                            onclick="abrirModalNovo()"><i class="ti ti-plus"></i></button>
+                    </div>
+                    <div class="events-list" id="eventos-dia-lista">
+                        <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
+                            <i class="ti ti-calendar-off"
+                                style="font-size:24px;display:block;margin-bottom:6px;opacity:.3"></i>
+                            Nenhum evento neste dia
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximos eventos -->
+                <div class="events-card">
+                    <div class="events-card-header">
+                        <h3>Próximos Eventos</h3>
+                    </div>
+                    <div class="events-list" id="proximos-lista">
+                        <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
+                            <span
+                                style="display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- MODAL: CRIAR/EDITAR EVENTO -->
+    <div class="modal-overlay" id="modal-evento" style="display:none">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="ti ti-calendar-plus"></i><span id="modal-evento-titulo">Novo Evento</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-evento')"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Título <span style="color:var(--orange)">*</span></label>
+                    <input class="form-input" id="f-ev-titulo" type="text" placeholder="Ex: Reunião de alinhamento" />
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Data início <span style="color:var(--orange)">*</span></label>
+                        <input class="form-input" id="f-ev-data" type="date" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data fim <span
+                                style="color:var(--muted);font-weight:400">(opcional)</span></label>
+                        <input class="form-input" id="f-ev-data-fim" type="date" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <div class="tipo-grid" id="tipo-grid">
+                        <div class="tipo-opt sel" data-tipo="evento" onclick="selecionarTipo(this)">📅 Evento</div>
+                        <div class="tipo-opt" data-tipo="feriado" onclick="selecionarTipo(this)">🎉 Feriado</div>
+                        <div class="tipo-opt" data-tipo="reuniao" onclick="selecionarTipo(this)">👥 Reunião</div>
+                        <div class="tipo-opt" data-tipo="treinamento" onclick="selecionarTipo(this)">📚 Treinamento
+                        </div>
+                        <div class="tipo-opt" data-tipo="aniversario" onclick="selecionarTipo(this)">🎂 Aniversário
+                        </div>
+                        <div class="tipo-opt" data-tipo="outro" onclick="selecionarTipo(this)">📌 Outro</div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-textarea" id="f-ev-desc" placeholder="Detalhes do evento..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" id="btn-excluir-evento" style="display:none"
+                    onclick="excluirEvento()"><i class="ti ti-trash"></i>Excluir</button>
+                <div style="flex:1"></div>
+                <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-evento')">Cancelar</button>
+                <button class="btn btn-orange btn-sm" onclick="salvarEvento()"><i
+                        class="ti ti-check"></i>Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DETALHE EVENTO (leitura) -->
+    <div class="modal-overlay" id="modal-detalhe" style="display:none">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="ti ti-calendar-event"></i><span id="det-titulo">Evento</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-detalhe')"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="detalhe-tipo-banner" id="det-banner"></div>
+                <div id="det-campos"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" id="det-btn-excluir" style="display:none"
+                    onclick="excluirEventoDetalhe()"><i class="ti ti-trash"></i>Excluir</button>
+                <div style="flex:1"></div>
+                <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-detalhe')">Fechar</button>
+                <button class="btn btn-primary btn-sm" id="det-btn-editar" style="display:none"
+                    onclick="editarEventoDetalhe()"><i class="ti ti-pencil"></i>Editar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+
+    <style>
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+    <script>
+        const API = 'http://10.1.1.54:3001';
+
+        // ── Auth ──────────────────────────────────────────────────────
+        const usuarioLogado = getUsuario();
+        preencherUsuarioUI('user-nome', 'user-setor', 'user-iniciais');
+
+        // Função que consulta o banco e retorna true se o usuário tem permissão
+        async function verificarPermissaoRH(usuario) {
+            // Se for TI, libera direto
+            if (usuario.ehTI === true) return true;
+
+            // Se já tem perfis e inclui RH/TI, libera
+            if ((usuario.perfis || []).includes('RH') || (usuario.perfis || []).includes('TI')) {
+                return true;
+            }
+
+            // Caso contrário, busca no banco pelo sAMAccountName
+            try {
+                const res = await fetch(API + '/db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        metodo: 'GET',
+                        tabela: 'usuarios_intranet',
+                        params: `?select=perfis&usuario_ad=eq.${encodeURIComponent(usuario.sAMAccountName || usuario.email || '')}`
+                    })
+                });
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0 && data[0].perfis) {
+                    const perfis = data[0].perfis;
+                    console.log('📋 Perfis do banco:', perfis);
+                    return perfis.includes('RH') || perfis.includes('TI');
+                }
+            } catch (e) {
+                console.error('Erro ao verificar permissão no banco:', e);
+            }
+            return false;
+        }
+
+        // ── variável global de permissão (usada em verEvento) ──
+        let ehRH = false;
+
+        // Inicialização assíncrona
+        (async function init() {
+            ehRH = await verificarPermissaoRH(usuarioLogado);
+            if (ehRH) {
+                const btnNovo = document.getElementById('btn-novo-evento');
+                if (btnNovo) btnNovo.style.display = 'inline-flex';
+                const btnDia = document.getElementById('btn-add-dia');
+                if (btnDia) btnDia.style.display = 'inline-flex';
+            }
+            // Carrega os eventos (independente da permissão)
+            diaSelecionado = hoje;
+            carregarEventos();
+        })();
+        // ── Supabase ──────────────────────────────────────────────────
+        async function supabase(metodo, tabela, params, body) {
+            const res = await fetch(API + '/db', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ metodo, tabela, params: params || '', body: body || null }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.mensagem || 'Erro ' + res.status);
+            return data;
+        }
+
+        // ── State ─────────────────────────────────────────────────────
+        let todosEventos = [];
+        let viewYear = new Date().getFullYear();
+        let viewMonth = new Date().getMonth();
+        let diaSelecionado = null;
+        let eventoEditandoId = null;
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        const MESES_PT = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const TIPO_CFG = {
+            feriado: { emoji: '🎉', label: 'Feriado', bg: '#dcfce7', color: '#065f46', cls: 'tipo-feriado' },
+            evento: { emoji: '📅', label: 'Evento', bg: '#dbeafe', color: '#1e40af', cls: 'tipo-evento' },
+            reuniao: { emoji: '👥', label: 'Reunião', bg: '#fce7f3', color: '#9d174d', cls: 'tipo-reuniao' },
+            treinamento: { emoji: '📚', label: 'Treinamento', bg: '#fef3c7', color: '#92400e', cls: 'tipo-treinamento' },
+            aniversario: { emoji: '🎂', label: 'Aniversário', bg: '#ede9fe', color: '#5b21b6', cls: 'tipo-aniversario' },
+            outro: { emoji: '📌', label: 'Outro', bg: '#f1f5f9', color: '#475569', cls: 'tipo-outro' },
+        };
+
+        // ── Carregar ──────────────────────────────────────────────────
+        async function carregarEventos() {
+            try {
+                const dados = await supabase('GET', 'eventos_calendario', '?order=data.asc&select=*');
+                todosEventos = Array.isArray(dados) ? dados : [];
+                renderCalendario();
+                renderEventosDia(diaSelecionado || hoje);
+                renderProximos();
+            } catch (e) {
+                toast('Erro ao carregar eventos: ' + e.message, true);
+            }
+        }
+
+        // ── Calendário ────────────────────────────────────────────────
+        function renderCalendario() {
+            document.getElementById('cal-titulo').textContent = MESES_PT[viewMonth] + ' de ' + viewYear;
+            const primeiroDia = new Date(viewYear, viewMonth, 1).getDay();
+            const diasNoMes = new Date(viewYear, viewMonth + 1, 0).getDate();
+            const diasAnterior = new Date(viewYear, viewMonth, 0).getDate();
+
+            // Mapa de eventos por data
+            const mapaEventos = {};
+            todosEventos.forEach(ev => {
+                const inicio = new Date(ev.data + 'T00:00:00');
+                const fim = ev.data_fim ? new Date(ev.data_fim + 'T00:00:00') : inicio;
+                for (let d = new Date(inicio); d <= fim; d.setDate(d.getDate() + 1)) {
+                    const key = d.toISOString().split('T')[0];
+                    if (!mapaEventos[key]) mapaEventos[key] = [];
+                    mapaEventos[key].push(ev);
+                }
+            });
+
+            let html = '';
+
+            // Dias do mês anterior
+            for (let i = primeiroDia - 1; i >= 0; i--) {
+                html += `<div class="cal-day-cell other-month"><div class="day-num">${diasAnterior - i}</div></div>`;
+            }
+
+            // Dias do mês atual
+            for (let d = 1; d <= diasNoMes; d++) {
+                const dataStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const dataObj = new Date(dataStr + 'T00:00:00');
+                const isHoje = dataObj.getTime() === hoje.getTime();
+                const isSel = diaSelecionado && dataObj.getTime() === diaSelecionado.getTime();
+                const eventos = mapaEventos[dataStr] || [];
+
+                let cls = 'cal-day-cell';
+                if (isHoje) cls += ' today';
+                if (isSel && !isHoje) cls += ' selected';
+
+                const chipsHTML = eventos.slice(0, 3).map(ev => {
+                    const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
+                    return `<div class="day-event-chip ${tc.cls}" onclick="event.stopPropagation();verEvento(${ev.id})" title="${ev.titulo}">${ev.titulo}</div>`;
+                }).join('');
+                const mais = eventos.length > 3 ? `<div style="font-size:10px;color:var(--muted);padding-left:2px">+${eventos.length - 3} mais</div>` : '';
+
+                html += `<div class="${cls}" onclick="selecionarDia('${dataStr}')">
+      <div class="day-num">${d}</div>
+      <div class="day-events">${chipsHTML}${mais}</div>
+    </div>`;
+            }
+
+            // Completar última linha
+            const total = primeiroDia + diasNoMes;
+            const resto = total % 7 === 0 ? 0 : 7 - (total % 7);
+            for (let i = 1; i <= resto; i++) {
+                html += `<div class="cal-day-cell other-month"><div class="day-num">${i}</div></div>`;
+            }
+
+            document.getElementById('cal-days').innerHTML = html;
+        }
+
+        function selecionarDia(dataStr) {
+            diaSelecionado = new Date(dataStr + 'T00:00:00');
+            renderCalendario();
+            renderEventosDia(diaSelecionado);
+            // Pré-preenche data no modal
+            document.getElementById('f-ev-data').value = dataStr;
+        }
+
+        function irParaHoje() {
+            viewYear = hoje.getFullYear();
+            viewMonth = hoje.getMonth();
+            diaSelecionado = hoje;
+            renderCalendario();
+            renderEventosDia(hoje);
+        }
+
+        function mudarMes(dir) {
+            viewMonth += dir;
+            if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+            if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+            renderCalendario();
+        }
+
+        // ── Eventos do dia ────────────────────────────────────────────
+        function renderEventosDia(data) {
+            const dataStr = data.toISOString().split('T')[0];
+            const isHoje = data.getTime() === hoje.getTime();
+            const label = isHoje ? 'Eventos de hoje' : `Eventos de ${data.toLocaleDateString('pt-BR')}`;
+            document.getElementById('eventos-dia-titulo').textContent = label;
+
+            const lista = todosEventos.filter(ev => {
+                const inicio = new Date(ev.data + 'T00:00:00');
+                const fim = ev.data_fim ? new Date(ev.data_fim + 'T00:00:00') : inicio;
+                return data >= inicio && data <= fim;
+            });
+
+            const el = document.getElementById('eventos-dia-lista');
+            if (!lista.length) {
+                el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
+      <i class="ti ti-calendar-off" style="font-size:24px;display:block;margin-bottom:6px;opacity:.3"></i>
+      Nenhum evento neste dia
+    </div>`;
+                return;
+            }
+            el.innerHTML = lista.map(ev => {
+                const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
+                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento(${ev.id})">
+      <div class="event-dot" style="background:${tc.color}"></div>
+      <div class="event-info">
+        <div class="event-title">${ev.titulo}</div>
+        <div class="event-date">${formatarData(ev.data)}${ev.data_fim && ev.data_fim !== ev.data ? ' → ' + formatarData(ev.data_fim) : ''}</div>
+        <span class="event-tipo" style="background:${tc.bg};color:${tc.color}">${tc.emoji} ${tc.label}</span>
+      </div>
+    </div>`;
+            }).join('');
+        }
+
+        // ── Próximos eventos ──────────────────────────────────────────
+        function renderProximos() {
+            const hojeStr = hoje.toISOString().split('T')[0];
+            const proximos = todosEventos
+                .filter(ev => ev.data >= hojeStr)
+                .sort((a, b) => a.data.localeCompare(b.data))
+                .slice(0, 6);
+
+            const el = document.getElementById('proximos-lista');
+            if (!proximos.length) {
+                el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Nenhum evento próximo</div>';
+                return;
+            }
+            el.innerHTML = proximos.map(ev => {
+                const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
+                const dataEv = new Date(ev.data + 'T00:00:00');
+                const diff = Math.round((dataEv - hoje) / 86400000);
+                const diffLabel = diff === 0 ? '<span style="color:var(--orange);font-weight:700">Hoje</span>'
+                    : diff === 1 ? '<span style="color:var(--amber)">Amanhã</span>'
+                        : `<span style="color:var(--muted)">em ${diff} dias</span>`;
+                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento(${ev.id})">
+      <div class="event-dot" style="background:${tc.color}"></div>
+      <div class="event-info">
+        <div class="event-title">${ev.titulo}</div>
+        <div class="event-date">${formatarData(ev.data)} · ${diffLabel}</div>
+        <span class="event-tipo" style="background:${tc.bg};color:${tc.color}">${tc.emoji} ${tc.label}</span>
+      </div>
+    </div>`;
+            }).join('');
+        }
+
+        // ── Ver evento (detalhe) ──────────────────────────────────────
+        function verEvento(id) {
+            const ev = todosEventos.find(x => x.id === id);
+            if (!ev) return;
+            eventoEditandoId = id;
+
+            const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
+            document.getElementById('det-titulo').textContent = ev.titulo;
+
+            const banner = document.getElementById('det-banner');
+            banner.style.background = tc.bg;
+            banner.style.color = tc.color;
+            banner.innerHTML = `<span style="font-size:18px">${tc.emoji}</span>${tc.label}`;
+
+            const periodo = ev.data_fim && ev.data_fim !== ev.data
+                ? `${formatarData(ev.data)} → ${formatarData(ev.data_fim)}`
+                : formatarData(ev.data);
+
+            document.getElementById('det-campos').innerHTML = `
+    <div style="padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Período</div>
+      <div style="font-size:13px;font-weight:600">${periodo}</div>
+    </div>
+    ${ev.descricao ? `<div style="padding:10px 0">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Descrição</div>
+      <div style="font-size:13px;line-height:1.7;color:var(--text)">${ev.descricao}</div>
+    </div>` : ''}
+    <div style="padding:8px 0;margin-top:4px;font-size:11px;color:var(--muted)">
+      Criado por: ${ev.criado_por || '–'}
+    </div>`;
+
+            document.getElementById('det-btn-editar').style.display = ehRH ? 'inline-flex' : 'none';
+            document.getElementById('det-btn-excluir').style.display = ehRH ? 'inline-flex' : 'none';
+            document.getElementById('modal-detalhe').style.display = 'flex';
+        }
+
+        function editarEventoDetalhe() {
+            fecharModal('modal-detalhe');
+            const ev = todosEventos.find(x => x.id === eventoEditandoId);
+            if (!ev) return;
+            abrirModalEditar(ev);
+        }
+
+        // ── Modal criar/editar ────────────────────────────────────────
+        let tipoSelecionado = 'evento';
+
+        function selecionarTipo(el) {
+            document.querySelectorAll('.tipo-opt').forEach(o => o.classList.remove('sel'));
+            el.classList.add('sel');
+            tipoSelecionado = el.dataset.tipo;
+        }
+
+        function abrirModalNovo() {
+            eventoEditandoId = null;
+            tipoSelecionado = 'evento';
+            document.getElementById('modal-evento-titulo').textContent = 'Novo Evento';
+            document.getElementById('f-ev-titulo').value = '';
+            document.getElementById('f-ev-desc').value = '';
+            document.getElementById('f-ev-data-fim').value = '';
+            // Mantém a data do dia selecionado se houver
+            if (!document.getElementById('f-ev-data').value) {
+                document.getElementById('f-ev-data').value = hoje.toISOString().split('T')[0];
+            }
+            document.querySelectorAll('.tipo-opt').forEach(o => o.classList.remove('sel'));
+            document.querySelector('.tipo-opt[data-tipo="evento"]').classList.add('sel');
+            document.getElementById('btn-excluir-evento').style.display = 'none';
+            document.getElementById('modal-evento').style.display = 'flex';
+            setTimeout(() => document.getElementById('f-ev-titulo').focus(), 100);
+        }
+
+        function abrirModalEditar(ev) {
+            eventoEditandoId = ev.id;
+            tipoSelecionado = ev.tipo;
+            document.getElementById('modal-evento-titulo').textContent = 'Editar Evento';
+            document.getElementById('f-ev-titulo').value = ev.titulo;
+            document.getElementById('f-ev-data').value = ev.data;
+            document.getElementById('f-ev-data-fim').value = ev.data_fim || '';
+            document.getElementById('f-ev-desc').value = ev.descricao || '';
+            document.querySelectorAll('.tipo-opt').forEach(o => {
+                o.classList.toggle('sel', o.dataset.tipo === ev.tipo);
+            });
+            document.getElementById('btn-excluir-evento').style.display = 'inline-flex';
+            document.getElementById('modal-evento').style.display = 'flex';
+        }
+
+        async function salvarEvento() {
+            const titulo = document.getElementById('f-ev-titulo').value.trim();
+            const data = document.getElementById('f-ev-data').value;
+            if (!titulo || !data) { toast('Preencha título e data.', true); return; }
+
+            const payload = {
+                titulo, data,
+                data_fim: document.getElementById('f-ev-data-fim').value || null,
+                tipo: tipoSelecionado,
+                descricao: document.getElementById('f-ev-desc').value.trim() || null,
+                criado_por: usuarioLogado.nome || usuarioLogado.sAMAccountName,
+                data_atualizacao: new Date().toISOString(),
+            };
+
+            try {
+                if (eventoEditandoId) {
+                    await supabase('PATCH', 'eventos_calendario', `?id=eq.${eventoEditandoId}`, payload);
+                    toast('Evento atualizado!');
+                } else {
+                    await supabase('POST', 'eventos_calendario', '', payload);
+                    toast('Evento criado!');
+                }
+                fecharModal('modal-evento');
+                carregarEventos();
+            } catch (e) { toast('Erro ao salvar: ' + e.message, true); }
+        }
+
+        async function excluirEvento() {
+            if (!confirm('Excluir este evento?')) return;
+            try {
+                await supabase('DELETE', 'eventos_calendario', `?id=eq.${eventoEditandoId}`);
+                fecharModal('modal-evento');
+                toast('Evento excluído.');
+                carregarEventos();
+            } catch (e) { toast('Erro ao excluir: ' + e.message, true); }
+        }
+
+        async function excluirEventoDetalhe() {
+            if (!confirm('Excluir este evento?')) return;
+            try {
+                await supabase('DELETE', 'eventos_calendario', `?id=eq.${eventoEditandoId}`);
+                fecharModal('modal-detalhe');
+                toast('Evento excluído.');
+                carregarEventos();
+            } catch (e) { toast('Erro ao excluir: ' + e.message, true); }
+        }
+
+        // ── Helpers ───────────────────────────────────────────────────
+        function formatarData(str) {
+            if (!str) return '–';
+            const [y, m, d] = str.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+        });
+
+        let toastTimer;
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            el.querySelector('i').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+        }
+
+        // ── Init ──────────────────────────────────────────────────────
+        diaSelecionado = hoje;
+        carregarEventos();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Lista de Ramais</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --bg-h: #e5e8ef;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 16px rgba(6, 24, 81, .12);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 24px 48px;
+        }
+
+        /* ---- HEADER ---- */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--orange);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231, 59, 27, .35);
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .page-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-h);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+        }
+
+        .update-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+
+        .update-note i {
+            font-size: 13px;
+        }
+
+        /* ---- NOTICE ---- */
+        .notice-card {
+            background: #fff8e1;
+            border: 1px solid #f0d080;
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .notice-card i {
+            font-size: 20px;
+            color: #b45309;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .notice-card p {
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+        /* ---- TOOLBAR ---- */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 38px;
+            padding: 0 12px 0 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .search-input:focus {
+            border-color: var(--navy);
+        }
+
+        .search-input::placeholder {
+            color: var(--muted);
+        }
+
+        /* ---- SORT TOGGLE ---- */
+        .sort-group {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            overflow: hidden;
+            background: var(--white);
+            flex-shrink: 0;
+        }
+
+        .sort-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .15s, color .15s;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .sort-btn:last-child {
+            border-right: none;
+        }
+
+        .sort-btn i {
+            font-size: 14px;
+        }
+
+        .sort-btn:hover {
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .sort-btn.active {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        /* ---- FILTER CHIPS (por setor) ---- */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--muted);
+            transition: all .15s;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        .filter-chip.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
+        }
+
+        /* Filter row only visible in "setor" mode */
+        .filter-row.hidden {
+            display: none;
+        }
+
+        /* ---- DEPT GRID ---- */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+        }
+
+        /* Flat list (alpha / numeric) */
+        .flat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flat-divider {
+            padding: 7px 14px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dept-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow .15s;
+        }
+
+        .dept-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .dept-head {
+            background: var(--navy);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dept-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .dept-count {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .ramal-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+            transition: background .12s;
+        }
+
+        .ramal-row:last-child {
+            border-bottom: none;
+        }
+
+        .ramal-row:hover {
+            background: var(--bg);
+        }
+
+        .ramal-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .ramal-dept-tag {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .ramal-num {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--orange);
+            border-radius: 6px;
+            padding: 3px 11px;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .5px;
+            flex-shrink: 0;
+        }
+
+        /* ---- EMPTY STATE ---- */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 56px 24px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: .4;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* =======================
+           ADMIN PANEL
+        ======================= */
+        .admin-toggle-bar {
+            margin-top: 32px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-toggle-bar span {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .admin-panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-top: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-header {
+            background: var(--navy);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-header h2 i {
+            font-size: 18px;
+        }
+
+        .admin-body {
+            padding: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .form-input,
+        .form-select {
+            height: 38px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--navy);
+        }
+
+        .admin-section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .admin-section-head h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .admin-table-wrap {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .admin-table th {
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tr:hover td {
+            background: var(--bg);
+        }
+
+        .dept-pill {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--navy);
+        }
+
+        .btn-del {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 15px;
+        }
+
+        .btn-del:hover {
+            background: #991b1b;
+            color: #fff;
+        }
+
+        .btn-edit {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .btn-edit:hover {
+            background: #1e40af;
+            color: #fff;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 17px;
+        }
+
+        /* Password overlay */
+        .pw-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 27, 51, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 998;
+            backdrop-filter: blur(4px);
+        }
+
+        .pw-box {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 32px;
+            width: 340px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .pw-box h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .pw-box p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .pw-box .form-input {
+            margin-bottom: 14px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-size: 16px;
+        }
+
+        .pw-error {
+            font-size: 12px;
+            color: #991b1b;
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 16px 14px 40px;
+            }
+
+            .dept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <div class="logo-mark">AE</div>
+                <div>
+                    <div class="page-title">Lista de Ramais</div>
+                    <div class="page-sub">AESA Empilhadeiras Ramais internos</div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+
+                <div class="update-note"><i class="ti ti-clock"></i><span id="update-label">Carregando...</span></div>
+            </div>
+        </div>
+
+        <!-- NOTICE -->
+        <div class="notice-card">
+            <i class="ti ti-alert-triangle"></i>
+            <p>Use seu bom senso e evite deixar um ramal chamando excessivamente. Se ligou para algum ramal e não
+                atendeu depois de 3 toques, desligue e tente novamente mais tarde.</p>
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+            <div class="search-wrap">
+                <i class="ti ti-search"></i>
+                <input class="search-input" id="search" type="text" placeholder="Buscar por nome ou ramal..."
+                    oninput="applyFilters()" />
+            </div>
+
+            <!-- SORT TOGGLE -->
+            <div class="sort-group">
+                <button class="sort-btn" id="sort-setor" onclick="setSort('setor')" title="Agrupar por setor">
+                    <i class="ti ti-building"></i> Por Setor
+                </button>
+                <button class="sort-btn" id="sort-alfa" onclick="setSort('alfa')" title="Ordenar de A a Z">
+                    <i class="ti ti-sort-a-z"></i> A–Z
+                </button>
+                <button class="sort-btn" id="sort-num" onclick="setSort('num')" title="Ordenar por ramal">
+                    <i class="ti ti-sort-ascending-numbers"></i> Ramal
+                </button>
+            </div>
+        </div>
+
+        <!-- FILTER CHIPS (visível somente no modo "setor") -->
+        <div class="filter-row" id="filter-row">
+            <div class="filter-chip active" data-dept="todos" onclick="selectDept(this)">Todos</div>
+        </div>
+
+        <!-- GRID / LIST -->
+        <div id="dept-grid" class="dept-grid"></div>
+
+        <!-- ADMIN TOGGLE -->
+        <div class="admin-toggle-bar">
+            <button class="btn btn-ghost" onclick="requestAdmin()"><i class="ti ti-lock"></i>Área do
+                Administrador</button>
+            <span>Apenas para TI</span>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div class="admin-panel" id="admin-panel" style="display:none">
+            <div class="admin-header">
+                <h2><i class="ti ti-settings"></i>Gerenciar Ramais</h2>
+                <button class="btn btn-ghost" style="height:32px;padding:0 12px;font-size:12px" onclick="closeAdmin()">
+                    <i class="ti ti-x" style="font-size:14px"></i>Fechar
+                </button>
+            </div>
+            <div class="admin-body">
+                <div style="margin-bottom:24px">
+                    <h3
+                        style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:7px">
+                        <i class="ti ti-user-plus" style="font-size:17px"></i>Adicionar / Editar Ramal
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nome</label>
+                            <input class="form-input" id="f-name" type="text" placeholder="Ex: Ana Carolina" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ramal</label>
+                            <input class="form-input" id="f-num" type="number" placeholder="Ex: 485" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Departamento</label>
+                            <select class="form-select" id="f-dept">
+                                <option value="">— Selecione —</option>
+                            </select>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:flex-end">
+                            <button class="btn btn-primary" onclick="saveRamal()" id="btn-save"><i
+                                    class="ti ti-check"></i>Salvar</button>
+                            <button class="btn btn-ghost" onclick="cancelEdit()" id="btn-cancel" style="display:none"><i
+                                    class="ti ti-x"></i></button>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;align-items:center;gap:10px;margin-top:4px;padding-top:16px;border-top:1px solid var(--border)">
+                        <div class="form-group" style="flex:1">
+                            <label class="form-label">Novo Departamento</label>
+                            <input class="form-input" id="f-new-dept" type="text" placeholder="Ex: MARKETING" />
+                        </div>
+                        <div style="padding-top:22px">
+                            <button class="btn btn-ghost" onclick="addDept()"><i class="ti ti-plus"></i>Adicionar
+                                Depto.</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section-head">
+                    <h3><i class="ti ti-table" style="font-size:16px;margin-right:6px"></i>Todos os Ramais (<span
+                            id="total-count">0</span>)</h3>
+                    <div style="display:flex;gap:8px">
+                        <button class="btn btn-ghost" style="font-size:12px;height:32px;padding:0 12px"
+                            onclick="exportJSON()">
+                            <i class="ti ti-download" style="font-size:14px"></i>Exportar JSON
+                        </button>
+                        <label class="btn btn-ghost" style="font-size:12px;height:32px;padding:0 12px;cursor:pointer">
+                            <i class="ti ti-upload" style="font-size:14px"></i>Importar JSON
+                            <input type="file" accept=".json" style="display:none" onchange="importJSON(event)" />
+                        </label>
+                    </div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table" id="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Ramal</th>
+                                <th>Departamento</th>
+                                <th style="width:80px">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PASSWORD OVERLAY -->
+    <div class="pw-overlay" id="pw-overlay" style="display:none">
+        <div class="pw-box">
+            <i class="ti ti-lock" style="font-size:36px;color:#061851;margin-bottom:10px;display:block"></i>
+            <h3>Área Restrita</h3>
+            <p>Digite a senha de administrador para continuar.</p>
+            <input class="form-input" id="pw-input" type="password" placeholder="••••••"
+                onkeydown="if(event.key==='Enter')checkPw()" />
+            <button class="btn btn-primary" style="width:100%" onclick="checkPw()">Entrar</button>
+            <p class="pw-error" id="pw-error">Senha incorreta. Tente novamente.</p>
+            <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="closePw()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+
+    <script>
+        const ADMIN_PASSWORD = 'aesa2025';
+
+        let DATA = {
+            updatedAt: '17/04/2026',
+            departments: [
+                'ALMOXARIFADO', 'COMERCIAL', 'COMPRAS', 'DIRETORIA',
+                'ESTOQUE / RECEB. / EXPED.', 'FINANCEIRO', 'FISCAL',
+                'OFICINA', 'RECEPÇÃO', 'REMANUFATURA', 'RENTAL',
+                'RH', 'SALAS DE REUNIÃO', 'SEG. DO TRABALHO',
+                'TI', 'VENDAS DE EQPTOS. / ATENDIMENTO', 'VENDAS DE PEÇAS E PÓS'
+            ],
+            ramais: [
+                { name: 'Diego', num: 481, dept: 'ALMOXARIFADO' },
+                { name: 'Ana Carolina', num: 485, dept: 'COMERCIAL' },
+                { name: 'Elisete', num: 484, dept: 'COMERCIAL' },
+                { name: 'Maritza', num: 470, dept: 'COMERCIAL' },
+                { name: 'Giovani', num: 407, dept: 'COMERCIAL' },
+                { name: 'César', num: 486, dept: 'COMPRAS' },
+                { name: 'Tiago Rodrigues', num: 488, dept: 'COMPRAS' },
+                { name: 'Diego Silva', num: 456, dept: 'COMPRAS' },
+                { name: 'Renan', num: 487, dept: 'COMPRAS' },
+                { name: 'Eduardo', num: 478, dept: 'DIRETORIA' },
+                { name: 'Hevelin', num: 451, dept: 'DIRETORIA' },
+                { name: 'Carlos', num: 485, dept: 'DIRETORIA' },
+                { name: 'Caique', num: 477, dept: 'DIRETORIA' },
+                { name: 'Cozinha', num: 452, dept: 'DIRETORIA' },
+                { name: 'Carlos/Eduardo (Sala Fundos)', num: 528, dept: 'DIRETORIA' },
+                { name: 'André', num: 465, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Kaique', num: 460, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Denise', num: 467, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Wesley', num: 461, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'José Pedro', num: 463, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Victor/Ryan', num: 489, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Vania', num: 457, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Elton', num: 464, dept: 'ESTOQUE / RECEB. / EXPED.' },
+                { name: 'Lígia Roberta', num: 474, dept: 'FINANCEIRO' },
+                { name: 'Jéssica', num: 455, dept: 'FISCAL' },
+                { name: 'Laudicéia', num: 453, dept: 'FISCAL' },
+                { name: 'Simone', num: 450, dept: 'FISCAL' },
+                { name: 'Diego', num: 462, dept: 'OFICINA' },
+                { name: 'Luiz', num: 454, dept: 'OFICINA' },
+                { name: 'Tiago Vieira', num: 483, dept: 'OFICINA' },
+                { name: 'James Borba', num: 473, dept: 'OFICINA' },
+                { name: 'Maria Eduarda', num: 522, dept: 'RECEPÇÃO' },
+                { name: 'James Caloni', num: 458, dept: 'REMANUFATURA' },
+                { name: 'Leandro Lopes', num: 458, dept: 'REMANUFATURA' },
+                { name: 'Felipe Sencine', num: 479, dept: 'RENTAL' },
+                { name: 'Wander', num: 492, dept: 'RENTAL' },
+                { name: 'Willian', num: 494, dept: 'RENTAL' },
+                { name: 'Henrique', num: 471, dept: 'RENTAL' },
+                { name: 'Matheus Campos', num: 482, dept: 'RENTAL' },
+                { name: 'Gislaine', num: 490, dept: 'RH' },
+                { name: 'Franciele', num: 468, dept: 'RH' },
+                { name: 'Balcão do RH', num: 529, dept: 'RH' },
+                { name: 'S. Treinamentos (Fundos)', num: 469, dept: 'SALAS DE REUNIÃO' },
+                { name: 'Clodoaldo/Kaike', num: 466, dept: 'SEG. DO TRABALHO' },
+                { name: 'Guilherme L.', num: 472, dept: 'TI' },
+                { name: 'Lincoln', num: 497, dept: 'TI' },
+                { name: 'Bianca', num: 475, dept: 'VENDAS DE EQPTOS. / ATENDIMENTO' },
+                { name: 'Alessandro/Stephanie', num: 491, dept: 'VENDAS DE EQPTOS. / ATENDIMENTO' },
+                { name: 'Leonardo', num: 476, dept: 'VENDAS DE EQPTOS. / ATENDIMENTO' },
+                { name: 'Jimmy', num: 459, dept: 'VENDAS DE PEÇAS E PÓS' },
+                { name: 'Peterson', num: 493, dept: 'VENDAS DE PEÇAS E PÓS' },
+            ]
+        };
+
+        // ============================================================
+        //  SORT STATE
+        // ============================================================
+        let currentSort = 'setor'; // 'setor' | 'alfa' | 'num'
+        let activeDept = 'todos';
+        let editIndex = null;
+
+        function setSort(mode) {
+            currentSort = mode;
+            // Update button states
+            ['setor', 'alfa', 'num'].forEach(m => {
+                document.getElementById('sort-' + m).classList.toggle('active', m === mode);
+            });
+            // Show/hide filter chips (only relevant for setor mode)
+            document.getElementById('filter-row').classList.toggle('hidden', mode !== 'setor');
+            // Reset search
+            document.getElementById('search').value = '';
+            renderPublic();
+        }
+
+        // ============================================================
+        //  localStorage
+        // ============================================================
+        function save() {
+            DATA.updatedAt = new Date().toLocaleDateString('pt-BR');
+            localStorage.setItem('aesa_ramais', JSON.stringify(DATA));
+            document.getElementById('update-label').textContent = 'Atualizado em ' + DATA.updatedAt;
+        }
+
+        function load() {
+            const s = localStorage.getItem('aesa_ramais');
+            if (s) DATA = JSON.parse(s);
+        }
+
+        // ============================================================
+        //  RENDER
+        // ============================================================
+        function renderPublic() {
+            document.getElementById('update-label').textContent = 'Atualizado em ' + DATA.updatedAt;
+            if (currentSort === 'setor') {
+                renderChips();
+                renderBySetor();
+            } else if (currentSort === 'alfa') {
+                renderAlfa();
+            } else {
+                renderNum();
+            }
+        }
+
+        /* ---- SETOR mode ---- */
+        function renderChips() {
+            const wrap = document.getElementById('filter-row');
+            wrap.innerHTML = '<div class="filter-chip' + (activeDept === 'todos' ? ' active' : '') + '" data-dept="todos" onclick="selectDept(this)">Todos</div>';
+            DATA.departments.forEach(d => {
+                const count = DATA.ramais.filter(r => r.dept === d).length;
+                if (!count) return;
+                const active = activeDept === d ? ' active' : '';
+                wrap.innerHTML += `<div class="filter-chip${active}" data-dept="${d}" onclick="selectDept(this)">${d}</div>`;
+            });
+        }
+
+        function renderBySetor() {
+            const grid = document.getElementById('dept-grid');
+            grid.className = 'dept-grid';
+            const q = document.getElementById('search').value.trim().toLowerCase();
+            const deptsToShow = activeDept === 'todos' ? DATA.departments : [activeDept];
+            let html = '';
+
+            deptsToShow.forEach(dept => {
+                let rows = DATA.ramais.filter(r => r.dept === dept);
+                if (!rows.length) return;
+                const filtered = q ? rows.filter(r => r.name.toLowerCase().includes(q) || String(r.num).includes(q)) : rows;
+                if (!filtered.length) return;
+
+                html += `<div class="dept-card">
+                <div class="dept-head">
+                    <span class="dept-name">${dept}</span>
+                    <span class="dept-count">${filtered.length} ramal${filtered.length !== 1 ? 'is' : ''}</span>
+                </div>`;
+                filtered.forEach(r => {
+                    html += `<div class="ramal-row">
+                    <span class="ramal-name">${r.name}</span>
+                    <span class="ramal-num">${r.num}</span>
+                </div>`;
+                });
+                html += '</div>';
+            });
+
+            if (!html) html = `<div class="empty-state"><i class="ti ti-search-off"></i><p>Nenhum ramal encontrado.</p></div>`;
+            grid.innerHTML = html;
+        }
+
+        /* ---- ALFA mode ---- */
+        function renderAlfa() {
+            const grid = document.getElementById('dept-grid');
+            grid.className = 'flat-list';
+            const q = document.getElementById('search').value.trim().toLowerCase();
+
+            let rows = [...DATA.ramais];
+            if (q) rows = rows.filter(r => r.name.toLowerCase().includes(q) || String(r.num).includes(q));
+            rows.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+
+            if (!rows.length) {
+                grid.innerHTML = `<div class="empty-state"><i class="ti ti-search-off"></i><p>Nenhum ramal encontrado.</p></div>`;
+                return;
+            }
+
+            let html = '';
+            let lastLetter = '';
+            rows.forEach(r => {
+                const letter = r.name[0].toUpperCase();
+                if (letter !== lastLetter) {
+                    html += `<div class="flat-divider">${letter}</div>`;
+                    lastLetter = letter;
+                }
+                html += `<div class="ramal-row">
+                <div>
+                    <div class="ramal-name">${r.name}</div>
+                    <div class="ramal-dept-tag">${r.dept}</div>
+                </div>
+                <span class="ramal-num">${r.num}</span>
+            </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        /* ---- NUM mode ---- */
+        function renderNum() {
+            const grid = document.getElementById('dept-grid');
+            grid.className = 'flat-list';
+            const q = document.getElementById('search').value.trim().toLowerCase();
+
+            let rows = [...DATA.ramais];
+            if (q) rows = rows.filter(r => r.name.toLowerCase().includes(q) || String(r.num).includes(q));
+            rows.sort((a, b) => a.num - b.num);
+
+            if (!rows.length) {
+                grid.innerHTML = `<div class="empty-state"><i class="ti ti-search-off"></i><p>Nenhum ramal encontrado.</p></div>`;
+                return;
+            }
+
+            let html = '';
+            let lastHundred = null;
+            rows.forEach(r => {
+                const hundred = Math.floor(r.num / 10) * 10;
+                if (hundred !== lastHundred) {
+                    html += `<div class="flat-divider">${hundred}–${hundred + 9}</div>`;
+                    lastHundred = hundred;
+                }
+                html += `<div class="ramal-row">
+                <div>
+                    <div class="ramal-name">${r.name}</div>
+                    <div class="ramal-dept-tag">${r.dept}</div>
+                </div>
+                <span class="ramal-num">${r.num}</span>
+            </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function applyFilters() { renderPublic(); }
+
+        function selectDept(el) {
+            activeDept = el.dataset.dept;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('search').value = '';
+            renderBySetor();
+        }
+
+        // ============================================================
+        //  ADMIN
+        // ============================================================
+        function requestAdmin() {
+            document.getElementById('pw-overlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('pw-input').focus(), 100);
+        }
+        function closePw() {
+            document.getElementById('pw-overlay').style.display = 'none';
+            document.getElementById('pw-input').value = '';
+            document.getElementById('pw-error').style.display = 'none';
+        }
+        function checkPw() {
+            if (document.getElementById('pw-input').value === ADMIN_PASSWORD) {
+                closePw(); openAdmin();
+            } else {
+                document.getElementById('pw-error').style.display = 'block';
+                document.getElementById('pw-input').value = '';
+                document.getElementById('pw-input').focus();
+            }
+        }
+        function openAdmin() {
+            document.getElementById('admin-panel').style.display = 'block';
+            document.getElementById('admin-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            renderAdminTable(); populateDeptSelect();
+        }
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; cancelEdit(); }
+
+        function populateDeptSelect() {
+            const sel = document.getElementById('f-dept');
+            sel.innerHTML = '<option value="">— Selecione —</option>';
+            DATA.departments.forEach(d => sel.innerHTML += `<option value="${d}">${d}</option>`);
+        }
+
+        function renderAdminTable() {
+            document.getElementById('total-count').textContent = DATA.ramais.length;
+            document.getElementById('admin-tbody').innerHTML = DATA.ramais.map((r, i) =>
+                `<tr>
+                <td>${r.name}</td>
+                <td><strong>${r.num}</strong></td>
+                <td><span class="dept-pill">${r.dept}</span></td>
+                <td>
+                    <button class="btn-edit" onclick="startEdit(${i})" title="Editar"><i class="ti ti-pencil"></i></button>
+                    <button class="btn-del"  onclick="deleteRamal(${i})" title="Excluir"><i class="ti ti-trash"></i></button>
+                </td>
+            </tr>`
+            ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Nenhum ramal cadastrado.</td></tr>';
+        }
+
+        function saveRamal() {
+            const name = document.getElementById('f-name').value.trim();
+            const num = parseInt(document.getElementById('f-num').value);
+            const dept = document.getElementById('f-dept').value;
+            if (!name || !num || !dept) { toast('Preencha todos os campos.', true); return; }
+            if (editIndex !== null) {
+                DATA.ramais[editIndex] = { name, num, dept };
+                toast('Ramal atualizado!'); cancelEdit();
+            } else {
+                DATA.ramais.push({ name, num, dept });
+                toast('Ramal adicionado!');
+                document.getElementById('f-name').value = '';
+                document.getElementById('f-num').value = '';
+                document.getElementById('f-dept').value = '';
+            }
+            save(); renderPublic(); renderAdminTable();
+        }
+
+        function startEdit(i) {
+            const r = DATA.ramais[i];
+            document.getElementById('f-name').value = r.name;
+            document.getElementById('f-num').value = r.num;
+            document.getElementById('f-dept').value = r.dept;
+            editIndex = i;
+            document.getElementById('btn-save').innerHTML = '<i class="ti ti-check"></i>Atualizar';
+            document.getElementById('btn-cancel').style.display = 'flex';
+            document.getElementById('f-name').focus();
+            document.querySelector('.admin-body').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function cancelEdit() {
+            editIndex = null;
+            document.getElementById('f-name').value = '';
+            document.getElementById('f-num').value = '';
+            document.getElementById('f-dept').value = '';
+            document.getElementById('btn-save').innerHTML = '<i class="ti ti-check"></i>Salvar';
+            document.getElementById('btn-cancel').style.display = 'none';
+        }
+
+        function deleteRamal(i) {
+            if (!confirm('Excluir "' + DATA.ramais[i].name + ' — ' + DATA.ramais[i].num + '"?')) return;
+            DATA.ramais.splice(i, 1);
+            save(); renderPublic(); renderAdminTable(); renderChips();
+            toast('Ramal removido.');
+        }
+
+        function addDept() {
+            const val = document.getElementById('f-new-dept').value.trim().toUpperCase();
+            if (!val) return;
+            if (DATA.departments.includes(val)) { toast('Departamento já existe.', true); return; }
+            DATA.departments.push(val);
+            DATA.departments.sort();
+            document.getElementById('f-new-dept').value = '';
+            save(); populateDeptSelect(); renderChips();
+            toast('Departamento "' + val + '" adicionado!');
+        }
+
+        function exportJSON() {
+            const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aesa_ramais.json'; a.click();
+            toast('JSON exportado!');
+        }
+
+        function importJSON(e) {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                try { DATA = JSON.parse(ev.target.result); save(); renderPublic(); renderAdminTable(); populateDeptSelect(); toast('Dados importados com sucesso!'); }
+                catch { toast('Erro: JSON inválido.', true); }
+            };
+            reader.readAsText(file); e.target.value = '';
+        }
+
+        // ---- Toast ----
+        let toastTimer;
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            el.querySelector('i').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        // ---- Init ----
+        load();
+        setSort('setor'); // define "Por Setor" como ativo + renderiza
+    </script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

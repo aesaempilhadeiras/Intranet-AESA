@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Lista de E-mails</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 16px rgba(6, 24, 81, .12);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        .page {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 28px 24px 48px;
+        }
+
+        /* ---- HEADER ---- */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--orange);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231, 59, 27, .35);
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .page-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+            text-decoration: none;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        .update-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+        }
+
+        .update-note i {
+            font-size: 13px;
+        }
+
+        /* ---- INFO BANNER ---- */
+        .info-banner {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius);
+            padding: 13px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            margin-bottom: 22px;
+        }
+
+        .info-banner i {
+            font-size: 18px;
+            color: #1e40af;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .info-banner p {
+            font-size: 13px;
+            color: #1e3a6e;
+            line-height: 1.6;
+        }
+
+        /* ---- TOOLBAR ---- */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 38px;
+            padding: 0 12px 0 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .search-input:focus {
+            border-color: var(--navy);
+        }
+
+        .search-input::placeholder {
+            color: var(--muted);
+        }
+
+        /* ---- SORT TOGGLE ---- */
+        .sort-group {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            overflow: hidden;
+            background: var(--white);
+            flex-shrink: 0;
+        }
+
+        .sort-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            background: transparent;
+            border: none;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .15s, color .15s;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .sort-btn:last-child {
+            border-right: none;
+        }
+
+        .sort-btn i {
+            font-size: 14px;
+        }
+
+        .sort-btn:hover {
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .sort-btn.active {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        /* ---- FILTER CHIPS ---- */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-row.hidden {
+            display: none;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--muted);
+            transition: all .15s;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--navy);
+            color: var(--navy);
+        }
+
+        .filter-chip.active {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy);
+        }
+
+        /* ---- DEPT GRID ---- */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 14px;
+        }
+
+        /* Flat list (A-Z) */
+        .flat-list {
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .flat-divider {
+            padding: 7px 14px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dept-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow .15s;
+        }
+
+        .dept-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .dept-head {
+            background: var(--navy);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dept-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .dept-count {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .email-row {
+            display: flex;
+            flex-direction: column;
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
+            transition: background .12s;
+        }
+
+        .email-row:last-child {
+            border-bottom: none;
+        }
+
+        .email-row:hover {
+            background: var(--bg);
+        }
+
+        .email-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .email-dept-tag {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .email-addr {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: var(--orange);
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity .15s;
+            word-break: break-all;
+            text-decoration: none;
+        }
+
+        .email-addr:hover {
+            opacity: .75;
+            text-decoration: underline;
+        }
+
+        .email-addr i {
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        /* ---- EMPTY ---- */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 56px 24px;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            opacity: .4;
+        }
+
+        /* =======================  ADMIN  ======================= */
+        .admin-toggle-bar {
+            margin-top: 32px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-toggle-bar span {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .admin-panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-top: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-header {
+            background: var(--navy);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-header h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-header h2 i {
+            font-size: 18px;
+        }
+
+        .admin-body {
+            padding: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .form-input,
+        .form-select {
+            height: 38px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--navy);
+        }
+
+        .admin-section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .admin-section-head h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .admin-table-wrap {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .admin-table th {
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .admin-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table tr:hover td {
+            background: var(--bg);
+        }
+
+        .dept-pill {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--navy);
+        }
+
+        .btn-del {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 15px;
+        }
+
+        .btn-del:hover {
+            background: #991b1b;
+            color: #fff;
+        }
+
+        .btn-edit {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 15px;
+            margin-right: 4px;
+        }
+
+        .btn-edit:hover {
+            background: #1e40af;
+            color: #fff;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 17px;
+        }
+
+        /* Password overlay */
+        .pw-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 24, 81, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 998;
+            backdrop-filter: blur(4px);
+        }
+
+        .pw-box {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 32px;
+            width: 340px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .pw-box h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+
+        .pw-box p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .pw-box .form-input {
+            margin-bottom: 14px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-size: 16px;
+        }
+
+        .pw-error {
+            font-size: 12px;
+            color: #991b1b;
+            margin-top: 8px;
+            display: none;
+        }
+
+        /* Copy flash */
+        .copy-flash {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--green);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .copy-flash.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 16px 14px 40px;
+            }
+
+            .dept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <div class="logo-mark">AE</div>
+                <div>
+                    <div class="page-title">Lista de E-mails</div>
+                    <div class="page-sub">AESA Matriz, Galpão e Bases</div>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <div class="update-note"><i class="ti ti-clock"></i><span id="update-label">Carregando...</span></div>
+            </div>
+        </div>
+
+        <!-- INFO BANNER -->
+        <div class="info-banner">
+            <i class="ti ti-info-circle"></i>
+            <p>Na lista abaixo estão relacionados todos os e-mails ativos da AESA, classificados por setor, departamento
+                ou base remota. Clique no endereço para copiar.</p>
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+            <div class="search-wrap">
+                <i class="ti ti-search"></i>
+                <input class="search-input" id="search" type="text"
+                    placeholder="Buscar por nome, e-mail ou departamento..." oninput="applyFilters()" />
+            </div>
+            <!-- SORT TOGGLE -->
+            <div class="sort-group">
+                <button class="sort-btn" id="sort-setor" onclick="setSort('setor')" title="Agrupar por setor">
+                    <i class="ti ti-building"></i> Por Setor
+                </button>
+                <button class="sort-btn" id="sort-alfa" onclick="setSort('alfa')" title="Ordenar de A a Z">
+                    <i class="ti ti-sort-a-z"></i> A–Z
+                </button>
+            </div>
+        </div>
+
+        <!-- FILTER CHIPS (visível apenas no modo Setor) -->
+        <div class="filter-row" id="filter-row">
+            <div class="filter-chip active" data-dept="todos" onclick="selectDept(this)">Todos</div>
+        </div>
+
+        <!-- GRID / LIST -->
+        <div id="dept-grid" class="dept-grid"></div>
+
+        <!-- ADMIN TOGGLE -->
+        <div class="admin-toggle-bar">
+            <button class="btn btn-ghost" onclick="requestAdmin()"><i class="ti ti-lock"></i>Área do
+                Administrador</button>
+            <span>Apenas para TI</span>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div class="admin-panel" id="admin-panel" style="display:none">
+            <div class="admin-header">
+                <h2><i class="ti ti-settings"></i>Gerenciar E-mails</h2>
+                <button class="btn btn-ghost" style="height:32px;padding:0 12px;font-size:12px" onclick="closeAdmin()">
+                    <i class="ti ti-x" style="font-size:14px"></i>Fechar
+                </button>
+            </div>
+            <div class="admin-body">
+                <div style="margin-bottom:24px">
+                    <h3
+                        style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:7px">
+                        <i class="ti ti-user-plus" style="font-size:17px"></i>Adicionar / Editar Contato
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nome</label>
+                            <input class="form-input" id="f-name" type="text"
+                                placeholder="Ex: Ana Carolina Ortega Rojas" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">E-mail</label>
+                            <input class="form-input" id="f-email" type="email"
+                                placeholder="Ex: aortega@aesaempilhadeiras.com.br" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Departamento</label>
+                            <select class="form-select" id="f-dept"></select>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:flex-end">
+                            <button class="btn btn-primary" onclick="saveContato()" id="btn-save"><i
+                                    class="ti ti-check"></i>Salvar</button>
+                            <button class="btn btn-ghost" onclick="cancelEdit()" id="btn-cancel" style="display:none"><i
+                                    class="ti ti-x"></i></button>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;align-items:center;gap:10px;margin-top:4px;padding-top:16px;border-top:1px solid var(--border)">
+                        <div class="form-group" style="flex:1">
+                            <label class="form-label">Novo Departamento</label>
+                            <input class="form-input" id="f-new-dept" type="text" placeholder="Ex: MARKETING" />
+                        </div>
+                        <div style="padding-top:22px">
+                            <button class="btn btn-ghost" onclick="addDept()"><i class="ti ti-plus"></i>Adicionar
+                                Depto.</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section-head">
+                    <h3><i class="ti ti-table" style="font-size:16px;margin-right:6px"></i>Todos os Contatos (<span
+                            id="total-count">0</span>)</h3>
+                    <div style="display:flex;gap:8px">
+                        <button class="btn btn-ghost" style="font-size:12px;height:32px;padding:0 12px"
+                            onclick="exportJSON()">
+                            <i class="ti ti-download" style="font-size:14px"></i>Exportar JSON
+                        </button>
+                        <label class="btn btn-ghost" style="font-size:12px;height:32px;padding:0 12px;cursor:pointer">
+                            <i class="ti ti-upload" style="font-size:14px"></i>Importar JSON
+                            <input type="file" accept=".json" style="display:none" onchange="importJSON(event)" />
+                        </label>
+                    </div>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Departamento</th>
+                                <th style="width:80px">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PASSWORD OVERLAY -->
+    <div class="pw-overlay" id="pw-overlay" style="display:none">
+        <div class="pw-box">
+            <i class="ti ti-lock" style="font-size:36px;color:#061851;margin-bottom:10px;display:block"></i>
+            <h3>Área Restrita</h3>
+            <p>Digite a senha de administrador para continuar.</p>
+            <input class="form-input" id="pw-input" type="password" placeholder="••••••"
+                onkeydown="if(event.key==='Enter')checkPw()" />
+            <button class="btn btn-primary" style="width:100%" onclick="checkPw()">Entrar</button>
+            <p class="pw-error" id="pw-error">Senha incorreta. Tente novamente.</p>
+            <button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="closePw()">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+    <!-- COPY FLASH -->
+    <div class="copy-flash" id="copy-flash"><i class="ti ti-clipboard-check"></i><span>E-mail copiado!</span></div>
+
+    <script>
+        const ADMIN_PASSWORD = 'aesa2025';
+
+        let DATA = {
+            updatedAt: '17/04/2026',
+            departments: [
+                'ALMOXARIFADO', 'COMERCIAL', 'COMPRAS', 'DIRETORIA',
+                'ESTOQUE', 'FINANCEIRO', 'FISCAL / FATURAMENTO',
+                'OFICINA', 'PÓS VENDAS', 'RECEPÇÃO',
+                'REMANUFATURA', 'RENTAL', 'RH',
+                'SEGURANÇA DO TRABALHO', 'STELLANTIS E MOPAR',
+                'TI', 'VENDAS DE EQPTOS.', 'VENDAS PEÇAS', 'VWA'
+            ],
+            contatos: [
+                { name: 'Ana Carolina Ortega Rojas', email: 'aortega@aesaempilhadeiras.com.br', dept: 'COMERCIAL' },
+                { name: 'Elisete Rocha Luiz', email: 'eluiz@aesaempilhadeiras.com.br', dept: 'COMERCIAL' },
+                { name: 'Maritza Ventura', email: 'mventura@aesaempilhadeiras.com.br', dept: 'COMERCIAL' },
+                { name: 'Renan Rodrigues', email: 'renan.rodrigues@aesaempilhadeiras.com.br', dept: 'COMPRAS' },
+                { name: 'Diego Silva', email: 'compras2@aesaempilhadeiras.com.br', dept: 'COMPRAS' },
+                { name: 'César Rodrigues', email: 'crodrigues@aesaempilhadeiras.com.br', dept: 'COMPRAS' },
+                { name: 'Tiago Rodrigues', email: 'compras.servicos@aesaempilhadeiras.com.br', dept: 'COMPRAS' },
+                { name: 'Eduardo Makimoto', email: 'eduardo@aesaempilhadeiras.com.br', dept: 'DIRETORIA' },
+                { name: 'Carlos Makimoto', email: 'carlos@aesaempilhadeiras.com.br', dept: 'DIRETORIA' },
+                { name: 'Hevelin Makimoto', email: 'hevelin@aesaempilhadeiras.com.br', dept: 'DIRETORIA' },
+                { name: 'Caique Makimoto', email: 'caique@aesaempilhadeiras.com.br', dept: 'DIRETORIA' },
+                { name: 'André Luiz', email: 'andré.luiz@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Elton', email: 'sao@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Lucas Toselli', email: 'sao2@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Luan', email: 'sao4@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Wesley Xavier', email: 'sao5@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Kaique Azevedo', email: 'recebimento@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Victor Mesas / Ryan', email: 'expedicao@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Denise Rodrigues', email: 'drodrigues@aesaempilhadeiras.com.br', dept: 'ESTOQUE' },
+                { name: 'Diego', email: 'almoxarifado@aesaempilhadiras.com.br', dept: 'ALMOXARIFADO' },
+                { name: 'Leandro Lopes', email: 'remanu@aesaempilhadeiras.com.br', dept: 'REMANUFATURA' },
+                { name: 'James Jonathan Caloni', email: 'jcaloni@aesaempilhadeiras.com.br', dept: 'REMANUFATURA' },
+                { name: 'Recepção', email: 'recepcao@aesaempilhadeiras.com.br', dept: 'RECEPÇÃO' },
+                { name: 'Jimmy', email: 'pecas@aesaempilhadeiras.com.br', dept: 'VENDAS PEÇAS' },
+                { name: 'Lígia Roberta Costa', email: 'lcosta@aesaempilhadeiras.com.br', dept: 'FINANCEIRO' },
+                { name: 'Jéssica Caroline Francisco', email: 'jcaroline@aesaempilhadeiras.com.br', dept: 'FISCAL / FATURAMENTO' },
+                { name: 'Laudiceia Balbino', email: 'lbalbino@aesaempilhadeiras.com.br', dept: 'FISCAL / FATURAMENTO' },
+                { name: 'Simone Santos', email: 'simone.santos@aesaempilhadeiras.com.br', dept: 'FISCAL / FATURAMENTO' },
+                { name: 'Diego Sena', email: 'dsena@aesaempilhadeiras.com.br', dept: 'OFICINA' },
+                { name: 'James Borba', email: 'jrodrigues@aesaempilhadeiras.com.br', dept: 'OFICINA' },
+                { name: 'Luiz Leguri', email: 'luiz.leguri@aesaempilhadeiras.com.br', dept: 'OFICINA' },
+                { name: 'Tiago Vieira', email: 'tiago.vieira@aesaempilhadeiras.com.br', dept: 'OFICINA' },
+                { name: 'Felipe Sencine', email: 'fsencine@aesaempilhadeiras.com.br', dept: 'RENTAL' },
+                { name: 'Willian Silva', email: 'wsilva@aesaempilhadeiras.com.br', dept: 'RENTAL' },
+                { name: 'Wanderson Correia', email: 'vcorreia@aesaempilhadeiras.com.br', dept: 'RENTAL' },
+                { name: 'Henrique Vieira', email: 'hvieira@aesaempilhadeiras.com.br', dept: 'RENTAL' },
+                { name: 'Matheus Campos', email: 'mcampos@aesaempilhadeiras.com.br', dept: 'RENTAL' },
+                { name: 'Peterson', email: 'pbraga@aesaempilhadeiras.com.br', dept: 'PÓS VENDAS' },
+                { name: 'Franciele Borges', email: 'fborges@aesaempilhadeiras.com.br', dept: 'RH' },
+                { name: 'Gislaine Fernandes', email: 'gfernandes@aesaempilhadeiras.com.br', dept: 'RH' },
+                { name: 'Clodoaldo Santelo', email: 'csantelo@aesaempilhadeiras.com.br', dept: 'SEGURANÇA DO TRABALHO' },
+                { name: 'Kaike Padilha Gavioli', email: 'kaike.gavioli@aesaempilhadeiras.com.br', dept: 'SEGURANÇA DO TRABALHO' },
+                { name: 'Guilherme Leme', email: 'gserafim@aesaempilhadeiras.com.br', dept: 'TI' },
+                { name: 'Lincoln Rodrigues', email: 'lrodrigues@aesaempilhadeiras.com.br', dept: 'TI' },
+                { name: 'Bianca Oliveira', email: 'sdr@aesaempilhadeiras.com.br', dept: 'VENDAS DE EQPTOS.' },
+                { name: 'Alessandro Sencine', email: 'sdr@aesaempilhadeiras.com.br', dept: 'VENDAS DE EQPTOS.' },
+                { name: 'Gilberto Silva', email: 'gsilva@aesaempilhadeiras.com.br', dept: 'STELLANTIS E MOPAR' },
+                { name: 'Pamella – PSA', email: 'oficina2.psa@aesaempilhadeiras.com.br', dept: 'STELLANTIS E MOPAR' },
+                { name: 'Ricardo – PSA', email: 'oficina.psa@aesaempilhadeiras.com.br', dept: 'STELLANTIS E MOPAR' },
+                { name: 'Logística (1 e 2) – MOPAR', email: 'oficina.mopar@aesaempilhadeiras.com.br', dept: 'STELLANTIS E MOPAR' },
+                { name: 'Estoque', email: 'estoque.vwa@aesaempilhadeiras.com.br', dept: 'VWA' },
+                { name: 'Oficina', email: 'oficina.vwa@aesaempilhadeiras.com.br', dept: 'VWA' },
+            ]
+        };
+
+        // ================================================================
+        //  PERSIST
+        // ================================================================
+        function save() {
+            DATA.updatedAt = new Date().toLocaleDateString('pt-BR');
+            localStorage.setItem('aesa_emails', JSON.stringify(DATA));
+            document.getElementById('update-label').textContent = 'Atualizado em ' + DATA.updatedAt;
+        }
+        function load() {
+            const s = localStorage.getItem('aesa_emails');
+            if (s) DATA = JSON.parse(s);
+        }
+
+        // ================================================================
+        //  SORT STATE
+        // ================================================================
+        let currentSort = 'setor';
+        let activeDept = 'todos';
+        let editIndex = null;
+
+        function setSort(mode) {
+            currentSort = mode;
+            ['setor', 'alfa'].forEach(m => {
+                document.getElementById('sort-' + m).classList.toggle('active', m === mode);
+            });
+            document.getElementById('filter-row').classList.toggle('hidden', mode !== 'setor');
+            document.getElementById('search').value = '';
+            renderPublic();
+        }
+
+        // ================================================================
+        //  RENDER
+        // ================================================================
+        function renderPublic() {
+            document.getElementById('update-label').textContent = 'Atualizado em ' + DATA.updatedAt;
+            if (currentSort === 'setor') {
+                renderChips();
+                renderBySetor();
+            } else {
+                renderAlfa();
+            }
+        }
+
+        /* ---- SETOR mode ---- */
+        function renderChips() {
+            const wrap = document.getElementById('filter-row');
+            wrap.innerHTML = `<div class="filter-chip${activeDept === 'todos' ? ' active' : ''}" data-dept="todos" onclick="selectDept(this)">Todos</div>`;
+            DATA.departments.forEach(d => {
+                const count = DATA.contatos.filter(c => c.dept === d).length;
+                if (!count) return;
+                const active = activeDept === d ? ' active' : '';
+                wrap.innerHTML += `<div class="filter-chip${active}" data-dept="${d}" onclick="selectDept(this)">${d}</div>`;
+            });
+        }
+
+        function renderBySetor() {
+            const grid = document.getElementById('dept-grid');
+            grid.className = 'dept-grid';
+            const q = document.getElementById('search').value.trim().toLowerCase();
+            const depts = activeDept === 'todos' ? DATA.departments : [activeDept];
+            let html = '';
+
+            depts.forEach(dept => {
+                let rows = DATA.contatos.filter(c => c.dept === dept);
+                if (!rows.length) return;
+                const filtered = q ? rows.filter(c =>
+                    c.name.toLowerCase().includes(q) ||
+                    c.email.toLowerCase().includes(q) ||
+                    dept.toLowerCase().includes(q)
+                ) : rows;
+                if (!filtered.length) return;
+
+                html += `<div class="dept-card">
+                <div class="dept-head">
+                    <span class="dept-name">${dept}</span>
+                    <span class="dept-count">${filtered.length} contato${filtered.length !== 1 ? 's' : ''}</span>
+                </div>`;
+                filtered.forEach(c => {
+                    html += `<div class="email-row">
+                    <span class="email-name">${c.name}</span>
+                    <a class="email-addr" onclick="copyEmail('${c.email}',event)" href="mailto:${c.email}">
+                        <i class="ti ti-mail"></i>${c.email}
+                    </a>
+                </div>`;
+                });
+                html += '</div>';
+            });
+
+            if (!html) html = `<div class="empty-state"><i class="ti ti-search-off"></i><p>Nenhum contato encontrado.</p></div>`;
+            grid.innerHTML = html;
+        }
+
+        /* ---- A-Z mode ---- */
+        function renderAlfa() {
+            const grid = document.getElementById('dept-grid');
+            grid.className = 'flat-list';
+            const q = document.getElementById('search').value.trim().toLowerCase();
+
+            let rows = [...DATA.contatos];
+            if (q) rows = rows.filter(c =>
+                c.name.toLowerCase().includes(q) ||
+                c.email.toLowerCase().includes(q) ||
+                c.dept.toLowerCase().includes(q)
+            );
+            rows.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+
+            if (!rows.length) {
+                grid.innerHTML = `<div class="empty-state"><i class="ti ti-search-off"></i><p>Nenhum contato encontrado.</p></div>`;
+                return;
+            }
+
+            let html = '';
+            let lastLetter = '';
+            rows.forEach(c => {
+                const letter = c.name[0].toUpperCase();
+                if (letter !== lastLetter) {
+                    html += `<div class="flat-divider">${letter}</div>`;
+                    lastLetter = letter;
+                }
+                html += `<div class="email-row">
+                <span class="email-name">${c.name}</span>
+                <span class="email-dept-tag">${c.dept}</span>
+                <a class="email-addr" onclick="copyEmail('${c.email}',event)" href="mailto:${c.email}">
+                    <i class="ti ti-mail"></i>${c.email}
+                </a>
+            </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function applyFilters() { renderPublic(); }
+
+        function selectDept(el) {
+            activeDept = el.dataset.dept;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('search').value = '';
+            renderBySetor();
+        }
+
+        /* ---- Copy email ---- */
+        function copyEmail(email, e) {
+            e.preventDefault();
+            navigator.clipboard.writeText(email).then(() => {
+                const el = document.getElementById('copy-flash');
+                el.querySelector('span').textContent = email + ' copiado!';
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 2500);
+            });
+        }
+
+        // ================================================================
+        //  ADMIN
+        // ================================================================
+        function requestAdmin() { document.getElementById('pw-overlay').style.display = 'flex'; setTimeout(() => document.getElementById('pw-input').focus(), 100); }
+        function closePw() { document.getElementById('pw-overlay').style.display = 'none'; document.getElementById('pw-input').value = ''; document.getElementById('pw-error').style.display = 'none'; }
+        function checkPw() {
+            if (document.getElementById('pw-input').value === ADMIN_PASSWORD) { closePw(); openAdmin(); }
+            else { document.getElementById('pw-error').style.display = 'block'; document.getElementById('pw-input').value = ''; document.getElementById('pw-input').focus(); }
+        }
+        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; document.getElementById('admin-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); renderAdminTable(); populateDeptSelect(); }
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; cancelEdit(); }
+
+        function populateDeptSelect() {
+            const sel = document.getElementById('f-dept');
+            sel.innerHTML = '<option value="">— Selecione —</option>';
+            DATA.departments.forEach(d => sel.innerHTML += `<option value="${d}">${d}</option>`);
+        }
+
+        function renderAdminTable() {
+            document.getElementById('total-count').textContent = DATA.contatos.length;
+            document.getElementById('admin-tbody').innerHTML = DATA.contatos.map((c, i) =>
+                `<tr>
+                <td>${c.name}</td>
+                <td style="color:var(--orange);font-size:12px">${c.email}</td>
+                <td><span class="dept-pill">${c.dept}</span></td>
+                <td>
+                    <button class="btn-edit" onclick="startEdit(${i})" title="Editar"><i class="ti ti-pencil"></i></button>
+                    <button class="btn-del"  onclick="deleteContato(${i})" title="Excluir"><i class="ti ti-trash"></i></button>
+                </td>
+            </tr>`
+            ).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Nenhum contato cadastrado.</td></tr>';
+        }
+
+        function saveContato() {
+            const name = document.getElementById('f-name').value.trim();
+            const email = document.getElementById('f-email').value.trim();
+            const dept = document.getElementById('f-dept').value;
+            if (!name || !email || !dept) { toast('Preencha todos os campos.', true); return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('E-mail inválido.', true); return; }
+            if (editIndex !== null) {
+                DATA.contatos[editIndex] = { name, email, dept };
+                toast('Contato atualizado!'); cancelEdit();
+            } else {
+                DATA.contatos.push({ name, email, dept });
+                toast('Contato adicionado!');
+                document.getElementById('f-name').value = '';
+                document.getElementById('f-email').value = '';
+                document.getElementById('f-dept').value = '';
+            }
+            save(); renderPublic(); renderAdminTable();
+        }
+
+        function startEdit(i) {
+            const c = DATA.contatos[i];
+            document.getElementById('f-name').value = c.name;
+            document.getElementById('f-email').value = c.email;
+            document.getElementById('f-dept').value = c.dept;
+            editIndex = i;
+            document.getElementById('btn-save').innerHTML = '<i class="ti ti-check"></i>Atualizar';
+            document.getElementById('btn-cancel').style.display = 'flex';
+            document.getElementById('f-name').focus();
+            document.querySelector('.admin-body').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function cancelEdit() {
+            editIndex = null;
+            document.getElementById('f-name').value = '';
+            document.getElementById('f-email').value = '';
+            document.getElementById('f-dept').value = '';
+            document.getElementById('btn-save').innerHTML = '<i class="ti ti-check"></i>Salvar';
+            document.getElementById('btn-cancel').style.display = 'none';
+        }
+
+        function deleteContato(i) {
+            if (!confirm('Excluir "' + DATA.contatos[i].name + '"?')) return;
+            DATA.contatos.splice(i, 1);
+            save(); renderPublic(); renderAdminTable(); renderChips();
+            toast('Contato removido.');
+        }
+
+        function addDept() {
+            const val = document.getElementById('f-new-dept').value.trim().toUpperCase();
+            if (!val) return;
+            if (DATA.departments.includes(val)) { toast('Departamento já existe.', true); return; }
+            DATA.departments.push(val); DATA.departments.sort();
+            document.getElementById('f-new-dept').value = '';
+            save(); populateDeptSelect(); renderChips();
+            toast('Departamento "' + val + '" adicionado!');
+        }
+
+        function exportJSON() {
+            const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aesa_emails.json'; a.click();
+            toast('JSON exportado!');
+        }
+
+        function importJSON(e) {
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                try { DATA = JSON.parse(ev.target.result); save(); renderPublic(); renderAdminTable(); populateDeptSelect(); toast('Dados importados com sucesso!'); }
+                catch { toast('Erro: JSON inválido.', true); }
+            };
+            reader.readAsText(file); e.target.value = '';
+        }
+
+        let toastTimer;
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            el.querySelector('i').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        // Init
+        load();
+        setSort('setor');
+    </script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

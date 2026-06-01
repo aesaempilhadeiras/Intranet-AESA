@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>AESA — Quem Somos</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --navy-xl: #1a3a8f;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --green-b: #a7f3d0;
+            --white: #ffffff;
+            --bg: #f4f2ee;
+            --text: #0c1420;
+            --muted: #5a6273;
+            --border: #dde1e8;
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--navy);
+            padding: 0;
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none
+        }
+
+        .hero-glow {
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(231, 59, 27, .18) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .hero-glow2 {
+            position: absolute;
+            left: -80px;
+            bottom: -80px;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(26, 58, 143, .35) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 48px 72px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 48px;
+            align-items: center
+        }
+
+        @media(max-width:700px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                padding: 56px 24px 48px
+            }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(231, 59, 27, .15);
+            border: 1px solid rgba(231, 59, 27, .3);
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px
+        }
+
+        .hero-eyebrow-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--orange);
+            flex-shrink: 0
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 4.5vw, 56px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            margin-bottom: 18px
+        }
+
+        .hero h1 .accent {
+            color: var(--orange)
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: rgba(255, 255, 255, .6);
+            max-width: 480px;
+            line-height: 1.75
+        }
+
+        .hero-stat-box {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 12px;
+            padding: 24px 28px;
+            text-align: center;
+            flex-shrink: 0;
+            backdrop-filter: blur(4px)
+        }
+
+        .hero-stat-num {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--orange);
+            line-height: 1;
+            letter-spacing: -2px
+        }
+
+        .hero-stat-lbl {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .45);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 4px
+        }
+
+        /* NÚMEROS STRIP */
+        .strip {
+            background: var(--navy-xl);
+            border-top: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        .strip-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0
+        }
+
+        @media(max-width:700px) {
+            .strip-inner {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 28px 24px
+            }
+        }
+
+        .strip-item {
+            text-align: center;
+            padding: 16px;
+            border-right: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .strip-item:last-child {
+            border-right: none
+        }
+
+        .strip-num {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            line-height: 1
+        }
+
+        .strip-lbl {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .4);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-top: 4px;
+            font-weight: 500
+        }
+
+        /* WRAPPER */
+        .wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 64px 48px
+        }
+
+        @media(max-width:700px) {
+            .wrap {
+                padding: 48px 24px
+            }
+        }
+
+        .wrap-sm {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 48px
+        }
+
+        @media(max-width:700px) {
+            .wrap-sm {
+                padding: 40px 24px
+            }
+        }
+
+        /* LABELS */
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 10px
+        }
+
+        .title {
+            font-size: clamp(26px, 3vw, 36px);
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.12;
+            letter-spacing: -0.8px;
+            margin-bottom: 12px
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 520px
+        }
+
+        /* HISTÓRIA GRID */
+        .hist-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 44px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(6, 24, 81, .08)
+        }
+
+        @media(max-width:700px) {
+            .hist-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .hist-card {
+            background: var(--white);
+            padding: 32px 28px;
+            border-right: 1px solid var(--border)
+        }
+
+        .hist-card:last-child {
+            border-right: none
+        }
+
+        .hist-card:nth-child(2) {
+            background: #fafbfd
+        }
+
+        .hist-year {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 10px
+        }
+
+        .hist-yr-1 {
+            color: var(--orange)
+        }
+
+        .hist-yr-2 {
+            color: var(--navy)
+        }
+
+        .hist-yr-3 {
+            color: var(--green)
+        }
+
+        .hist-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 10px;
+            display: block
+        }
+
+        .hist-text {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.75
+        }
+
+        /* DIVIDER */
+        .div {
+            height: 1px;
+            background: var(--border);
+            margin: 0 48px
+        }
+
+        @media(max-width:700px) {
+            .div {
+                margin: 0 24px
+            }
+        }
+
+        /* TIMELINE */
+        .tl-wrap {
+            margin-top: 48px;
+            position: relative;
+            padding-left: 40px
+        }
+
+        .tl-wrap::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--orange) 0%, var(--navy-xl) 60%, var(--green) 100%)
+        }
+
+        .tl-item {
+            position: relative;
+            padding-bottom: 40px
+        }
+
+        .tl-item:last-child {
+            padding-bottom: 0
+        }
+
+        .tl-dot {
+            position: absolute;
+            left: -36px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2.5px solid var(--orange);
+            transition: transform .2s
+        }
+
+        .tl-item:hover .tl-dot {
+            transform: scale(1.35)
+        }
+
+        .tl-item.is-new .tl-dot {
+            background: var(--green);
+            border-color: var(--green)
+        }
+
+        .tl-cat {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .tl-cat i {
+            font-size: 12px
+        }
+
+        .tl-year {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--navy);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 6px
+        }
+
+        .tl-h {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px
+        }
+
+        .tl-p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 560px
+        }
+
+        .badge-new {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--green-l);
+            color: var(--green);
+            border: 1px solid var(--green-b);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 8px;
+            vertical-align: middle
+        }
+
+        /* FUTURO */
+        .futuro {
+            background: var(--navy);
+            border-radius: 20px;
+            padding: 56px 52px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .futuro::before {
+            content: '';
+            position: absolute;
+            right: -80px;
+            bottom: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(231, 59, 27, .12)
+        }
+
+        .futuro::after {
+            content: '';
+            position: absolute;
+            left: -60px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(26, 58, 143, .4)
+        }
+
+        .futuro-inner {
+            position: relative
+        }
+
+        .futuro .eyebrow {
+            color: var(--orange)
+        }
+
+        .futuro .title {
+            color: #fff
+        }
+
+        .futuro .subtitle {
+            color: rgba(255, 255, 255, .6)
+        }
+
+        /* SUSTENTABILIDADE */
+        .sust-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 40px;
+            margin-bottom: 28px
+        }
+
+        @media(max-width:700px) {
+            .sust-stats {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .sust-stat {
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center
+        }
+
+        .sust-stat-num {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--green);
+            letter-spacing: -1px;
+            line-height: 1
+        }
+
+        .sust-stat-lbl {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            opacity: .8
+        }
+
+        .sust-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px
+        }
+
+        @media(max-width:700px) {
+            .sust-cards {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .sust-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all .2s
+        }
+
+        .sust-card:hover {
+            box-shadow: 0 8px 24px rgba(6, 24, 81, .1);
+            transform: translateY(-3px);
+            border-color: #c7d2fe
+        }
+
+        .sust-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px
+        }
+
+        .sust-icon i {
+            font-size: 20px;
+            color: var(--green)
+        }
+
+        .sust-h {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 3px
+        }
+
+        .sust-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--green);
+            background: var(--green-l);
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-bottom: 10px
+        }
+
+        .sust-p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7
+        }
+
+        /* ANIMATIONS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .65s ease, transform .65s ease
+        }
+
+        .reveal.on {
+            opacity: 1;
+            transform: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-glow2"></div>
+        <div class="hero-inner">
+            <div>
+                <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>Quem Somos</div>
+                <h1>Estrutura, tradição<br />e <span class="accent">tecnologia</span> a<br />serviço da
+                    sua<br />operação.</h1>
+                <p class="hero-sub">A AESA não apoia a operação. Ela é parte da sua estrutura. Há mais de sete décadas
+                    garantindo que máquinas, equipes e processos funcionem como uma engrenagem só.</p>
+            </div>
+            <div class="hero-stat-box">
+                <div class="hero-stat-num">+70</div>
+                <div class="hero-stat-lbl">anos de<br />mercado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STRIP -->
+    <div class="strip">
+        <div class="strip-inner">
+            <div class="strip-item">
+                <div class="strip-num">3</div>
+                <div class="strip-lbl">Unidades</div>
+            </div>
+            <div class="strip-item">
+                <div class="strip-num">180</div>
+                <div class="strip-lbl">Profissionais</div>
+            </div>
+            <div class="strip-item">
+                <div class="strip-num">2.000+</div>
+                <div class="strip-lbl">Equipamentos</div>
+            </div>
+            <div class="strip-item">
+                <div class="strip-num">+70</div>
+                <div class="strip-lbl">Anos de mercado</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTÓRIA -->
+    <div class="wrap reveal">
+        <div class="eyebrow">Nossa História</div>
+        <div class="title">Mais de sete décadas<br />construindo confiança.</div>
+        <p class="subtitle">De uma operação local à referência técnica do estado de São Paulo.</p>
+        <div class="hist-grid">
+            <div class="hist-card">
+                <span class="hist-tag">Fundação</span>
+                <div class="hist-year hist-yr-1">1953</div>
+                <p class="hist-text">Fundada como referência em movimentação de cargas, a AESA nasce com a missão de
+                    oferecer soluções robustas para a indústria nacional em expansão.</p>
+            </div>
+            <div class="hist-card">
+                <span class="hist-tag">Expansão</span>
+                <div class="hist-year hist-yr-2">Décadas</div>
+                <p class="hist-text">Consolidamos parcerias com fabricantes globais e ampliamos a operação para todo o
+                    estado de São Paulo, atendendo clientes de logística, indústria e construção.</p>
+            </div>
+            <div class="hist-card">
+                <span class="hist-tag">Liderança</span>
+                <div class="hist-year hist-yr-3">Hoje</div>
+                <p class="hist-text">Com 3 unidades, 180 profissionais e mais de 2.000 equipamentos em operação, somos o
+                    parceiro técnico de empresas que não podem parar.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- TIMELINE -->
+    <div class="wrap reveal">
+        <div class="eyebrow">Linha do Tempo</div>
+        <div class="title">Marcos que moldaram<br />a nossa trajetória.</div>
+        <div class="tl-wrap">
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="flag" style="width:12px;height:12px"></i> Origem</div>
+                <div class="tl-year">1953</div>
+                <div class="tl-h">Fundação</div>
+                <p class="tl-p">Início das operações no setor de movimentação de cargas, atendendo a indústria nacional
+                    em expansão.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="trending-up" style="width:12px;height:12px"></i> Crescimento</div>
+                <div class="tl-year">1980</div>
+                <div class="tl-h">Expansão</div>
+                <p class="tl-p">Ampliação para indústrias químicas, logísticas e de grande porte por todo o estado de
+                    São Paulo.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="factory" style="width:12px;height:12px"></i> Escala</div>
+                <div class="tl-year">2000</div>
+                <div class="tl-h">Frota própria</div>
+                <p class="tl-p">Mais de 1.000 equipamentos disponíveis para locação, consolidando a AESA como referência
+                    técnica.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="star" style="width:12px;height:12px"></i> Liderança</div>
+                <div class="tl-year">2015</div>
+                <div class="tl-h">Consolidação</div>
+                <p class="tl-p">Três unidades estratégicas na Grande São Paulo, com cobertura ágil e atendimento
+                    especializado.</p>
+            </div>
+            <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="leaf" style="width:12px;height:12px"></i> Sustentabilidade</div>
+                <div class="tl-year">2024</div>
+                <div class="tl-h">Eletrificação</div>
+                <p class="tl-p">Frota verde, retrofit e tecnologias de baixo impacto guiando a próxima geração da
+                    operação.</p>
+            </div>
+            <div class="tl-item is-new">
+                <div class="tl-dot"></div>
+                <div class="tl-cat"><i data-lucide="bot" style="width:12px;height:12px"></i> Inovação</div>
+                <div class="tl-year">2026 <span class="badge-new">Novo</span></div>
+                <div class="tl-h">Automação &amp; Robótica</div>
+                <p class="tl-p">Expansão para soluções inteligentes e entrada no setor de robótica industrial através da
+                    <a href="https://taskrrobotics.com/" target="_blank"
+                        style="color:var(--green);font-weight:600">Taskr Robotics</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- FUTURO -->
+    <div class="wrap-sm reveal">
+        <div class="futuro">
+            <div class="futuro-inner">
+                <div class="eyebrow">Visão de Futuro</div>
+                <div class="title" style="max-width:560px">A mesma seriedade que sustentou décadas de operação guia
+                    agora a próxima geração.</div>
+                <p class="subtitle" style="margin-top:0">Tecnologia, eletrificação e inteligência logística — sem abrir
+                    mão da confiança construída em 70 anos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- SUSTENTABILIDADE -->
+    <div class="wrap reveal">
+        <div class="eyebrow">Sustentabilidade</div>
+        <div class="title">Operar bem hoje.<br />Preservar o amanhã.</div>
+        <p class="subtitle">Sustentabilidade aplicada à operação logística real — frota elétrica, retrofit e processos
+            que reduzem impacto sem comprometer produtividade.</p>
+        <div class="sust-stats">
+            <div class="sust-stat">
+                <div class="sust-stat-num">60%</div>
+                <div class="sust-stat-lbl">Frota elétrica</div>
+            </div>
+            <div class="sust-stat">
+                <div class="sust-stat-num">+200</div>
+                <div class="sust-stat-lbl">Retrofit realizados</div>
+            </div>
+            <div class="sust-stat">
+                <div class="sust-stat-num">-35%</div>
+                <div class="sust-stat-lbl">Redução de impacto</div>
+            </div>
+        </div>
+        <div class="sust-cards">
+            <div class="sust-card">
+                <div class="sust-icon"><i data-lucide="zap" style="width:22px;height:22px"></i></div>
+                <div class="sust-h">Eletrificação</div>
+                <div class="sust-badge">Baixo impacto</div>
+                <p class="sust-p">Migração contínua para frotas elétricas com menor consumo e operação silenciosa.</p>
+            </div>
+            <div class="sust-card">
+                <div class="sust-icon"><i data-lucide="wrench" style="width:22px;height:22px"></i></div>
+                <div class="sust-h">Retrofit</div>
+                <div class="sust-badge">Eficiência</div>
+                <p class="sust-p">Modernizamos equipamentos existentes para estender vida útil e evitar substituição
+                    prematura.</p>
+            </div>
+            <div class="sust-card">
+                <div class="sust-icon"><i data-lucide="leaf" style="width:22px;height:22px"></i></div>
+                <div class="sust-h">Redução de Impacto</div>
+                <div class="sust-badge">Sustentável</div>
+                <p class="sust-p">Processos otimizados e descarte responsável reduzem a pegada operacional dos clientes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            document.body.style.fontSize = '13px';
+        }
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }), { threshold: .08 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    </script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

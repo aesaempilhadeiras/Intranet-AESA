@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Acesso à Intranet</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --red: #991b1b;
+            --red-l: #fef2f2;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --font: 'DM Sans', sans-serif;
+            --shadow: 0 8px 40px rgba(6, 24, 81, .18);
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: var(--font);
+            background: var(--navy);
+            color: var(--text);
+        }
+
+        /* Background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, .02) 0, rgba(255, 255, 255, .02) 1px, transparent 1px, transparent 48px),
+                radial-gradient(ellipse at 80% 20%, rgba(231, 59, 27, .18) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 80%, rgba(255, 255, 255, .04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CARD */
+        .card {
+            background: var(--white);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* CARD HEADER */
+        .card-header {
+            background: var(--navy);
+            padding: 32px 36px 28px;
+            text-align: center;
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--orange);
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .logo-mark {
+            width: 48px;
+            height: 48px;
+            background: var(--orange);
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(231, 59, 27, .4);
+        }
+
+        .logo-text {
+            text-align: left;
+        }
+
+        .logo-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .45);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .6);
+        }
+
+        .card-title strong {
+            color: #fff;
+        }
+
+        /* CARD BODY */
+        .card-body {
+            padding: 32px 36px 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 6px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--border);
+            pointer-events: none;
+            transition: color .15s;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 44px;
+            padding: 0 40px 0 40px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 14px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s, background .15s, box-shadow .15s;
+        }
+
+        .form-input:focus {
+            border-color: var(--navy);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(6, 24, 81, .08);
+        }
+
+        .form-input:focus+i,
+        .input-wrap:focus-within i {
+            color: var(--navy);
+        }
+
+        /* Icon after (eye toggle) */
+        .input-wrap .icon-right {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: auto;
+            font-size: 18px;
+            color: var(--border);
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .input-wrap .icon-right:hover {
+            color: var(--navy);
+        }
+
+        /* ERROR */
+        .error-box {
+            background: var(--red-l);
+            border: 1px solid #fecaca;
+            border-radius: 9px;
+            padding: 11px 14px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            display: none;
+        }
+
+        .error-box i {
+            font-size: 18px;
+            color: var(--red);
+            flex-shrink: 0;
+        }
+
+        .error-box span {
+            font-size: 13px;
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        /* DOMAIN HINT */
+        .domain-hint {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+            padding: 10px 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 12px;
+            color: #1e3a6e;
+        }
+
+        .domain-hint i {
+            font-size: 15px;
+            color: #1e40af;
+            flex-shrink: 0;
+        }
+
+        /* BTN */
+        .btn-login {
+            width: 100%;
+            height: 46px;
+            background: var(--navy);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-login:hover:not(:disabled) {
+            background: var(--navy-l);
+        }
+
+        .btn-login:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .btn-login i {
+            font-size: 18px;
+        }
+
+        /* SPINNER */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* CARD FOOTER */
+        .card-footer {
+            padding: 14px 36px 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+
+        .card-footer a {
+            color: var(--orange);
+            font-weight: 600;
+        }
+
+        .card-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* BOTTOM NOTE */
+        .bottom-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div>
+            <div class="card">
+
+                <!-- HEADER -->
+                <div class="card-header">
+                    <div class="logo-wrap">
+                        <div class="logo-mark">AE</div>
+                        <div class="logo-text">
+                            <div class="logo-name">AESA Empilhadeiras</div>
+                            <div class="logo-sub">Intranet Corporativa</div>
+                        </div>
+                    </div>
+                    <div class="card-title">Acesse com sua conta <strong>AESAEMP</strong></div>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body">
+
+                    <div class="domain-hint">
+                        <i class="ti ti-network"></i>
+                        Use seu usuário de rede Windows — o mesmo que você usa para entrar no computador.
+                    </div>
+
+                    <!-- ERROR -->
+                    <div class="error-box" id="error-box">
+                        <i class="ti ti-alert-circle"></i>
+                        <span id="error-msg">Usuário ou senha incorretos.</span>
+                    </div>
+
+                    <!-- FORM -->
+                    <div class="form-group">
+                        <label class="form-label" for="input-user">Usuário</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="input-user" type="text" placeholder="ex: gserafim"
+                                autocomplete="username"
+                                onkeydown="if(event.key==='Enter')document.getElementById('input-pass').focus()" />
+                            <i class="ti ti-user"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="input-pass">Senha</label>
+                        <div class="input-wrap">
+                            <input class="form-input" id="input-pass" type="password" placeholder="••••••••"
+                                autocomplete="current-password" onkeydown="if(event.key==='Enter')fazerLogin()" />
+                            <i class="ti ti-lock"></i>
+                            <i class="ti ti-eye icon-right" id="eye-toggle" onclick="toggleSenha()"
+                                title="Mostrar/ocultar senha"></i>
+                        </div>
+                    </div>
+
+                    <button class="btn-login" id="btn-login" onclick="fazerLogin()">
+                        <span id="btn-text"><i class="ti ti-login"></i>Entrar</span>
+                        <div class="spinner" id="spinner"></div>
+                    </button>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="card-footer">
+                    Problemas com acesso? Fale com o <a href="mailto:gserafim@aesaempilhadeiras.com.br">TI Suporte</a>
+                </div>
+
+            </div>
+
+            <div class="bottom-note">
+                AESA Empilhadeiras &nbsp;·&nbsp; Acesso restrito a colaboradores
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://10.1.1.54:3001';
+        const AUTH_URL = API_URL + '/login';
+        const SESSAO_TTL = 8 * 60 * 60 * 1000; // 8 horas em ms
+
+        // ── Registra/atualiza usuário no Supabase após login ──────
+        async function registrarUsuarioIntranet(u) {
+            try {
+                // Verifica se já existe
+                const existe = await fetch(API_URL + '/db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        metodo: 'GET',
+                        tabela: 'usuarios_intranet',
+                        params: `?usuario_ad=eq.${u.sAMAccountName}&select=id,ativo`,
+                    }),
+                });
+                const lista = await existe.json();
+
+                if (Array.isArray(lista) && lista.length > 0) {
+                    // Já existe — só atualiza último login
+                    await fetch(API_URL + '/db', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            metodo: 'PATCH',
+                            tabela: 'usuarios_intranet',
+                            params: `?usuario_ad=eq.${u.sAMAccountName}`,
+                            body: { data_ultimo_login: new Date().toISOString() },
+                        }),
+                    });
+                } else {
+                    // Novo usuário — cadastra com perfil COLABORADOR
+                    await fetch(API_URL + '/db', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            metodo: 'POST',
+                            tabela: 'usuarios_intranet',
+                            body: {
+                                usuario_ad: u.sAMAccountName,
+                                nome: u.nome,
+                                email: u.email,
+                                departamento: u.departamento || '',
+                                perfil: 'COLABORADOR',
+                                perfis: ['COLABORADOR'],
+                                ativo: true,
+                                data_ultimo_login: new Date().toISOString(),
+                            },
+                        }),
+                    });
+                }
+            } catch (e) {
+                // Falha silenciosa — não impede o login
+                console.warn('Aviso: não foi possível registrar usuário no Supabase:', e.message);
+            }
+        }
+
+        // Se já tem sessão válida, vai direto
+        (function () {
+            const u = localStorage.getItem('aesa_usuario');
+            const t = localStorage.getItem('aesa_sessao_inicio');
+            if (u && t && (Date.now() - parseInt(t)) < SESSAO_TTL) {
+                window.location.replace('index.html');
+            }
+        })();
+
+        // Toggle senha
+        function toggleSenha() {
+            const inp = document.getElementById('input-pass');
+            const icon = document.getElementById('eye-toggle');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.className = 'ti ti-eye-off icon-right';
+            } else {
+                inp.type = 'password';
+                icon.className = 'ti ti-eye icon-right';
+            }
+        }
+
+        // Mostrar erro
+        function showError(msg) {
+            const box = document.getElementById('error-box');
+            document.getElementById('error-msg').textContent = msg;
+            box.style.display = 'flex';
+        }
+        function hideError() {
+            document.getElementById('error-box').style.display = 'none';
+        }
+
+        // Loading state
+        function setLoading(on) {
+            const btn = document.getElementById('btn-login');
+            const txt = document.getElementById('btn-text');
+            const spin = document.getElementById('spinner');
+            btn.disabled = on;
+            txt.style.display = on ? 'none' : 'flex';
+            spin.style.display = on ? 'block' : 'none';
+        }
+
+        // LOGIN
+        async function fazerLogin() {
+            hideError();
+            const usuario = document.getElementById('input-user').value.trim();
+            const senha = document.getElementById('input-pass').value;
+
+            if (!usuario) { showError('Informe seu usuário de rede.'); document.getElementById('input-user').focus(); return; }
+            if (!senha) { showError('Informe sua senha.'); document.getElementById('input-pass').focus(); return; }
+
+            setLoading(true);
+
+            try {
+                const res = await fetch(AUTH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, senha }),
+                });
+
+                const dados = await res.json();
+
+                if (dados.ok) {
+                    // Salva sessão
+                    localStorage.setItem('aesa_usuario', JSON.stringify(dados.usuario));
+                    localStorage.setItem('aesa_sessao_inicio', Date.now().toString());
+                    // Registra/atualiza no Supabase (não bloqueia o login)
+                    await registrarUsuarioIntranet(dados.usuario);
+
+                    // Redireciona
+                    window.location.replace('index.html');
+                } else {
+                    setLoading(false);
+                    showError(dados.mensagem || 'Usuário ou senha incorretos.');
+                    document.getElementById('input-pass').value = '';
+                    document.getElementById('input-pass').focus();
+                }
+
+            } catch (e) {
+                setLoading(false);
+                showError('Não foi possível conectar ao servidor. Tente novamente ou contate o TI.');
+            }
+        }
+
+        // Foco automático
+        document.getElementById('input-user').focus();
+    </script>
+</body>
+
+</html>

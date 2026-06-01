@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>AESA — MTE Transparência e Igualdade Salarial</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --navy-xl: #1a3a8f;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --green-b: #a7f3d0;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --blue-b: #bfdbfe;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --white: #fff;
+            --bg: #f4f2ee;
+            --text: #0c1420;
+            --muted: #5a6273;
+            --border: #dde1e8;
+            --radius: 14px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 20px rgba(6, 24, 81, .1);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--navy);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none
+        }
+
+        .hero-glow {
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(231, 59, 27, .15) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 56px 48px 48px
+        }
+
+        @media(max-width:700px) {
+            .hero-inner {
+                padding: 40px 24px 36px
+            }
+        }
+
+        .hero-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .5);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 20px;
+            padding: 5px 14px;
+            margin-bottom: 22px;
+            cursor: pointer;
+            transition: all .15s;
+            text-decoration: none
+        }
+
+        .hero-back:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, .4)
+        }
+
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 10px
+        }
+
+        .hero-eyebrow-line {
+            width: 20px;
+            height: 2px;
+            background: var(--orange);
+            border-radius: 2px
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 10px
+        }
+
+        .hero h1 span {
+            color: var(--orange)
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .6);
+            max-width: 540px;
+            margin-bottom: 24px;
+            line-height: 1.75
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, .6)
+        }
+
+        .hero-meta-item svg {
+            width: 15px;
+            height: 15px;
+            color: var(--orange);
+            flex-shrink: 0
+        }
+
+        .hero-meta-item strong {
+            color: #fff
+        }
+
+        /* PAGE */
+        .page {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 32px 48px 64px
+        }
+
+        @media(max-width:700px) {
+            .page {
+                padding: 24px 24px 48px
+            }
+        }
+
+        /* SECTION HEAD */
+        .sec-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px
+        }
+
+        .sec-head h2 {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap
+        }
+
+        .sec-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        .sec-tag {
+            font-size: 11px;
+            color: var(--muted);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2px 10px;
+            white-space: nowrap
+        }
+
+        /* CURRENT GRID */
+        .current-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 18px;
+            margin-bottom: 28px
+        }
+
+        @media(max-width:860px) {
+            .current-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        /* KPI STRIP */
+        .kpi-strip {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .kpi-strip-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .kpi-strip-title svg {
+            width: 15px;
+            height: 15px;
+            color: var(--orange)
+        }
+
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 18px
+        }
+
+        @media(max-width:600px) {
+            .kpi-row {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        .kpi {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px
+        }
+
+        .kpi-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+            letter-spacing: -.5px
+        }
+
+        .kpi-lbl {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+            line-height: 1.4
+        }
+
+        .kpi.hl {
+            background: var(--navy);
+            border-color: var(--navy)
+        }
+
+        .kpi.hl .kpi-val {
+            color: #fff
+        }
+
+        .kpi.hl .kpi-lbl {
+            color: rgba(255, 255, 255, .55)
+        }
+
+        .kpi.or {
+            background: var(--orange-l);
+            border-color: #f9c4b8
+        }
+
+        .kpi.or .kpi-val {
+            color: var(--orange)
+        }
+
+        /* BARS */
+        .breakdown-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 10px
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 7px
+        }
+
+        .bar-label {
+            font-size: 11px;
+            color: var(--muted);
+            width: 88px;
+            flex-shrink: 0;
+            text-align: right
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--border)
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width .8s ease
+        }
+
+        .bf-nv {
+            background: var(--navy)
+        }
+
+        .bf-or {
+            background: var(--orange)
+        }
+
+        .bf-bl {
+            background: var(--blue)
+        }
+
+        .bf-or2 {
+            background: var(--orange);
+            opacity: .6
+        }
+
+        .bar-pct {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--navy);
+            width: 36px;
+            flex-shrink: 0
+        }
+
+        .info-box {
+            margin-top: 14px;
+            padding: 12px 14px;
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--green);
+            display: flex;
+            gap: 9px;
+            align-items: flex-start;
+            line-height: 1.65
+        }
+
+        .info-box svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        /* PDF CARD */
+        .pdf-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .pdf-card-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .pdf-card-title svg {
+            width: 15px;
+            height: 15px;
+            color: var(--orange)
+        }
+
+        .pdf-embed-wrap {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg)
+        }
+
+        .pdf-meta {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center
+        }
+
+        .pdf-info {
+            background: var(--blue-l);
+            border: 1px solid var(--blue-b);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 12px;
+            color: #1e3a6e;
+            display: flex;
+            gap: 9px;
+            align-items: flex-start;
+            line-height: 1.6
+        }
+
+        .pdf-info svg {
+            width: 16px;
+            height: 16px;
+            color: var(--blue);
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        /* BTNS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            border: none;
+            white-space: nowrap;
+            width: 100%
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l)
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-h)
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+            width: auto
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg)
+        }
+
+        /* CONTEXT */
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 28px
+        }
+
+        @media(max-width:700px) {
+            .context-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .ctx-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .ctx-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px
+        }
+
+        .ctx-icon svg {
+            width: 20px;
+            height: 20px
+        }
+
+        .ci-or {
+            background: var(--orange-l);
+            color: var(--orange)
+        }
+
+        .ci-nv {
+            background: var(--blue-l);
+            color: var(--blue)
+        }
+
+        .ci-gr {
+            background: var(--green-l);
+            color: var(--green)
+        }
+
+        .ctx-card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px
+        }
+
+        .ctx-card p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.65
+        }
+
+        /* HISTORY */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px
+        }
+
+        .hist-item {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow .15s
+        }
+
+        .hist-item:hover {
+            box-shadow: var(--shadow)
+        }
+
+        .hist-item.cur {
+            border-left: 4px solid var(--orange)
+        }
+
+        .hist-period {
+            background: var(--navy);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            flex-shrink: 0;
+            min-width: 76px
+        }
+
+        .hist-period.active {
+            background: var(--orange)
+        }
+
+        .hp-sem {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            color: rgba(255, 255, 255, .55);
+            text-transform: uppercase
+        }
+
+        .hp-year {
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1
+        }
+
+        .hp-half {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .7)
+        }
+
+        .hist-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .hist-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .hist-meta {
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .hist-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .hist-meta svg {
+            width: 13px;
+            height: 13px
+        }
+
+        .hist-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0
+        }
+
+        .hist-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--navy);
+            transition: all .15s;
+            white-space: nowrap
+        }
+
+        .hist-btn:hover {
+            background: var(--bg)
+        }
+
+        .hist-btn.primary {
+            background: var(--navy);
+            color: #fff;
+            border-color: var(--navy)
+        }
+
+        .hist-btn.primary:hover {
+            background: var(--navy-l)
+        }
+
+        .hist-btn svg {
+            width: 14px;
+            height: 14px
+        }
+
+        .cur-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            background: var(--orange-l);
+            color: var(--orange);
+            border: 1px solid #f9c4b8;
+            border-radius: 20px;
+            padding: 2px 9px;
+            flex-shrink: 0
+        }
+
+        /* ADMIN */
+        .admin-toggle-bar {
+            margin-top: 32px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .admin-toggle-bar span {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .admin-panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-top: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow)
+        }
+
+        .admin-head {
+            background: var(--navy);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .admin-head h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .admin-head h2 svg {
+            width: 18px;
+            height: 18px
+        }
+
+        .admin-body {
+            padding: 24px
+        }
+
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px
+        }
+
+        @media(max-width:700px) {
+            .admin-form-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px
+        }
+
+        .form-input,
+        .form-select {
+            height: 38px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--navy)
+        }
+
+        .form-textarea {
+            padding: 10px 12px;
+            resize: vertical;
+            min-height: 80px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--white);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%
+        }
+
+        .form-textarea:focus {
+            border-color: var(--navy)
+        }
+
+        .admin-table-wrap {
+            overflow-x: auto;
+            margin-top: 20px
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        .admin-table th {
+            padding: 9px 12px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .admin-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none
+        }
+
+        .admin-table tr:hover td {
+            background: var(--bg)
+        }
+
+        .sem-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 20px;
+            background: var(--navy);
+            color: #fff
+        }
+
+        .sem-pill.cp {
+            background: var(--orange)
+        }
+
+        .btn-del,
+        .btn-edit,
+        .btn-pin {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 7px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all .15s;
+            border: none
+        }
+
+        .btn-del {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca
+        }
+
+        .btn-del:hover {
+            background: #991b1b;
+            color: #fff
+        }
+
+        .btn-edit {
+            background: var(--blue-l);
+            color: var(--blue);
+            border: 1px solid var(--blue-b);
+            margin-right: 4px
+        }
+
+        .btn-edit:hover {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .btn-pin {
+            background: var(--orange-l);
+            color: var(--orange);
+            border: 1px solid #f9c4b8;
+            margin-right: 4px
+        }
+
+        .btn-pin:hover {
+            background: var(--orange);
+            color: #fff
+        }
+
+        .btn-del svg,
+        .btn-edit svg,
+        .btn-pin svg {
+            width: 15px;
+            height: 15px
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1
+        }
+
+        .toast svg {
+            width: 17px;
+            height: 17px
+        }
+
+        /* PW OVERLAY */
+        .pw-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 24, 81, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 998;
+            backdrop-filter: blur(4px)
+        }
+
+        .pw-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 36px;
+            width: 340px;
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .pw-box svg {
+            width: 36px;
+            height: 36px;
+            color: var(--navy);
+            margin-bottom: 12px
+        }
+
+        .pw-box h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6px
+        }
+
+        .pw-box p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 20px
+        }
+
+        .pw-box .form-input {
+            margin-bottom: 14px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-size: 16px
+        }
+
+        .pw-error {
+            font-size: 12px;
+            color: #991b1b;
+            margin-top: 8px;
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-inner">
+            <a href="index.html" class="hero-back"><i data-lucide="arrow-left" style="width:14px;height:14px"></i>Página
+                Inicial</a>
+            <div class="hero-eyebrow"><span class="hero-eyebrow-line"></span>Ministério do Trabalho e Emprego</div>
+            <h1>MTE Transparência e<br><span>Igualdade Salarial</span></h1>
+            <p class="hero-sub">Relatório de Transparência e Igualdade Salarial de Mulheres e Homens gerado pelo
+                Ministério do Trabalho e Emprego conforme Lei 14.611/2023.</p>
+            <div class="hero-meta">
+                <div class="hero-meta-item"><i data-lucide="building-2"
+                        style="width:15px;height:15px;color:var(--orange)"></i><span>CNPJ:
+                        <strong>65.020.539/0001-58</strong></span></div>
+                <div class="hero-meta-item"><i data-lucide="users"
+                        style="width:15px;height:15px;color:var(--orange)"></i><span>Trabalhadores ativos: <strong
+                            id="hero-workers">120</strong></span></div>
+                <div class="hero-meta-item"><i data-lucide="calendar"
+                        style="width:15px;height:15px;color:var(--orange)"></i><span>Último relatório: <strong
+                            id="hero-period">2º Sem. 2025</strong></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE -->
+    <div class="page">
+
+        <!-- CURRENT -->
+        <div class="sec-head" style="margin-bottom:14px">
+            <h2>Relatório Atual</h2>
+            <div class="sec-line"></div>
+            <div class="sec-tag" id="current-tag">2º Semestre 2025</div>
+        </div>
+
+        <div class="current-grid">
+            <!-- KPIs -->
+            <div class="kpi-strip">
+                <div class="kpi-strip-title"><i data-lucide="bar-chart-2"
+                        style="width:15px;height:15px;color:var(--orange)"></i>Dados do Relatório Vigente</div>
+                <div class="kpi-row">
+                    <div class="kpi hl">
+                        <div class="kpi-val" id="kpi-workers">120</div>
+                        <div class="kpi-lbl">Trabalhadores ativos em 30/06/2025</div>
+                    </div>
+                    <div class="kpi or">
+                        <div class="kpi-val" id="kpi-gap">64,9%</div>
+                        <div class="kpi-lbl">Remuneração média mensal mulheres vs. homens</div>
+                    </div>
+                    <div class="kpi">
+                        <div class="kpi-val" id="kpi-salario">69,5%</div>
+                        <div class="kpi-lbl">Salário contratual mediano mulheres vs. homens</div>
+                    </div>
+                </div>
+                <div class="breakdown-title">Composição por sexo e raça/cor</div>
+                <div class="bar-row">
+                    <div class="bar-label">Homens</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-nv" style="width:95%"></div>
+                    </div>
+                    <div class="bar-pct">95%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">Mulheres</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-or" style="width:5%"></div>
+                    </div>
+                    <div class="bar-pct">5%</div>
+                </div>
+                <div class="bar-row" style="margin-top:8px">
+                    <div class="bar-label">H. Negros</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-nv" style="width:48%"></div>
+                    </div>
+                    <div class="bar-pct">48%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">H. Não Neg.</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-bl" style="width:47%"></div>
+                    </div>
+                    <div class="bar-pct">47%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">M. Não Neg.</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-or" style="width:3%"></div>
+                    </div>
+                    <div class="bar-pct">3%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">M. Negras</div>
+                    <div class="bar-track">
+                        <div class="bar-fill bf-or2" style="width:2%"></div>
+                    </div>
+                    <div class="bar-pct">2%</div>
+                </div>
+                <div class="info-box">
+                    <i data-lucide="info" style="width:16px;height:16px;flex-shrink:0;margin-top:1px"></i>
+                    <div>O salário contratual mediano das <strong>mulheres</strong> equivale a <strong>69,5%</strong> do
+                        recebido pelos homens. A remuneração média mensal das mulheres equivale a <strong>64,9%</strong>
+                        da recebida pelos homens.</div>
+                </div>
+            </div>
+
+            <!-- PDF -->
+            <div class="pdf-card">
+                <div class="pdf-card-title"><i data-lucide="file-text"
+                        style="width:15px;height:15px;color:var(--orange)"></i>Documento Oficial</div>
+                <div class="pdf-embed-wrap" id="pdf-embed-wrap">
+                    <iframe id="pdf-embed" src="rtismh2s2005.pdf" width="100%" height="280"
+                        style="display:block;border:none" title="Relatório MTE"></iframe>
+                </div>
+                <div class="pdf-meta" id="pdf-meta">rtismh2s2005.pdf — 2º Semestre 2025</div>
+                <button class="btn btn-primary" onclick="openPDF()"><i data-lucide="eye"
+                        style="width:16px;height:16px"></i>Abrir em nova aba</button>
+                <button class="btn btn-orange" onclick="downloadPDF()"><i data-lucide="download"
+                        style="width:16px;height:16px"></i>Baixar PDF</button>
+                <div class="pdf-info">
+                    <i data-lucide="shield-check" style="width:16px;height:16px;flex-shrink:0;margin-top:1px"></i>
+                    <span>Documento oficial gerado pelo <strong>Ministério do Trabalho e Emprego</strong> via Portal
+                        Emprega Brasil, conforme Lei nº 14.611/2023.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEXT -->
+        <div class="context-grid">
+            <div class="ctx-card">
+                <div class="ctx-icon ci-or"><i data-lucide="scale" style="width:20px;height:20px"></i></div>
+                <h3>O que é o Relatório MTE?</h3>
+                <p>Documento obrigatório para empresas com 100 ou mais empregados, previsto na Lei nº 14.611/2023.
+                    Apresenta dados sobre remuneração e composição por sexo e raça/cor.</p>
+            </div>
+            <div class="ctx-card">
+                <div class="ctx-icon ci-nv"><i data-lucide="calendar-days" style="width:20px;height:20px"></i></div>
+                <h3>Periodicidade</h3>
+                <p>O relatório é publicado semestralmente pelo Ministério do Trabalho e Emprego com base nos dados do
+                    eSocial e do Portal Emprega Brasil.</p>
+            </div>
+            <div class="ctx-card">
+                <div class="ctx-icon ci-gr"><i data-lucide="eye-check" style="width:20px;height:20px"></i></div>
+                <h3>Transparência AESA</h3>
+                <p>A AESA disponibiliza este relatório a todos os colaboradores como parte do compromisso com
+                    transparência e igualdade descritos no Código de Ética e Conduta.</p>
+            </div>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <div class="sec-head">
+            <h2>Histórico de Relatórios</h2>
+            <div class="sec-line"></div>
+            <div class="sec-tag" id="hist-count">1 relatório</div>
+        </div>
+        <div class="history-list" id="history-list"></div>
+
+        <!-- ADMIN -->
+        <div class="admin-toggle-bar">
+            <button class="btn-ghost btn" onclick="requestAdmin()" style="width:auto"><i data-lucide="lock"
+                    style="width:14px;height:14px"></i>Área do Administrador</button>
+            <span>Apenas para TI</span>
+        </div>
+
+        <div class="admin-panel" id="admin-panel" style="display:none">
+            <div class="admin-head">
+                <h2><i data-lucide="settings" style="width:18px;height:18px"></i>Gerenciar Relatórios MTE</h2>
+                <button class="btn-ghost btn" style="width:auto;height:32px;padding:0 12px;font-size:12px"
+                    onclick="closeAdmin()"><i data-lucide="x" style="width:14px;height:14px"></i>Fechar</button>
+            </div>
+            <div class="admin-body">
+                <h3
+                    style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:7px">
+                    <i data-lucide="plus" style="width:16px;height:16px"></i>Adicionar / Editar Relatório
+                </h3>
+                <div class="admin-form-grid">
+                    <div class="form-group"><label class="form-label">Período</label><select class="form-select"
+                            id="f-sem">
+                            <option>1º Semestre</option>
+                            <option selected>2º Semestre</option>
+                        </select></div>
+                    <div class="form-group"><label class="form-label">Ano</label><input class="form-input" id="f-year"
+                            type="number" value="2025" min="2020" max="2099" /></div>
+                    <div class="form-group"><label class="form-label">Nº de Trabalhadores</label><input
+                            class="form-input" id="f-workers" type="number" placeholder="Ex: 120" /></div>
+                </div>
+                <div class="admin-form-grid">
+                    <div class="form-group"><label class="form-label">Link do PDF</label><input class="form-input"
+                            id="f-url" type="url" placeholder="Ex: rtismh2s2025.pdf" /></div>
+                    <div class="form-group"><label class="form-label">% Remuneração Média Mulheres</label><input
+                            class="form-input" id="f-gap" type="text" placeholder="Ex: 64,9%" /></div>
+                    <div class="form-group"><label class="form-label">% Salário Mediano Mulheres</label><input
+                            class="form-input" id="f-salario" type="text" placeholder="Ex: 69,5%" /></div>
+                    <div class="form-group"><label class="form-label">% Mulheres no quadro</label><input
+                            class="form-input" id="f-women" type="text" placeholder="Ex: 5,0%" /></div>
+                </div>
+                <div class="form-group" style="margin-bottom:16px"><label class="form-label">Observação
+                        (opcional)</label><textarea class="form-textarea" id="f-obs"
+                        placeholder="Ex: Fonte: eSocial. Referência: 30/06/2025"></textarea></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button class="btn btn-primary" onclick="saveRelatorio()" id="btn-save"
+                        style="width:auto;padding:10px 20px"><i data-lucide="check"
+                            style="width:16px;height:16px"></i>Salvar Relatório</button>
+                    <button class="btn btn-ghost" onclick="cancelEdit()" id="btn-cancel" style="display:none"><i
+                            data-lucide="x" style="width:14px;height:14px"></i>Cancelar</button>
+                </div>
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Período</th>
+                                <th>Trabalhadores</th>
+                                <th>% Mulheres</th>
+                                <th>% Sal. Mulheres</th>
+                                <th>PDF</th>
+                                <th style="width:110px">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PW OVERLAY -->
+    <div class="pw-overlay" id="pw-overlay" style="display:none">
+        <div class="pw-box">
+            <i data-lucide="lock"
+                style="width:36px;height:36px;color:var(--navy);margin-bottom:12px;display:block;margin-left:auto;margin-right:auto"></i>
+            <h3>Área Restrita</h3>
+            <p>Digite a senha de administrador para continuar.</p>
+            <input class="form-input" id="pw-input" type="password" placeholder="••••••"
+                onkeydown="if(event.key==='Enter')checkPw()" />
+            <button class="btn btn-primary" style="width:100%" onclick="checkPw()">Entrar</button>
+            <p class="pw-error" id="pw-error">Senha incorreta. Tente novamente.</p>
+            <button class="btn-ghost btn" style="width:100%;margin-top:10px" onclick="closePw()">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i data-lucide="check" style="width:17px;height:17px"></i><span id="toast-msg"></span>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'aesa2025';
+        let DATA = {
+            current: 0,
+            relatorios: [{
+                sem: '2º Semestre', year: 2025, workers: 120,
+                gap: '64,9%', salario: '69,5%', women: '5,0%',
+                url: 'rtismh2s2005.pdf',
+                obs: 'Fonte: eSocial. RAIS Mensal Junho de 2025 e Portal Emprega Brasil — Agosto de 2025. Ref: 30/06/2025.'
+            }]
+        };
+
+        function save() { localStorage.setItem('aesa_mte', JSON.stringify(DATA)); }
+        function load() { const s = localStorage.getItem('aesa_mte'); if (s) DATA = JSON.parse(s); }
+
+        function renderPublic() {
+            const cur = DATA.relatorios[DATA.current] || DATA.relatorios[0];
+            if (!cur) return;
+            const label = cur.sem + ' ' + cur.year;
+            document.getElementById('hero-workers').textContent = cur.workers || '—';
+            document.getElementById('hero-period').textContent = cur.sem.replace('º Semestre', 'S') + ' ' + cur.year;
+            document.getElementById('current-tag').textContent = label;
+            document.getElementById('kpi-workers').textContent = cur.workers || '—';
+            document.getElementById('kpi-gap').textContent = cur.gap || '—';
+            document.getElementById('kpi-salario').textContent = cur.salario || '—';
+            const embed = document.getElementById('pdf-embed');
+            const wrap = document.getElementById('pdf-embed-wrap');
+            if (cur.url) { embed.src = cur.url; wrap.style.display = 'block'; document.getElementById('pdf-meta').textContent = cur.url.split('/').pop() + ' — ' + label; }
+            else { wrap.style.display = 'none'; document.getElementById('pdf-meta').textContent = 'Arquivo não configurado'; }
+            renderHistory();
+        }
+
+        function renderHistory() {
+            document.getElementById('hist-count').textContent = DATA.relatorios.length + ' relatório' + (DATA.relatorios.length !== 1 ? 's' : '');
+            document.getElementById('history-list').innerHTML = DATA.relatorios.map((r, i) => {
+                const isCur = i === DATA.current;
+                return `<div class="hist-item${isCur ? ' cur' : ''}">
+      <div class="hist-period${isCur ? ' active' : ''}">
+        <div class="hp-sem">Relatório</div>
+        <div class="hp-year">${r.year}</div>
+        <div class="hp-half">${r.sem.replace(' Semestre', 'S')}</div>
+      </div>
+      <div class="hist-info">
+        <div class="hist-title">Transparência e Igualdade Salarial — ${r.sem} ${r.year}</div>
+        <div class="hist-meta">
+          ${r.workers ? `<span><i data-lucide="users" style="width:13px;height:13px"></i>${r.workers} trabalhadores</span>` : ''}
+          ${r.gap ? `<span><i data-lucide="bar-chart-2" style="width:13px;height:13px"></i>${r.gap} remuneração mulheres vs. homens</span>` : ''}
+          ${r.obs ? `<span><i data-lucide="info" style="width:13px;height:13px"></i>${r.obs}</span>` : ''}
+        </div>
+      </div>
+      ${isCur ? '<span class="cur-badge">Atual</span>' : ''}
+      <div class="hist-actions">
+        ${!isCur ? `<button class="hist-btn" onclick="setCurrent(${i})"><i data-lucide="pin" style="width:14px;height:14px"></i>Definir atual</button>` : ''}
+        ${r.url ? `<button class="hist-btn primary" onclick="openPDFIdx(${i})"><i data-lucide="eye" style="width:14px;height:14px"></i>Ver PDF</button>` : '<span style="font-size:11px;color:var(--muted)">Sem PDF</span>'}
+      </div>
+    </div>`;
+            }).join('') || '<div style="text-align:center;padding:32px;color:var(--muted)">Nenhum relatório cadastrado.</div>';
+            lucide.createIcons();
+        }
+
+        function openPDF() { const cur = DATA.relatorios[DATA.current]; if (!cur || !cur.url) { toast('Nenhum PDF configurado.', true); return; } window.open(cur.url, '_blank'); }
+        function openPDFIdx(i) { const r = DATA.relatorios[i]; if (!r || !r.url) { toast('Nenhum PDF configurado.', true); return; } window.open(r.url, '_blank'); }
+        function downloadPDF() { const cur = DATA.relatorios[DATA.current]; if (!cur || !cur.url) { toast('Nenhum PDF configurado.', true); return; } const a = document.createElement('a'); a.href = cur.url; a.download = 'relatorio_mte_' + cur.sem.replace('º ', '') + '_' + cur.year + '.pdf'; a.click(); }
+        function setCurrent(i) { DATA.current = i; save(); renderPublic(); toast('Relatório ' + DATA.relatorios[i].sem + ' ' + DATA.relatorios[i].year + ' definido como atual!'); }
+
+        let editIndex = null;
+        function requestAdmin() { document.getElementById('pw-overlay').style.display = 'flex'; setTimeout(() => document.getElementById('pw-input').focus(), 100); }
+        function closePw() { document.getElementById('pw-overlay').style.display = 'none'; document.getElementById('pw-input').value = ''; document.getElementById('pw-error').style.display = 'none'; }
+        function checkPw() { if (document.getElementById('pw-input').value === ADMIN_PASSWORD) { closePw(); openAdmin(); } else { document.getElementById('pw-error').style.display = 'block'; document.getElementById('pw-input').value = ''; document.getElementById('pw-input').focus(); } }
+        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; document.getElementById('admin-panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); renderAdminTable(); }
+        function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; cancelEdit(); }
+
+        function renderAdminTable() {
+            document.getElementById('admin-tbody').innerHTML = DATA.relatorios.map((r, i) =>
+                `<tr>
+      <td><span class="sem-pill${i === DATA.current ? ' cp' : ''}">${r.sem} ${r.year}</span></td>
+      <td>${r.workers || '—'}</td><td>${r.women || '—'}</td><td>${r.gap || '—'}</td>
+      <td>${r.url ? `<a href="${r.url}" target="_blank" style="color:var(--orange);font-size:12px;display:flex;align-items:center;gap:4px"><i data-lucide="external-link" style="width:13px;height:13px"></i>Abrir</a>` : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>
+        ${i !== DATA.current ? `<button class="btn-pin" onclick="setCurrent(${i})" title="Definir atual"><i data-lucide="pin" style="width:15px;height:15px"></i></button>` : ''}
+        <button class="btn-edit" onclick="startEdit(${i})" title="Editar"><i data-lucide="pencil" style="width:15px;height:15px"></i></button>
+        <button class="btn-del"  onclick="deleteRelatorio(${i})" title="Excluir"><i data-lucide="trash-2" style="width:15px;height:15px"></i></button>
+      </td>
+    </tr>`
+            ).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px">Nenhum relatório.</td></tr>';
+            lucide.createIcons();
+        }
+
+        function saveRelatorio() {
+            const sem = document.getElementById('f-sem').value, year = parseInt(document.getElementById('f-year').value), workers = parseInt(document.getElementById('f-workers').value) || 0, url = document.getElementById('f-url').value.trim(), gap = document.getElementById('f-gap').value.trim(), salario = document.getElementById('f-salario').value.trim(), women = document.getElementById('f-women').value.trim(), obs = document.getElementById('f-obs').value.trim();
+            if (!sem || !year) { toast('Preencha o período e o ano.', true); return; }
+            const obj = { sem, year, workers, url, gap, salario, women, obs };
+            if (editIndex !== null) { DATA.relatorios[editIndex] = obj; toast('Relatório atualizado!'); cancelEdit(); } else { DATA.relatorios.unshift(obj); DATA.current = 0; toast('Relatório adicionado!'); clearForm(); }
+            save(); renderPublic(); renderAdminTable();
+        }
+        function startEdit(i) { const r = DATA.relatorios[i]; document.getElementById('f-sem').value = r.sem; document.getElementById('f-year').value = r.year; document.getElementById('f-workers').value = r.workers; document.getElementById('f-url').value = r.url || ''; document.getElementById('f-gap').value = r.gap || ''; document.getElementById('f-salario').value = r.salario || ''; document.getElementById('f-women').value = r.women || ''; document.getElementById('f-obs').value = r.obs || ''; editIndex = i; document.getElementById('btn-save').innerHTML = '<i data-lucide="check" style="width:16px;height:16px"></i>Atualizar'; document.getElementById('btn-cancel').style.display = 'flex'; lucide.createIcons(); document.querySelector('.admin-body').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        function cancelEdit() { editIndex = null; clearForm(); document.getElementById('btn-save').innerHTML = '<i data-lucide="check" style="width:16px;height:16px"></i>Salvar Relatório'; document.getElementById('btn-cancel').style.display = 'none'; lucide.createIcons(); }
+        function clearForm() { ['f-workers', 'f-url', 'f-gap', 'f-salario', 'f-women', 'f-obs'].forEach(id => document.getElementById(id).value = ''); document.getElementById('f-sem').selectedIndex = 1; document.getElementById('f-year').value = new Date().getFullYear(); }
+        function deleteRelatorio(i) { if (DATA.relatorios.length === 1) { toast('Não é possível remover o único relatório.', true); return; } if (!confirm('Remover relatório ' + DATA.relatorios[i].sem + ' ' + DATA.relatorios[i].year + '?')) return; DATA.relatorios.splice(i, 1); if (DATA.current >= DATA.relatorios.length) DATA.current = 0; save(); renderPublic(); renderAdminTable(); toast('Relatório removido.'); }
+
+        let toastTimer;
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+        }
+
+        // Embed mode
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            document.body.style.fontSize = '13px';
+        }
+
+        load();
+        renderPublic();
+        lucide.createIcons();
+    </script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

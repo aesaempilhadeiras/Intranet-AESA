@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — TI Suporte</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <script src="auth.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --navy-xl: #1a3a8f;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --red: #991b1b;
+            --red-l: #fef2f2;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --bg-h: #e5e8ef;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 20px rgba(6, 24, 81, .11);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+            height: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* ---- SHELL ---- */
+        .shell {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ---- SIDEBAR ---- */
+        .sidebar {
+            width: 220px;
+            min-width: 220px;
+            background: var(--navy);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, .1) transparent;
+        }
+
+        .sidebar-header {
+            padding: 18px 16px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            background: var(--orange);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(231, 59, 27, .4);
+        }
+
+        .logo-text {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .logo-text span {
+            display: block;
+            color: rgba(255, 255, 255, .4);
+            font-size: 10px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            padding: 16px 0 6px;
+        }
+
+        .nav-label {
+            padding: 0 14px 5px;
+            font-size: 10px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            color: rgba(255, 255, 255, .6);
+            cursor: pointer;
+            transition: all .15s;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, .06);
+            color: #fff;
+            border-left-color: rgba(255, 255, 255, .2);
+        }
+
+        .nav-item.active {
+            background: rgba(231, 59, 27, .2);
+            color: #fff;
+            border-left-color: var(--orange);
+        }
+
+        .nav-item i {
+            font-size: 16px;
+            width: 18px;
+            flex-shrink: 0;
+        }
+
+        .nav-item .nav-badge {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 700;
+            background: var(--orange);
+            color: #fff;
+            border-radius: 10px;
+            padding: 1px 7px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 12px 14px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            flex-shrink: 0;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 8px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            color: rgba(255, 255, 255, .8);
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .user-info span {
+            display: block;
+            color: rgba(255, 255, 255, .4);
+            font-size: 10px;
+        }
+
+        .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 7px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .06);
+            color: rgba(255, 255, 255, .55);
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(231, 59, 27, .25);
+            color: #fff;
+            border-color: rgba(231, 59, 27, .4);
+        }
+
+        /* ---- MAIN ---- */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            height: 54px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .topbar-left h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .topbar-left p {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topbar-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .topbar-btn:hover {
+            background: var(--bg);
+            color: var(--navy);
+        }
+
+        .topbar-btn i {
+            font-size: 17px;
+        }
+
+        /* CONTENT */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px 24px 40px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        /* SECTIONS (tabs) */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* SECTION HEADER */
+        .sec-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sec-head-left h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .sec-head-left p {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* BTN */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-h);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        .btn-danger {
+            background: var(--red-l);
+            color: var(--red);
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 5px 11px;
+            font-size: 12px;
+        }
+
+        .btn-sm i {
+            font-size: 13px;
+        }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        @media(max-width:900px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon i {
+            font-size: 21px;
+        }
+
+        .si-navy {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .si-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .si-green {
+            background: var(--green-l);
+            color: var(--green);
+        }
+
+        .si-red {
+            background: var(--red-l);
+            color: var(--red);
+        }
+
+        .si-blue {
+            background: var(--blue-l);
+            color: var(--blue);
+        }
+
+        .si-amber {
+            background: var(--amber-l);
+            color: var(--amber);
+        }
+
+        .stat-val {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* TABLE */
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-toolbar {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 10px 0 33px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .search-input:focus {
+            border-color: var(--navy);
+            background: #fff;
+        }
+
+        .filter-sel {
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: #fafbfc;
+        }
+
+        .table-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        .table-empty i {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+            opacity: .4;
+        }
+
+        /* STATUS PILLS */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .pill-green {
+            background: var(--green-l);
+            color: var(--green);
+            border: 1px solid #a7f3d0;
+        }
+
+        .pill-red {
+            background: var(--red-l);
+            color: var(--red);
+            border: 1px solid #fecaca;
+        }
+
+        .pill-amber {
+            background: var(--amber-l);
+            color: var(--amber);
+            border: 1px solid #f0d080;
+        }
+
+        .pill-blue {
+            background: var(--blue-l);
+            color: var(--blue);
+            border: 1px solid #bfdbfe;
+        }
+
+        .pill-navy {
+            background: #eff6ff;
+            color: var(--navy);
+            border: 1px solid #bfdbfe;
+        }
+
+        .pill i {
+            font-size: 10px;
+        }
+
+        /* AVATAR */
+        .user-row-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--navy);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ACTION BTNS */
+        .act-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .act-btn:hover {
+            background: var(--bg);
+        }
+
+        .act-btn.edit:hover {
+            background: var(--blue-l);
+            color: var(--blue);
+            border-color: #bfdbfe;
+        }
+
+        .act-btn.reset:hover {
+            background: var(--amber-l);
+            color: var(--amber);
+            border-color: #f0d080;
+        }
+
+        .act-btn.deact:hover {
+            background: var(--red-l);
+            color: var(--red);
+            border-color: #fecaca;
+        }
+
+        .act-btn.activ:hover {
+            background: var(--green-l);
+            color: var(--green);
+            border-color: #a7f3d0;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 24, 81, .55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            backdrop-filter: blur(4px);
+            padding: 20px;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(6, 24, 81, .2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--navy);
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-header h3 i {
+            font-size: 17px;
+            color: var(--orange);
+        }
+
+        .modal-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: transparent;
+            color: rgba(255, 255, 255, .6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+        }
+
+        .modal-close i {
+            font-size: 16px;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-footer {
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* FORM */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        @media(max-width:500px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .form-input,
+        .form-select {
+            height: 38px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color .15s;
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--navy);
+            background: #fff;
+        }
+
+        .form-hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* ALERT BOX */
+        .alert {
+            border-radius: 9px;
+            padding: 12px 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .alert i {
+            font-size: 17px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .alert-warning {
+            background: var(--amber-l);
+            border: 1px solid #f0d080;
+            color: #78350f;
+        }
+
+        .alert-warning i {
+            color: var(--amber);
+        }
+
+        .alert-danger {
+            background: var(--red-l);
+            border: 1px solid #fecaca;
+            color: var(--red);
+        }
+
+        .alert-danger i {
+            color: var(--red);
+        }
+
+        .alert-info {
+            background: var(--blue-l);
+            border: 1px solid #bfdbfe;
+            color: #1e3a6e;
+        }
+
+        .alert-info i {
+            color: var(--blue);
+        }
+
+        .alert-success {
+            background: var(--green-l);
+            border: 1px solid #a7f3d0;
+            color: var(--green);
+        }
+
+        .alert-success i {
+            color: var(--green);
+        }
+
+        /* PROGRAMS GRID */
+        .prog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .prog-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow .15s;
+        }
+
+        .prog-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .prog-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .prog-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .prog-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .prog-ver {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .prog-desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .prog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .prog-status {
+            font-size: 11px;
+        }
+
+        /* LOADING */
+        .loading-row td {
+            text-align: center;
+            padding: 32px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .spinner-sm {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--navy);
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            margin-right: 7px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            font-size: 16px;
+        }
+
+        /* LOG */
+        .log-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .log-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .log-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .log-text {
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .log-time {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        @media(max-width:700px) {
+            .shell {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-mark">AE</div>
+                <div class="logo-text">AESA Empilhadeiras<span>TI — Suporte</span></div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-label">Painel TI</div>
+                <div class="nav-item active" onclick="showSection('usuarios', this)"><i
+                        class="ti ti-users"></i>Usuários<span class="nav-badge" id="badge-total">–</span></div>
+                <div class="nav-item" onclick="showSection('programas', this)"><i class="ti ti-apps"></i>Programas</div>
+                <div class="nav-item" onclick="showSection('acesso', this)"><i class="ti ti-shield-lock"></i>Acesso TI
+                </div>
+                <div class="nav-item" onclick="showSection('chamados', this)"><i class="ti ti-ticket"></i>Chamados<span
+                        class="nav-badge" id="badge-chamados">–</span></div>
+                <div class="nav-item" onclick="showSection('log', this)"><i class="ti ti-clipboard-list"></i>Log de
+                    Ações</div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-label">Intranet</div>
+                <a class="nav-item" href="index.html"><i class="ti ti-home-2"></i>Página Inicial</a>
+                <a class="nav-item" href="ramais.html"><i class="ti ti-phone"></i>Ramais</a>
+                <a class="nav-item" href="emails.html"><i class="ti ti-mail"></i>E-mails</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-chip">
+                    <div class="user-avatar" id="user-iniciais">TI</div>
+                    <div class="user-info"><span id="user-nome">Carregando...</span><span id="user-setor">TI</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()"><i class="ti ti-logout"
+                        style="font-size:14px"></i>Sair</button>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN ===== -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 id="topbar-title">Usuários da Intranet</h1>
+                    <p id="topbar-sub">Gerencie acessos e perfis dos colaboradores</p>
+                </div>
+                <div class="topbar-right">
+                    <button class="topbar-btn" onclick="recarregarUsuarios()" title="Atualizar"><i
+                            class="ti ti-refresh"></i></button>
+                    <button class="topbar-btn" onclick="showSection('log', document.querySelector('[onclick*=log]'))"
+                        title="Log"><i class="ti ti-clipboard-list"></i></button>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="content">
+
+                <!-- ============ SEÇÃO: USUÁRIOS ============ -->
+                <div class="section active" id="sec-usuarios">
+
+                    <!-- STATS -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-icon si-navy"><i class="ti ti-users"></i></div>
+                            <div>
+                                <div class="stat-val" id="stat-total">–</div>
+                                <div class="stat-lbl">Total de usuários</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-green"><i class="ti ti-user-check"></i></div>
+                            <div>
+                                <div class="stat-val" id="stat-ativos">–</div>
+                                <div class="stat-lbl">Contas ativas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-red"><i class="ti ti-user-off"></i></div>
+                            <div>
+                                <div class="stat-val" id="stat-inativos">–</div>
+                                <div class="stat-lbl">Contas inativas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-orange"><i class="ti ti-shield-lock"></i></div>
+                            <div>
+                                <div class="stat-val" id="stat-admins">–</div>
+                                <div class="stat-lbl">Perfil TI</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOOLBAR + TABLE -->
+                    <div class="table-wrap">
+                        <div class="table-toolbar">
+                            <div class="search-wrap">
+                                <i class="ti ti-search"></i>
+                                <input class="search-input" id="user-search" type="text"
+                                    placeholder="Buscar por nome, e-mail ou departamento..."
+                                    oninput="filtrarUsuarios()" />
+                            </div>
+                            <select class="filter-sel" id="user-filter-status" onchange="filtrarUsuarios()">
+                                <option value="todos">Todos os status</option>
+                                <option value="ativo">Somente ativos</option>
+                                <option value="inativo">Somente inativos</option>
+                            </select>
+                            <select class="filter-sel" id="user-filter-perfil" onchange="filtrarUsuarios()">
+                                <option value="todos">Todos os perfis</option>
+                                <option value="TI">TI</option>
+                                <option value="COLABORADOR">Colaborador</option>
+                            </select>
+                        </div>
+                        <div id="listaUsuarios" style="padding:12px">
+                            <div style="text-align:center;padding:32px;color:var(--muted)">
+                                <span class="spinner-sm"></span> Carregando usuários...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ SEÇÃO: PROGRAMAS ============ -->
+                <div class="section" id="sec-programas">
+                    <div class="sec-head">
+                        <div class="sec-head-left">
+                            <h2>Programas e Sistemas</h2>
+                            <p>Sistemas utilizados pela AESA Empilhadeiras</p>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="abrirModalPrograma()"><i
+                                class="ti ti-plus"></i>Adicionar</button>
+                    </div>
+                    <div class="prog-grid" id="prog-grid"><!-- JS --></div>
+                </div>
+
+                <!-- ============ SEÇÃO: ACESSO TI ============ -->
+                <div class="section" id="sec-acesso">
+                    <div class="sec-head">
+                        <div class="sec-head-left">
+                            <h2>Controle de Acesso — Painel TI</h2>
+                            <p>Usuários autorizados a acessar esta área</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);max-width:600px">
+
+                        <div class="alert alert-info" style="margin-bottom:18px">
+                            <i class="ti ti-info-circle"></i>
+                            <div>Adicione os <strong>sAMAccountName</strong> (usuário de rede) das pessoas que podem
+                                acessar o painel TI. O servidor valida esta lista a cada requisição. Após salvar,
+                                reinicie o <code>server.js</code> para persistir permanentemente.</div>
+                        </div>
+
+                        <div id="acesso-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+                            <!-- renderizado por JS -->
+                        </div>
+
+                        <div style="display:flex;gap:10px;align-items:flex-end">
+                            <div class="form-group" style="flex:1;margin-bottom:0">
+                                <label class="form-label">Adicionar usuário</label>
+                                <input class="form-input" id="f-acesso-novo" type="text" placeholder="Ex: joao.silva"
+                                    onkeydown="if(event.key==='Enter')adicionarAcessoTI()" />
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="adicionarAcessoTI()" style="height:38px"><i
+                                    class="ti ti-plus"></i>Adicionar</button>
+                        </div>
+
+                        <div
+                            style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
+                            <button class="btn btn-orange btn-sm" onclick="salvarListaAcessoTI()"><i
+                                    class="ti ti-device-floppy"></i>Salvar no Servidor</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ SEÇÃO: CHAMADOS ============ -->
+                <div class="section" id="sec-chamados">
+                    <div class="sec-head">
+                        <div class="sec-head-left">
+                            <h2>Chamados TI</h2>
+                            <p>Fila de chamados abertos pelos colaboradores</p>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="carregarChamados()"><i
+                                class="ti ti-refresh"></i>Atualizar</button>
+                    </div>
+                    <div class="stats-row" style="margin-bottom:18px">
+                        <div class="stat-card">
+                            <div class="stat-icon si-navy"><i class="ti ti-ticket"></i></div>
+                            <div>
+                                <div class="stat-val" id="ch-total">–</div>
+                                <div class="stat-lbl">Total</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-blue"><i class="ti ti-ticket"></i></div>
+                            <div>
+                                <div class="stat-val" id="ch-abertos">–</div>
+                                <div class="stat-lbl">Abertos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-amber"><i class="ti ti-loader"></i></div>
+                            <div>
+                                <div class="stat-val" id="ch-andamento">–</div>
+                                <div class="stat-lbl">Em andamento</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon si-red"><i class="ti ti-alert-triangle"></i></div>
+                            <div>
+                                <div class="stat-val" id="ch-urgentes">–</div>
+                                <div class="stat-lbl">Urgentes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <div class="table-toolbar">
+                            <div class="search-wrap">
+                                <i class="ti ti-search"></i>
+                                <input class="search-input" id="ch-search" type="text"
+                                    placeholder="Buscar por nome, setor, assunto..." oninput="filtrarChamados()" />
+                            </div>
+                            <select class="filter-sel" id="ch-filter-status" onchange="filtrarChamados()">
+                                <option value="todos">Todos os status</option>
+                                <option value="Aberto">Aberto</option>
+                                <option value="Em andamento">Em andamento</option>
+                                <option value="Aguardando usuário">Aguardando usuário</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                            <select class="filter-sel" id="ch-filter-prio" onchange="filtrarChamados()">
+                                <option value="todos">Todas as prioridades</option>
+                                <option value="Urgente">Urgente</option>
+                                <option value="Atenção">Atenção</option>
+                                <option value="Baixa">Baixa</option>
+                            </select>
+                            <select class="filter-sel" id="ch-filter-cat" onchange="filtrarChamados()">
+                                <option value="todos">Todas as categorias</option>
+                                <option value="Hardware">Hardware</option>
+                                <option value="Software">Software</option>
+                                <option value="Rede">Rede</option>
+                                <option value="Acesso / Senha">Acesso / Senha</option>
+                                <option value="E-mail">E-mail</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div id="ch-lista" style="padding:12px">
+                            <div style="text-align:center;padding:32px;color:var(--muted)"><span
+                                    class="spinner-sm"></span> Carregando...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ SEÇÃO: LOG ============ -->
+                <div class="section" id="sec-log">
+                    <div class="sec-head">
+                        <div class="sec-head-left">
+                            <h2>Log de Ações</h2>
+                            <p>Histórico das operações realizadas pelo TI</p>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="limparLog()"><i class="ti ti-trash"></i>Limpar
+                            log</button>
+                    </div>
+                    <div class="log-list" id="log-list">
+                        <div style="text-align:center;padding:40px;color:var(--muted)"><i class="ti ti-clipboard-list"
+                                style="font-size:36px;display:block;margin-bottom:8px;opacity:.3"></i>Nenhuma ação
+                            registrada ainda.</div>
+                    </div>
+                </div>
+
+            </div><!-- /content -->
+        </div><!-- /main -->
+    </div><!-- /shell -->
+
+    <!-- ===== MODAL: EDITAR USUÁRIO ===== -->
+    <div class="modal-overlay" id="modal-usuario" style="display:none">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="ti ti-user-edit"></i><span id="modal-user-title">Editar Usuário</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-usuario')"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nome</label>
+                    <input class="form-input" id="f-u-nome" type="text" placeholder="Nome completo" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-mail Corporativo</label>
+                    <input class="form-input" id="f-u-email-corp" type="email"
+                        placeholder="nome@aesaempilhadeiras.com.br" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Departamento</label>
+                    <input class="form-input" id="f-u-depto" type="text" placeholder="Ex: COMERCIAL" />
+                </div>
+                <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Perfil de Acesso</label>
+                    <div style="display:flex;gap:12px;margin-top:6px">
+                        <label
+                            style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--border);border-radius:9px;flex:1;transition:all .15s">
+                            <input type="checkbox" id="chk-TI"
+                                style="width:16px;height:16px;accent-color:var(--orange)">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--navy)">TI</div>
+                                <div style="font-size:11px;color:var(--muted)">Acesso ao painel TI</div>
+                            </div>
+                        </label>
+                        <label
+                            style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--border);border-radius:9px;flex:1;transition:all .15s">
+                            <input type="checkbox" id="chk-COLABORADOR"
+                                style="width:16px;height:16px;accent-color:var(--navy)">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--navy)">Colaborador</div>
+                                <div style="font-size:11px;color:var(--muted)">Acesso à intranet</div>
+                            </div>
+                        </label>
+                        <label
+                            style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:10px 16px;border:1.5px solid var(--border);border-radius:9px;flex:1;transition:all .15s">
+                            <input type="checkbox" id="chk-RH" style="width:16px;height:16px;accent-color:#065f46">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--navy)">RH</div>
+                                <div style="font-size:11px;color:var(--muted)">Gestão do calendário</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-usuario')">Cancelar</button>
+                <button class="btn btn-primary btn-sm" onclick="salvarUsuario()"><i
+                        class="ti ti-check"></i>Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL: PROGRAMA ===== -->
+    <div class="modal-overlay" id="modal-programa" style="display:none">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="ti ti-apps"></i><span id="modal-prog-title">Novo Programa</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-programa')"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Nome do Programa</label><input class="form-input"
+                        id="f-p-nome" placeholder="Ex: Protheus" /></div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label class="form-label">Versão</label><input class="form-input"
+                            id="f-p-ver" placeholder="Ex: 12.1.27" /></div>
+                    <div class="form-group"><label class="form-label">Categoria</label>
+                        <select class="form-select" id="f-p-cat">
+                            <option>ERP / Gestão</option>
+                            <option>Comunicação</option>
+                            <option>Segurança</option>
+                            <option>Produtividade</option>
+                            <option>Infraestrutura</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"><label class="form-label">Descrição</label><input class="form-input"
+                        id="f-p-desc" placeholder="Breve descrição do sistema" /></div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label class="form-label">URL / Acesso</label><input class="form-input"
+                            id="f-p-url" placeholder="http://... ou caminho" /></div>
+                    <div class="form-group"><label class="form-label">Status</label>
+                        <select class="form-select" id="f-p-status">
+                            <option value="ativo">Ativo</option>
+                            <option value="manutencao">Em manutenção</option>
+                            <option value="inativo">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-programa')">Cancelar</button>
+                <button class="btn btn-primary btn-sm" onclick="salvarPrograma()"><i
+                        class="ti ti-check"></i>Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+
+    <script>
+        // ================================================================
+        //  CONFIG
+        // ================================================================
+        const API = 'http://10.1.1.54:3001';
+
+        // ================================================================
+        //  SUPABASE — mesmo padrão do reembolso
+        // ================================================================
+        async function supabase(metodo, tabela, params, body) {
+            const res = await fetch(API + '/db', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ metodo, tabela, params, body }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.mensagem || `Erro ${res.status} — tabela: ${tabela}`);
+            return data;
+        }
+
+        // ================================================================
+        //  SENHA DE ACESSO — Painel TI
+        //  Altere a senha abaixo para proteger o acesso
+        // ================================================================
+        const TI_SENHA = 'aesa@ti2025';
+
+        (function () {
+            // Sem sessão de intranet → vai pro login
+            const u = getUsuario();
+            if (!u || !u.nome) { window.location.replace('login.html'); return; }
+
+            // Verifica se já autenticou no TI nesta sessão
+            if (sessionStorage.getItem('ti_auth') === '1') return;
+
+            // Mostra tela de senha
+            document.body.style.display = 'none';
+
+            const overlay = document.createElement('div');
+            overlay.id = 'ti-auth-overlay';
+            overlay.innerHTML = `
+    <div style="position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:9999;font-family:'DM Sans',sans-serif">
+      <div style="background:#fff;border-radius:16px;padding:36px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
+        <div style="width:56px;height:56px;background:#E73B1B;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 4px 14px rgba(231,59,27,.4)">
+          <i class="ti ti-shield-lock" style="font-size:28px;color:#fff"></i>
+        </div>
+        <h2 style="font-size:18px;font-weight:700;color:#061851;margin-bottom:6px">Painel TI</h2>
+        <p style="font-size:13px;color:#6b7280;margin-bottom:24px">Digite a senha de acesso para continuar</p>
+        <div style="position:relative;margin-bottom:12px">
+          <input id="ti-pw-input" type="password" placeholder="••••••••"
+            style="width:100%;height:44px;padding:0 44px 0 16px;border:1.5px solid #e2e6ea;border-radius:10px;font-size:15px;letter-spacing:3px;outline:none;font-family:'DM Sans',sans-serif;text-align:center;transition:border-color .15s"
+            onkeydown="if(event.key==='Enter')document.getElementById('ti-pw-btn').click()"
+            onfocus="this.style.borderColor='#061851'"
+            onblur="this.style.borderColor='#e2e6ea'" />
+        </div>
+        <div id="ti-pw-erro" style="display:none;font-size:12px;color:#991b1b;margin-bottom:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px">
+          Senha incorreta. Tente novamente.
+        </div>
+        <button id="ti-pw-btn" onclick="verificarSenhaTI()"
+          style="width:100%;height:44px;background:#061851;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s"
+          onmouseover="this.style.background='#0d2570'"
+          onmouseout="this.style.background='#061851'">
+          Entrar no Painel TI
+        </button>
+        <a href="index.html" style="display:block;margin-top:14px;font-size:12px;color:#6b7280;text-decoration:none">← Voltar à Intranet</a>
+      </div>
+    </div>`;
+            document.body.appendChild(overlay);
+            document.body.style.display = '';
+            setTimeout(() => document.getElementById('ti-pw-input')?.focus(), 100);
+        })();
+
+        function verificarSenhaTI() {
+            const val = document.getElementById('ti-pw-input').value;
+            const erro = document.getElementById('ti-pw-erro');
+            if (val === TI_SENHA) {
+                sessionStorage.setItem('ti_auth', '1');
+                document.getElementById('ti-auth-overlay').remove();
+                carregarUsuarios();
+            } else {
+                erro.style.display = 'block';
+                document.getElementById('ti-pw-input').value = '';
+                document.getElementById('ti-pw-input').focus();
+                // Shake animation
+                const input = document.getElementById('ti-pw-input');
+                input.style.borderColor = '#991b1b';
+                setTimeout(() => input.style.borderColor = '#e2e6ea', 1000);
+            }
+        }
+
+        // ================================================================
+        //  STATE
+        // ================================================================
+        let editProgIdx = null;
+
+        let LOG = JSON.parse(localStorage.getItem('aesa_ti_log') || '[]');
+        // Clear old program data if it uses legacy iconSVG format
+        (function () {
+            const old = localStorage.getItem('aesa_ti_progs');
+            if (old && old.includes('iconSVG')) localStorage.removeItem('aesa_ti_progs');
+        })();
+        let PROGRAMAS = JSON.parse(localStorage.getItem('aesa_ti_progs') || 'null') || [
+            { nome: 'Protheus', ver: '12.1.27', cat: 'ERP / Gestão', desc: 'Sistema ERP TOTVS — gestão financeira, estoque e RH.', url: 'http://10.1.1.54:8080', status: 'ativo' },
+            { nome: 'Slack', ver: '–', cat: 'Comunicação', desc: 'Comunicação interna entre equipes.', url: 'https://aesaempilhadeiras.slack.com', status: 'ativo' },
+            { nome: 'D4Sign', ver: '–', cat: 'Produtividade', desc: 'Assinatura eletrônica de documentos.', url: 'https://app.d4sign.com.br', status: 'ativo' },
+            { nome: 'CheckList (AESA)', ver: '1.0', cat: 'Infraestrutura', desc: 'Gerador de checklists de equipamentos.', url: 'http://10.1.1.54:3001', status: 'ativo' },
+            { nome: 'Intranet', ver: '2.0', cat: 'Infraestrutura', desc: 'Portal interno da AESA Empilhadeiras.', url: 'index.html', status: 'ativo' },
+        ];
+
+        // ================================================================
+        //  SECTIONS (tabs)
+        // ================================================================
+        const TITLES = {
+            usuarios: ['Usuários da Intranet', 'Gerencie acessos e perfis dos colaboradores'],
+            programas: ['Programas e Sistemas', 'Sistemas utilizados pela AESA'],
+            acesso: ['Controle de Acesso — Painel TI', 'Usuários autorizados a acessar esta área'],
+            chamados: ['Chamados TI', 'Fila de suporte aberta pelos colaboradores'],
+            log: ['Log de Ações', 'Histórico das operações realizadas pelo TI'],
+        };
+        function showSection(id, el) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('sec-' + id).classList.add('active');
+            if (el) el.classList.add('active');
+            document.getElementById('topbar-title').textContent = TITLES[id][0];
+            document.getElementById('topbar-sub').textContent = TITLES[id][1];
+            if (id === 'log') renderLog();
+            if (id === 'programas') renderProgramas();
+            if (id === 'acesso') carregarListaAcessoTI();
+            if (id === 'chamados') setTimeout(() => carregarChamados(), 0);
+        }
+
+        // Helper para headers TI
+        function tiHeaders() {
+            return { 'Content-Type': 'application/json', 'x-ti-usuario': encodeURIComponent(JSON.stringify(getUsuario())) };
+        }
+
+        // ================================================================
+        //  USUÁRIOS — Supabase (tabela usuarios_intranet)
+        // ================================================================
+        let todosUsuarios = [];
+        let editandoId = null;
+
+        async function carregarUsuarios() {
+            const el = document.getElementById('listaUsuarios');
+            if (!el) return;
+            el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spinner-sm"></span> Carregando...</div>';
+            try {
+                const dados = await supabase('GET', 'usuarios_intranet', '?order=nome.asc&select=*');
+                todosUsuarios = Array.isArray(dados) ? dados : [];
+                atualizarStats();
+                renderUsuarios(todosUsuarios);
+            } catch (e) {
+                el.innerHTML = `<div class="alert alert-danger" style="margin:8px">
+      <i class="ti ti-alert-circle"></i>
+      <div>
+        <strong>Erro ao carregar usuários.</strong><br>
+        <span style="font-size:12px">${e.message}</span><br><br>
+        <span style="font-size:11px;color:var(--muted)">
+          Verifique:<br>
+          1. Tabela <code>usuarios_intranet</code> criada no Supabase?<br>
+          2. <code>server.js</code> atualizado com a tabela na lista permitida?<br>
+          3. Servidor reiniciado após atualização?
+        </span>
+      </div>
+    </div>`;
+            }
+        }
+
+        function atualizarStats() {
+            const ativos = todosUsuarios.filter(u => u.ativo).length;
+            const inativos = todosUsuarios.filter(u => !u.ativo).length;
+            const tis = todosUsuarios.filter(u => (u.perfis || []).includes('TI') || u.perfil === 'TI').length;
+            document.getElementById('stat-total').textContent = todosUsuarios.length;
+            document.getElementById('stat-ativos').textContent = ativos;
+            document.getElementById('stat-inativos').textContent = inativos;
+            document.getElementById('stat-admins').textContent = tis;
+            document.getElementById('badge-total').textContent = todosUsuarios.length;
+        }
+
+        function renderUsuarios(lista) {
+            const el = document.getElementById('listaUsuarios');
+            if (!lista.length) {
+                el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)"><i class="ti ti-users-off" style="font-size:32px;display:block;margin-bottom:8px;opacity:.3"></i>Nenhum usuário encontrado.</div>';
+                return;
+            }
+            el.innerHTML = `<div style="overflow-x:auto"><table class="data-table">
+    <thead><tr>
+      <th>Nome</th><th>E-mail AD</th><th>E-mail Corporativo</th>
+      <th>Departamento</th><th>Perfil</th><th>Status</th><th>Cadastrado em</th><th>Ações</th>
+    </tr></thead>
+    <tbody>${lista.map(u => {
+                const perfis = u.perfis && u.perfis.length ? u.perfis : (u.perfil ? [u.perfil] : ['COLABORADOR']);
+                const chips = perfis.map(p => `<span class="pill ${p === 'TI' ? 'pill-orange' : 'pill-navy'}" style="margin-right:3px">${p}</span>`).join('');
+                const emailCorp = u.email_corporativo
+                    ? `<span style="color:var(--green);font-size:11px">✉ ${u.email_corporativo}</span>`
+                    : `<span style="color:#b45309;font-size:11px">⚠ Não definido</span>`;
+                const data = u.data_criacao ? new Date(u.data_criacao).toLocaleDateString('pt-BR') : '—';
+                return `<tr>
+        <td><strong>${u.nome}</strong><div style="font-size:11px;color:var(--muted)">${u.usuario_ad || ''}</div></td>
+        <td style="font-size:12px;color:var(--muted)">${u.email || '—'}</td>
+        <td style="font-size:12px">${emailCorp}</td>
+        <td>${u.departamento || '—'}</td>
+        <td>${chips}</td>
+        <td><span class="pill ${u.ativo ? 'pill-green' : 'pill-red'}"><i class="ti ti-circle-filled"></i>${u.ativo ? 'Ativo' : 'Inativo'}</span></td>
+        <td style="color:var(--muted);font-size:12px">${data}</td>
+        <td>
+          <div style="display:flex;gap:6px">
+            <button class="act-btn edit" onclick="editarUsuario('${u.id}','${encodeURIComponent(u.nome)}','${u.email || ''}','${encodeURIComponent(JSON.stringify(perfis))}','${encodeURIComponent(u.email_corporativo || '')}','${encodeURIComponent(u.departamento || '')}')" title="Editar"><i class="ti ti-pencil"></i></button>
+            <button class="act-btn ${u.ativo ? 'deact' : 'activ'}" onclick="toggleAtivo('${u.id}',${u.ativo})" title="${u.ativo ? 'Desativar' : 'Ativar'}"><i class="ti ti-${u.ativo ? 'user-off' : 'user-check'}"></i></button>
+          </div>
+        </td>
+      </tr>`;
+            }).join('')}</tbody>
+  </table></div>`;
+        }
+
+        function filtrarUsuarios() {
+            const q = document.getElementById('user-search').value.toLowerCase();
+            const status = document.getElementById('user-filter-status').value;
+            const perfil = document.getElementById('user-filter-perfil').value;
+            let lista = todosUsuarios.filter(u => {
+                const matchQ = !q || (u.nome || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q) || (u.departamento || '').toLowerCase().includes(q) || (u.usuario_ad || '').toLowerCase().includes(q);
+                const matchS = status === 'todos' || (status === 'ativo' && u.ativo) || (status === 'inativo' && !u.ativo);
+                const perfis = u.perfis && u.perfis.length ? u.perfis : [u.perfil || 'COLABORADOR'];
+                const matchP = perfil === 'todos' || perfis.includes(perfil);
+                return matchQ && matchS && matchP;
+            });
+            renderUsuarios(lista);
+        }
+
+        function recarregarUsuarios() { carregarUsuarios(); toast('Atualizando lista...'); }
+
+        function editarUsuario(id, nome, email, perfisJson, emailCorp, depto) {
+            editandoId = id;
+            document.getElementById('modal-user-title').textContent = `Editar — ${decodeURIComponent(nome)}`;
+            document.getElementById('f-u-nome').value = decodeURIComponent(nome);
+            document.getElementById('f-u-email-corp').value = decodeURIComponent(emailCorp || '').trim();
+            document.getElementById('f-u-depto').value = decodeURIComponent(depto || '');
+            let perfis = []; try { perfis = JSON.parse(decodeURIComponent(perfisJson)); } catch (e) { perfis = ['COLABORADOR']; }
+            ['TI', 'RH', 'COLABORADOR'].forEach(p => { const el = document.getElementById('chk-' + p); if (el) el.checked = perfis.includes(p); });
+            document.getElementById('modal-usuario').style.display = 'flex';
+        }
+
+        async function salvarUsuario() {
+            const nome = document.getElementById('f-u-nome').value.trim();
+            const emailCorp = document.getElementById('f-u-email-corp').value.trim();
+            const depto = document.getElementById('f-u-depto').value.trim();
+            const perfis = ['TI', 'RH', 'COLABORADOR'].filter(p => document.getElementById('chk-' + p)?.checked);
+            if (!nome) { toast('Preencha o nome.', true); return; }
+            if (!perfis.length) { toast('Selecione ao menos um perfil.', true); return; }
+            try {
+                await supabase('PATCH', 'usuarios_intranet', `?id=eq.${editandoId}`, { nome, email_corporativo: emailCorp, departamento: depto, perfil: perfis[0], perfis });
+                fecharModal('modal-usuario');
+                registrarLog('blue', `${getUsuario().nome} editou o usuário <strong>${nome}</strong>.`);
+                toast('Usuário atualizado!');
+                carregarUsuarios();
+            } catch (e) { toast('Erro ao salvar: ' + e.message, true); }
+        }
+
+        async function toggleAtivo(id, ativo) {
+            if (!confirm(`${ativo ? 'Desativar' : 'Ativar'} este usuário?`)) return;
+            try {
+                await supabase('PATCH', 'usuarios_intranet', `?id=eq.${id}`, { ativo: !ativo });
+                registrarLog(ativo ? 'red' : 'green', `${getUsuario().nome} ${ativo ? 'desativou' : 'ativou'} um usuário.`);
+                toast(ativo ? 'Usuário desativado.' : 'Usuário ativado!');
+                carregarUsuarios();
+            } catch (e) { toast('Erro: ' + e.message, true); }
+        }
+
+        // ================================================================
+        //  PROGRAMAS
+        // ================================================================
+        const CAT_ICONS = {
+            'ERP / Gestão': { icon: 'ti-building', bg: '#eff6ff', color: '#1e40af' },
+            'Comunicação': { icon: 'ti-brand-slack', bg: '#faf5ff', color: '#6b21a8' },
+            'Segurança': { icon: 'ti-shield-lock', bg: 'var(--red-l)', color: 'var(--red)' },
+            'Produtividade': { icon: 'ti-checklist', bg: 'var(--green-l)', color: 'var(--green)' },
+            'Infraestrutura': { icon: 'ti-server', bg: ' var(--amber-l)', color: 'var(--amber)' },
+            'Outro': { icon: 'ti-apps', bg: 'var(--bg)', color: 'var(--muted)' },
+        };
+
+        function renderProgramas() {
+            const grid = document.getElementById('prog-grid');
+            grid.innerHTML = PROGRAMAS.map((p, i) => {
+                const c = CAT_ICONS[p.cat] || CAT_ICONS['Outro'];
+                const statusPill = p.status === 'ativo'
+                    ? '<span class="pill pill-green">Ativo</span>'
+                    : p.status === 'manutencao'
+                        ? '<span class="pill pill-amber">Manutenção</span>'
+                        : '<span class="pill pill-red">Inativo</span>';
+                return `<div class="prog-card">
+      <div class="prog-head">
+        <div class="prog-icon" style="background:${c.bg};color:${c.color}"><i class="ti ${c.icon}" style="font-size:22px"></i></div>
+        <div><div class="prog-name">${p.nome}</div><div class="prog-ver">${p.ver || '–'} · ${p.cat}</div></div>
+      </div>
+      <div class="prog-desc">${p.desc || '–'}</div>
+      <div class="prog-footer">
+        ${statusPill}
+        <div style="display:flex;gap:6px">
+          ${p.url ? `<a href="${p.url}" target="_blank" class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i>Abrir</a>` : ''}
+          <button class="btn btn-ghost btn-sm" onclick="editarPrograma(${i})"><i class="ti ti-pencil"></i></button>
+          <button class="btn btn-danger btn-sm" onclick="removerPrograma(${i})"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`;
+            }).join('') || '<div style="color:var(--muted);padding:32px;text-align:center">Nenhum programa cadastrado.</div>';
+        }
+
+        function abrirModalPrograma() {
+            editProgIdx = null;
+            document.getElementById('modal-prog-title').textContent = 'Novo Programa';
+            ['f-p-nome', 'f-p-ver', 'f-p-desc', 'f-p-url'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('modal-programa').style.display = 'flex';
+        }
+        function editarPrograma(i) {
+            editProgIdx = i;
+            const p = PROGRAMAS[i];
+            document.getElementById('modal-prog-title').textContent = 'Editar Programa';
+            document.getElementById('f-p-nome').value = p.nome;
+            document.getElementById('f-p-ver').value = p.ver || '';
+            document.getElementById('f-p-cat').value = p.cat;
+            document.getElementById('f-p-desc').value = p.desc || '';
+            document.getElementById('f-p-url').value = p.url || '';
+            document.getElementById('f-p-status').value = p.status || 'ativo';
+            document.getElementById('modal-programa').style.display = 'flex';
+        }
+        function salvarPrograma() {
+            const nome = document.getElementById('f-p-nome').value.trim();
+            if (!nome) { toast('Informe o nome do programa.', true); return; }
+            const obj = {
+                nome, ver: document.getElementById('f-p-ver').value.trim(),
+                cat: document.getElementById('f-p-cat').value,
+                desc: document.getElementById('f-p-desc').value.trim(),
+                url: document.getElementById('f-p-url').value.trim(),
+                status: document.getElementById('f-p-status').value,
+            };
+            if (editProgIdx !== null) { PROGRAMAS[editProgIdx] = obj; toast('Programa atualizado!'); }
+            else { PROGRAMAS.push(obj); toast('Programa adicionado!'); }
+            localStorage.setItem('aesa_ti_progs', JSON.stringify(PROGRAMAS));
+            fecharModal('modal-programa');
+            renderProgramas();
+        }
+        function removerPrograma(i) {
+            if (!confirm('Remover "' + PROGRAMAS[i].nome + '"?')) return;
+            PROGRAMAS.splice(i, 1);
+            localStorage.setItem('aesa_ti_progs', JSON.stringify(PROGRAMAS));
+            renderProgramas(); toast('Programa removido.');
+        }
+
+        // ================================================================
+        //  LOG
+        // ================================================================
+        const COR_LOG = { green: '#065f46', blue: '#1e40af', amber: '#b45309', red: '#991b1b', navy: '#061851' };
+
+        function registrarLog(cor, texto) {
+            LOG.unshift({ cor, texto, hora: new Date().toLocaleString('pt-BR') });
+            if (LOG.length > 200) LOG.pop();
+            localStorage.setItem('aesa_ti_log', JSON.stringify(LOG));
+        }
+        function renderLog() {
+            // Re-read from localStorage to get latest entries
+            LOG = JSON.parse(localStorage.getItem('aesa_ti_log') || '[]');
+            const el = document.getElementById('log-list');
+            if (!LOG.length) { el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><i class="ti ti-clipboard-list" style="font-size:36px;display:block;margin-bottom:8px;opacity:.3"></i>Nenhuma ação registrada ainda.</div>'; return; }
+            el.innerHTML = LOG.map(l =>
+                `<div class="log-item">
+      <div class="log-dot" style="background:${COR_LOG[l.cor] || '#6b7280'}"></div>
+      <div><div class="log-text">${l.texto}</div><div class="log-time">${l.hora}</div></div>
+    </div>`
+            ).join('');
+        }
+        function limparLog() {
+            if (!confirm('Limpar todo o log?')) return;
+            LOG = []; localStorage.removeItem('aesa_ti_log');
+            renderLog(); toast('Log limpo.');
+        }
+
+        // ================================================================
+        //  MODAL HELPERS
+        // ================================================================
+        function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); });
+
+        // ================================================================
+        //  TOAST
+        // ================================================================
+        let toastTimer;
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+            el.querySelector('i').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+            document.getElementById('toast-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+        }
+
+        // ================================================================
+        //  ACESSO TI — gerenciar lista de usuários autorizados
+        // ================================================================
+        let listaAcessoTI = [];
+
+        async function carregarListaAcessoTI() {
+            try {
+                const res = await fetch(API + '/ad/ti-lista', { headers: tiHeaders() });
+                const data = await res.json();
+                listaAcessoTI = data.lista || [];
+                renderListaAcesso();
+            } catch (e) {
+                toast('Erro ao carregar lista de acesso: ' + e.message, true);
+            }
+        }
+
+        function renderListaAcesso() {
+            const el = document.getElementById('acesso-lista');
+            if (!listaAcessoTI.length) {
+                el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:8px 0">Nenhum usuário na lista.</div>';
+                return;
+            }
+            el.innerHTML = listaAcessoTI.map((u, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${u.substring(0, 2).toUpperCase()}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--navy)">${u}</div>
+          <div style="font-size:11px;color:var(--muted)">Acesso ao Painel TI</div>
+        </div>
+      </div>
+      <button class="act-btn deact" onclick="removerAcessoTI(${i})" title="Remover acesso"><i class="ti ti-trash"></i></button>
+    </div>`
+            ).join('');
+        }
+
+        function adicionarAcessoTI() {
+            const val = document.getElementById('f-acesso-novo').value.trim().toLowerCase();
+            if (!val) return;
+            if (listaAcessoTI.includes(val)) { toast('Usuário já está na lista.', true); return; }
+            listaAcessoTI.push(val);
+            document.getElementById('f-acesso-novo').value = '';
+            renderListaAcesso();
+            toast('Usuário adicionado. Clique em "Salvar no Servidor" para confirmar.');
+        }
+
+        function removerAcessoTI(i) {
+            if (listaAcessoTI[i] === getUsuario().sAMAccountName?.toLowerCase()) {
+                toast('Você não pode remover seu próprio acesso!', true); return;
+            }
+            listaAcessoTI.splice(i, 1);
+            renderListaAcesso();
+        }
+
+        async function salvarListaAcessoTI() {
+            try {
+                const res = await fetch(API + '/ad/ti-lista', {
+                    method: 'POST', headers: tiHeaders(),
+                    body: JSON.stringify({ lista: listaAcessoTI })
+                });
+                const data = await res.json();
+                if (!data.ok) { toast(data.mensagem || 'Erro ao salvar.', true); return; }
+                registrarLog('green', `${getUsuario().nome} atualizou a lista de acesso TI: ${listaAcessoTI.join(', ')}`);
+                toast('Lista salva! Reinicie o server.js para persistir permanentemente.');
+            } catch (e) {
+                toast('Erro de conexão: ' + e.message, true);
+            }
+        }
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+        preencherUsuarioUI('user-nome', 'user-setor', 'user-iniciais');
+
+        // Se já autenticou com senha nesta sessão, carrega direto
+        if (sessionStorage.getItem('ti_auth') === '1') {
+            carregarUsuarios();
+        }
+        renderProgramas();
+
+        // ================================================================
+        //  CHAMADOS — Supabase (tabela chamados)
+        // ================================================================
+        let todosChamados = [];
+        let chamadoAtualId = null;
+
+        async function carregarChamados() {
+            const el = document.getElementById('ch-lista');
+            if (!el) return;
+            el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spinner-sm"></span> Carregando...</div>';
+            try {
+                const dados = await supabase('GET', 'chamados', '?order=data_abertura.desc&select=*');
+                todosChamados = Array.isArray(dados) ? dados : [];
+                atualizarStatsChamados();
+                renderChamados(todosChamados);
+            } catch (e) {
+                el.innerHTML = `<div class="alert alert-danger" style="margin:12px"><i class="ti ti-alert-circle"></i><div><strong>Erro ao carregar chamados.</strong><br><span style="font-size:11px">${e.message}</span></div></div>`;
+            }
+        }
+
+        function atualizarStatsChamados() {
+            const abertos = todosChamados.filter(c => c.status === 'Aberto').length;
+            const andamento = todosChamados.filter(c => c.status === 'Em andamento').length;
+            const urgentes = todosChamados.filter(c => c.prioridade === 'Urgente' && c.status !== 'Finalizado').length;
+            const badgeEl = document.getElementById('badge-chamados');
+            document.getElementById('ch-total').textContent = todosChamados.length;
+            document.getElementById('ch-abertos').textContent = abertos;
+            document.getElementById('ch-andamento').textContent = andamento;
+            document.getElementById('ch-urgentes').textContent = urgentes;
+            if (badgeEl) badgeEl.textContent = abertos + andamento || '–';
+        }
+
+        function filtrarChamados() {
+            const q = document.getElementById('ch-search').value.toLowerCase();
+            const st = document.getElementById('ch-filter-status').value;
+            const pr = document.getElementById('ch-filter-prio').value;
+            const cat = document.getElementById('ch-filter-cat').value;
+            const lista = todosChamados.filter(c => {
+                const mQ = !q || (c.nome || '').toLowerCase().includes(q) || (c.setor || '').toLowerCase().includes(q) || (c.assunto || '').toLowerCase().includes(q) || (c.numero || '').toLowerCase().includes(q);
+                const mS = st === 'todos' || c.status === st;
+                const mP = pr === 'todos' || c.prioridade === pr;
+                const mC = cat === 'todos' || c.categoria === cat;
+                return mQ && mS && mP && mC;
+            });
+            renderChamados(lista);
+        }
+
+        function renderChamados(lista) {
+            const el = document.getElementById('ch-lista');
+            if (!lista.length) {
+                el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><i class="ti ti-ticket-off" style="font-size:32px;display:block;margin-bottom:8px;opacity:.3"></i>Nenhum chamado encontrado.</div>';
+                return;
+            }
+            const PRIO = {
+                'Urgente': '<span class="pill pill-red"><i class="ti ti-alert-triangle"></i>Urgente</span>',
+                'Atenção': '<span class="pill pill-amber"><i class="ti ti-alert-circle"></i>Atenção</span>',
+                'Baixa': '<span class="pill pill-blue"><i class="ti ti-circle"></i>Baixa</span>',
+            };
+            const STATUS = {
+                'Aberto': '<span class="pill pill-blue">Aberto</span>',
+                'Em andamento': '<span class="pill pill-amber">Em andamento</span>',
+                'Aguardando usuário': '<span class="pill pill-navy">Aguard. usuário</span>',
+                'Finalizado': '<span class="pill pill-green">Finalizado</span>',
+            };
+            el.innerHTML = `<div style="overflow-x:auto"><table class="data-table">
+                <thead><tr>
+                    <th>Número</th><th>Colaborador</th><th>Setor</th><th>Assunto</th>
+                    <th>Categoria</th><th>Prioridade</th><th>Status</th><th>Responsável</th><th>Data</th><th style="width:80px">Ações</th>
+                </tr></thead>
+                <tbody>${lista.map(c => {
+                const rowStyle = c.prioridade === 'Urgente' ? 'border-left:3px solid #991b1b' : c.prioridade === 'Atenção' ? 'border-left:3px solid #b45309' : '';
+                const data = c.data_abertura ? new Date(c.data_abertura).toLocaleDateString('pt-BR') : '–';
+                return `<tr style="${rowStyle}">
+                        <td><span style="font-size:11px;font-weight:700;color:var(--navy)">${c.numero || '–'}</span></td>
+                        <td><div style="font-weight:600">${c.nome}</div><div style="font-size:11px;color:var(--muted)">${c.usuario_ad || ''}</div></td>
+                        <td style="font-size:12px">${c.setor}</td>
+                        <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.assunto}</td>
+                        <td style="font-size:12px">${c.categoria}</td>
+                        <td>${PRIO[c.prioridade] || c.prioridade}</td>
+                        <td>${STATUS[c.status] || c.status}</td>
+                        <td style="font-size:12px;color:var(--muted)">${c.responsavel_ti || '–'}</td>
+                        <td style="font-size:11px;color:var(--muted)">${data}</td>
+                        <td>
+                            <div style="display:flex;gap:5px">
+                                <button class="act-btn edit" onclick="abrirDetalhe('${c.id}')" title="Ver/Editar"><i class="ti ti-pencil"></i></button>
+                                <button class="act-btn deact" onclick="excluirChamado('${c.id}','${c.numero || ''}')" title="Excluir"><i class="ti ti-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>`;
+            }).join('')}</tbody>
+            </table></div>`;
+        }
+
+        function abrirDetalhe(id) {
+            const c = todosChamados.find(x => String(x.id) === String(id));
+            if (!c) return;
+            chamadoAtualId = id;
+            document.getElementById('ch-modal-numero').textContent = c.numero || 'CHM-????';
+            const PRIO_CFG = {
+                'Urgente': { bg: '#fef2f2', color: '#991b1b', icon: 'ti-alert-triangle', label: 'URGENTE — Requer atenção imediata' },
+                'Atenção': { bg: '#fff8e1', color: '#b45309', icon: 'ti-alert-circle', label: 'ATENÇÃO — Impacto médio' },
+                'Baixa': { bg: '#eff6ff', color: '#1e40af', icon: 'ti-info-circle', label: 'BAIXA — Sem urgência' },
+            };
+            const pc = PRIO_CFG[c.prioridade] || PRIO_CFG['Baixa'];
+            const banner = document.getElementById('ch-modal-prio-banner');
+            banner.style.background = pc.bg;
+            banner.style.color = pc.color;
+            banner.innerHTML = `<i class="ti ${pc.icon}" style="font-size:18px"></i>${pc.label}`;
+            const anexosHTML = Array.isArray(c.anexos) && c.anexos.length
+                ? c.anexos.map(a => `<span style="display:inline-flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11px;margin:2px"><i class="ti ti-paperclip"></i>${a.nome}</span>`).join('')
+                : '<span style="color:var(--muted);font-size:12px">Sem anexos</span>';
+            const dt = c.data_abertura ? new Date(c.data_abertura).toLocaleString('pt-BR') : '–';
+            document.getElementById('ch-modal-campos').innerHTML = `
+                <div style="display:grid;grid-template-columns:1fr 1fr">
+                    <div style="padding:9px 0;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Colaborador</div><div style="font-size:13px;font-weight:600">${c.nome}</div></div>
+                    <div style="padding:9px 0 9px 14px;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Setor</div><div style="font-size:13px">${c.setor}</div></div>
+                    <div style="padding:9px 0;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Categoria</div><div style="font-size:13px">${c.categoria}</div></div>
+                    <div style="padding:9px 0 9px 14px;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Abertura</div><div style="font-size:13px">${dt}</div></div>
+                </div>
+                <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Assunto</div><div style="font-size:14px;font-weight:600;color:var(--navy)">${c.assunto}</div></div>
+                <div style="padding:10px 0;border-bottom:1px solid var(--border)"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Descrição</div><div style="font-size:13px;line-height:1.7;white-space:pre-wrap">${c.descricao}</div></div>
+                <div style="padding:10px 0"><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Anexos</div>${anexosHTML}</div>`;
+            document.getElementById('ch-modal-status').value = c.status;
+            document.getElementById('ch-modal-responsavel').value = c.responsavel_ti || '';
+            document.getElementById('modal-chamado').style.display = 'flex';
+        }
+
+        async function salvarChamado() {
+            const status = document.getElementById('ch-modal-status').value;
+            const responsavel = document.getElementById('ch-modal-responsavel').value.trim();
+            try {
+                await supabase('PATCH', 'chamados', `?id=eq.${chamadoAtualId}`, {
+                    status, responsavel_ti: responsavel,
+                    data_atualizacao: new Date().toISOString(),
+                });
+                fecharModal('modal-chamado');
+                const num = todosChamados.find(c => String(c.id) === String(chamadoAtualId))?.numero || '';
+                registrarLog('blue', `${getUsuario().nome} atualizou o chamado <strong>${num}</strong> → ${status}`);
+                toast('Chamado atualizado!');
+                carregarChamados();
+            } catch (e) { toast('Erro ao salvar: ' + e.message, true); }
+        }
+
+        async function excluirChamadoAtual() {
+            const c = todosChamados.find(x => String(x.id) === String(chamadoAtualId));
+            fecharModal('modal-chamado');
+            await excluirChamado(chamadoAtualId, c?.numero || '');
+        }
+
+        async function excluirChamado(id, numero) {
+            if (!confirm(`Excluir permanentemente o chamado ${numero || id}?\n\nEsta ação não pode ser desfeita.`)) return;
+            try {
+                await supabase('DELETE', 'chamados', `?id=eq.${id}`);
+                registrarLog('red', `${getUsuario().nome} excluiu o chamado <strong>${numero || id}</strong>.`);
+                toast(`Chamado ${numero || id} excluído.`);
+                carregarChamados();
+            } catch (e) { toast('Erro ao excluir: ' + e.message, true); }
+        }
+
+        function showIframe(src, el) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if (el) el.classList.add('active');
+            const iframe = document.getElementById('iframe-content');
+            const home = document.getElementById('home-content');
+            home.style.display = 'none';
+            iframe.style.display = 'block';
+            iframe.src = src + '?embed=1';
+        }
+
+    </script>
+</body>
+
+</html>

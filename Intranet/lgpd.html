@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>AESA — Informes LGPD</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --navy-xl: #1a3a8f;
+            --orange: #E73B1B;
+            --orange-l: #fff0ec;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --green-b: #a7f3d0;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --blue-b: #bfdbfe;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --amber-b: #f0d080;
+            --red: #991b1b;
+            --red-l: #fef2f2;
+            --red-b: #fecaca;
+            --purple: #5b21b6;
+            --purple-l: #ede9fe;
+            --purple-b: #c4b5fd;
+            --white: #fff;
+            --bg: #f4f2ee;
+            --text: #0c1420;
+            --muted: #5a6273;
+            --border: #dde1e8;
+            --font: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--navy);
+            padding: 0;
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none
+        }
+
+        .hero-glow {
+            position: absolute;
+            right: -80px;
+            top: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(231, 59, 27, .15) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .hero-inner {
+            position: relative;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 64px 48px 60px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 40px;
+            align-items: center
+        }
+
+        @media(max-width:700px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                padding: 48px 24px 40px
+            }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(231, 59, 27, .15);
+            border: 1px solid rgba(231, 59, 27, .3);
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 3.5vw, 46px);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 14px
+        }
+
+        .hero h1 .acc {
+            color: var(--orange)
+        }
+
+        .hero-sub {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .6);
+            max-width: 480px;
+            line-height: 1.75
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-align: center;
+            flex-shrink: 0
+        }
+
+        .hero-badge-num {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .hero-badge-law {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            margin: 4px 0 2px;
+            letter-spacing: -0.5px
+        }
+
+        .hero-badge-sub {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .4);
+            font-weight: 500
+        }
+
+        /* STRIP */
+        .strip {
+            background: var(--navy-xl);
+            border-top: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        .strip-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        @media(max-width:700px) {
+            .strip-inner {
+                padding: 16px 24px
+            }
+        }
+
+        .strip-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-right: 8px
+        }
+
+        .strip-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .7);
+            cursor: pointer;
+            transition: all .15s;
+            text-decoration: none
+        }
+
+        .strip-pill:hover,
+        .strip-pill.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: #fff
+        }
+
+        .strip-pill i {
+            font-size: 12px
+        }
+
+        /* INTRO CARD */
+        .intro-wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 48px 0
+        }
+
+        @media(max-width:700px) {
+            .intro-wrap {
+                padding: 32px 24px 0
+            }
+        }
+
+        .intro-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            box-shadow: 0 4px 20px rgba(6, 24, 81, .06)
+        }
+
+        @media(max-width:700px) {
+            .intro-card {
+                grid-template-columns: 1fr;
+                padding: 24px
+            }
+        }
+
+        .intro-eyebrow {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 8px
+        }
+
+        .intro-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1.2;
+            letter-spacing: -.5px;
+            margin-bottom: 12px
+        }
+
+        .intro-text {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.8
+        }
+
+        .dado-box {
+            background: var(--navy);
+            border-radius: 12px;
+            padding: 22px
+        }
+
+        .dado-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 14px
+        }
+
+        .dado-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .dado-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, .8)
+        }
+
+        .dado-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--orange);
+            flex-shrink: 0
+        }
+
+        /* CARDS GRID */
+        .wrap {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 32px 48px 64px
+        }
+
+        @media(max-width:700px) {
+            .wrap {
+                padding: 24px 24px 48px
+            }
+        }
+
+        .sec-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+            margin-bottom: 20px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .sec-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            transition: all .2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--navy);
+            transition: width .2s
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 28px rgba(6, 24, 81, .1);
+            transform: translateY(-2px)
+        }
+
+        .card:hover::before {
+            width: 6px
+        }
+
+        .card.c-red::before {
+            background: var(--red)
+        }
+
+        .card.c-blue::before {
+            background: var(--blue)
+        }
+
+        .card.c-amber::before {
+            background: var(--amber)
+        }
+
+        .card.c-green::before {
+            background: var(--green)
+        }
+
+        .card.c-purple::before {
+            background: var(--purple)
+        }
+
+        .card.c-orange::before {
+            background: var(--orange)
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px
+        }
+
+        .card-icon i {
+            font-size: 20px
+        }
+
+        .ic-red {
+            background: var(--red-l);
+            color: var(--red)
+        }
+
+        .ic-blue {
+            background: var(--blue-l);
+            color: var(--blue)
+        }
+
+        .ic-amber {
+            background: var(--amber-l);
+            color: var(--amber)
+        }
+
+        .ic-green {
+            background: var(--green-l);
+            color: var(--green)
+        }
+
+        .ic-purple {
+            background: var(--purple-l);
+            color: var(--purple)
+        }
+
+        .ic-orange {
+            background: var(--orange-l);
+            color: var(--orange)
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+            line-height: 1.3
+        }
+
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px
+        }
+
+        .card-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5
+        }
+
+        .card-item-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--muted);
+            flex-shrink: 0;
+            margin-top: 6px
+        }
+
+        /* CANAL DESTAQUE */
+        .canal-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-xl) 100%);
+            border-radius: 16px;
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px
+        }
+
+        .canal-card::after {
+            content: '';
+            position: absolute;
+            right: -60px;
+            bottom: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(231, 59, 27, .12)
+        }
+
+        .canal-inner {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 28px;
+            align-items: center
+        }
+
+        @media(max-width:600px) {
+            .canal-inner {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .canal-eyebrow {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--orange);
+            margin-bottom: 8px
+        }
+
+        .canal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.2
+        }
+
+        .canal-text {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .65);
+            line-height: 1.75;
+            max-width: 520px
+        }
+
+        .canal-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 14px
+        }
+
+        .canal-benefit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, .7)
+        }
+
+        .canal-benefit i {
+            font-size: 14px;
+            color: var(--orange)
+        }
+
+        .canal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s;
+            white-space: nowrap;
+            text-decoration: none;
+            flex-shrink: 0
+        }
+
+        .canal-btn:hover {
+            background: var(--orange-h, #c4320f)
+        }
+
+        .canal-btn i {
+            font-size: 15px
+        }
+
+        /* CAMERAS */
+        .cam-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 16px
+        }
+
+        @media(max-width:600px) {
+            .cam-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .cam-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px
+        }
+
+        .cam-q {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        .cam-a {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.7
+        }
+
+        /* FADE */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .6s, transform .6s
+        }
+
+        .reveal.on {
+            opacity: 1;
+            transform: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-inner">
+            <div>
+                <div class="hero-eyebrow">Informes LGPD</div>
+                <h1>Proteção de dados.<br />Responsabilidade de <span class="acc">todos.</span></h1>
+                <p class="hero-sub">A AESA está comprometida com a privacidade e a segurança das informações de
+                    colaboradores, clientes e parceiros. Conheça as nossas políticas e boas práticas.</p>
+            </div>
+            <div class="hero-badge">
+                <div class="hero-badge-num">Lei nº</div>
+                <div class="hero-badge-law">13.709/2018</div>
+                <div class="hero-badge-sub">Em vigor desde set/2020</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PILLS NAV -->
+    <div class="strip">
+        <div class="strip-inner">
+            <span class="strip-label">Tópicos</span>
+            <a class="strip-pill" href="#intro"><i data-lucide="info" style="width:12px;height:12px"></i>O que é
+                LGPD</a>
+            <a class="strip-pill" href="#senhas"><i data-lucide="lock" style="width:12px;height:12px"></i>Senhas</a>
+            <a class="strip-pill" href="#cameras"><i data-lucide="camera" style="width:12px;height:12px"></i>Câmeras</a>
+            <a class="strip-pill" href="#digital"><i data-lucide="shield" style="width:12px;height:12px"></i>Segurança
+                Digital</a>
+            <a class="strip-pill" href="#fisico"><i data-lucide="file-text"
+                    style="width:12px;height:12px"></i>Documentos & Físico</a>
+            <a class="strip-pill" href="#canal"><i data-lucide="message-circle" style="width:12px;height:12px"></i>Canal
+                Anônimo</a>
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="intro-wrap reveal" id="intro">
+        <div class="intro-card">
+            <div>
+                <div class="intro-eyebrow">O que é a LGPD?</div>
+                <div class="intro-title">A lei que protege as informações de todos nós.</div>
+                <p class="intro-text">A Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018) entrou em vigor em
+                    setembro de 2020 e tem como objetivo regulamentar o tratamento de dados pessoais por todas as
+                    empresas, sejam elas grandes ou pequenas, públicas ou privadas.</p>
+                <p class="intro-text" style="margin-top:12px">A LGPD não veio para impedir o uso de dados — veio para
+                    dar às pessoas o <strong>controle sobre eles</strong>, impedindo que sejam compartilhados, usados ou
+                    divulgados sem autorização.</p>
+                <p class="intro-text" style="margin-top:12px"><strong>Papel da AESA:</strong> Coletar apenas o
+                    necessário, ser transparente, manter o controle dos dados e identificar riscos no dia a dia.</p>
+            </div>
+            <div class="dado-box">
+                <div class="dado-title">O que é dado pessoal?</div>
+                <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:14px;line-height:1.6">Qualquer
+                    informação relacionada à identificação de uma pessoa. Por exemplo:</p>
+                <div class="dado-list">
+                    <div class="dado-item"><span class="dado-dot"></span>Nome e sobrenome</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Data de nascimento</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Documentos pessoais (CPF, RG)</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Endereço e telefone</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Características pessoais</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Dados de saúde</div>
+                    <div class="dado-item"><span class="dado-dot"></span>Imagem (fotos, vídeos)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+
+        <!-- SENHAS -->
+        <div class="sec-title reveal" id="senhas"><i data-lucide="lock" style="width:14px;height:14px"></i>Senhas e
+            Credenciais</div>
+        <div class="cards reveal">
+            <div class="card c-red">
+                <div class="card-icon ic-red"><i data-lucide="eye-off" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Não exponha suas senhas</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Nunca deixe senhas escritas sobre a mesa
+                        ou coladas no monitor</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Não compartilhe credenciais com colegas
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Altere suas senhas periodicamente</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Não reutilize senhas antigas</div>
+                </div>
+            </div>
+            <div class="card c-blue">
+                <div class="card-icon ic-blue"><i data-lucide="laptop" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Acesso responsável</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Use apenas suas próprias credenciais</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Saia do sistema ao final do expediente
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Registre suas atividades para auditoria
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Dúvidas sobre acesso? Contate a TI</div>
+                </div>
+            </div>
+            <div class="card c-amber">
+                <div class="card-icon ic-amber"><i data-lucide="shield-check" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Boas práticas digitais</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Acesse apenas sites confiáveis</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Certifique-se que o site é seguro (https)
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Use autenticação de dois fatores sempre
+                        que possível</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Nunca forneça senhas em páginas
+                        desconhecidas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CÂMERAS -->
+        <div class="sec-title reveal" id="cameras"><i data-lucide="camera" style="width:14px;height:14px"></i>Câmeras de
+            Monitoramento</div>
+        <div class="cam-grid reveal">
+            <div class="cam-card">
+                <div class="cam-q">Como funciona?</div>
+                <p class="cam-a">A AESA conta com circuito fechado de monitoramento 24h com gravação de vídeo. As
+                    gravações ficam salvas e não possuem áudio.</p>
+            </div>
+            <div class="cam-card">
+                <div class="cam-q">Qual a finalidade?</div>
+                <p class="cam-a">O monitoramento destina-se exclusivamente à preservação de um ambiente seguro para
+                    todos os colaboradores e visitantes.</p>
+            </div>
+            <div class="cam-card">
+                <div class="cam-q">E a proteção de dados?</div>
+                <p class="cam-a">A LGPD permite o tratamento de dados obtidos por câmeras de monitoramento, reconhecendo
+                    sua importância fundamental para a segurança.</p>
+            </div>
+        </div>
+
+        <!-- SEGURANÇA DIGITAL -->
+        <div class="sec-title reveal" id="digital"><i data-lucide="shield" style="width:14px;height:14px"></i>Segurança
+            Digital</div>
+        <div class="cards reveal">
+            <div class="card c-purple">
+                <div class="card-icon ic-purple"><i data-lucide="mail-warning" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Cuidado com e-mails</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Verifique sempre o remetente antes de
+                        clicar em links</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Nunca clique em links suspeitos (phishing)
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Verifique o destinatário antes de enviar
+                        documentos confidenciais</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Reporte e-mails suspeitos ao TI
+                        imediatamente</div>
+                </div>
+            </div>
+            <div class="card c-orange">
+                <div class="card-icon ic-orange"><i data-lucide="download" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Downloads e programas</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Utilize apenas softwares aprovados e de
+                        fontes confiáveis</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Toda instalação deve ter permissão da
+                        equipe de TI</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Mantenha programas sempre atualizados
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Desinstale programas que não são mais
+                        necessários</div>
+                </div>
+            </div>
+            <div class="card c-blue">
+                <div class="card-icon ic-blue"><i data-lucide="folder-lock" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Pastas do servidor</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Acesse apenas pastas necessárias para suas
+                        funções</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Não compartilhe acessos com terceiros
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Reporte atividades suspeitas imediatamente
+                        ao TI</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Faça backup regular das informações
+                        críticas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FÍSICO -->
+        <div class="sec-title reveal" id="fisico"><i data-lucide="file-text"
+                style="width:14px;height:14px"></i>Documentos, Imagens & Físico</div>
+        <div class="cards reveal">
+            <div class="card c-green">
+                <div class="card-icon ic-green"><i data-lucide="file-x-2" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Documentos da empresa</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Manuseie documentos com cuidado e evite
+                        deixá-los expostos</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Armazene em locais de acesso restrito
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Use triturador para descartar documentos
+                        confidenciais</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Evite levar documentos sensíveis para fora
+                        da empresa</div>
+                </div>
+            </div>
+            <div class="card c-blue">
+                <div class="card-icon ic-blue"><i data-lucide="camera-off" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Fotos dentro da empresa</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Obtenha consentimento de todas as pessoas
+                        nas fotos</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Evite capturar documentos ou telas de
+                        computador</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Use fotos apenas para fins autorizados
+                    </div>
+                    <div class="card-item"><span class="card-item-dot"></span>Não fotografe áreas restritas ou sensíveis
+                    </div>
+                </div>
+            </div>
+            <div class="card c-amber">
+                <div class="card-icon ic-amber"><i data-lucide="smartphone" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Redes sociais & uniforme</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Não poste informações confidenciais ou
+                        estratégicas</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Evite discussões públicas sobre assuntos
+                        internos</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Uniformizado, você representa a AESA —
+                        seja discreto</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Reporte uso indevido da marca às
+                        autoridades internas</div>
+                </div>
+            </div>
+            <div class="card c-red">
+                <div class="card-icon ic-red"><i data-lucide="user-check" style="width:20px;height:20px"></i></div>
+                <div class="card-title">Sigilo profissional</div>
+                <div class="card-list">
+                    <div class="card-item"><span class="card-item-dot"></span>Mantenha confidencialidade de todas as
+                        informações</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Evite discutir dados sensíveis em locais
+                        públicos</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Use métodos seguros de comunicação</div>
+                    <div class="card-item"><span class="card-item-dot"></span>Reporte violações de sigilo imediatamente
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CANAL DESTAQUE -->
+        <div class="sec-title reveal" id="canal"><i data-lucide="message-circle"
+                style="width:14px;height:14px"></i>Canal Anônimo de Denúncias</div>
+        <div class="canal-card reveal">
+            <div class="canal-inner">
+                <div>
+                    <div class="canal-eyebrow">Fale com a AESA</div>
+                    <div class="canal-title">Canal seguro, confidencial<br />e totalmente anônimo.</div>
+                    <p class="canal-text">A AESA oferece um canal de denúncias anônimas integrado à LGPD. A mensagem é
+                        enviada ao servidor onde qualquer dado de identificação é removido permanentemente antes de
+                        chegar ao destinatário — garantindo anonimato total.</p>
+                    <div class="canal-benefits">
+                        <div class="canal-benefit"><i data-lucide="check"
+                                style="width:14px;height:14px"></i>Identificação precoce de problemas internos</div>
+                        <div class="canal-benefit"><i data-lucide="check" style="width:14px;height:14px"></i>Prevenção
+                            de fraudes e corrupção</div>
+                        <div class="canal-benefit"><i data-lucide="check"
+                                style="width:14px;height:14px"></i>Fortalecimento da cultura ética</div>
+                        <div class="canal-benefit"><i data-lucide="check" style="width:14px;height:14px"></i>Melhoria do
+                            clima organizacional</div>
+                    </div>
+                </div>
+                <a class="canal-btn" href="fale.html"><i data-lucide="send" style="width:15px;height:15px"></i>Enviar
+                    mensagem anônima</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        if (new URLSearchParams(window.location.search).get('embed') === '1') {
+            document.body.style.fontSize = '13px';
+        }
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }), { threshold: .07 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Pills active on scroll
+        const sections = ['intro', 'senhas', 'cameras', 'digital', 'fisico', 'canal'];
+        const pills = document.querySelectorAll('.strip-pill');
+        window.addEventListener('scroll', () => {
+            let cur = '';
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top < 120) cur = id;
+            });
+            pills.forEach(p => {
+                p.classList.toggle('active', p.getAttribute('href') === '#' + cur);
+            });
+        }, { passive: true });
+    </script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

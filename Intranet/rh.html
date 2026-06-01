@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AESA — Canal RH</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
+        rel="stylesheet" />
+
+    <script src="auth.js"></script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #061851;
+            --navy-l: #0d2570;
+            --orange: #E73B1B;
+            --orange-h: #c4320f;
+            --green: #065f46;
+            --green-l: #ecfdf5;
+            --red: #991b1b;
+            --red-l: #fef2f2;
+            --blue: #1e40af;
+            --blue-l: #eff6ff;
+            --amber: #b45309;
+            --amber-l: #fff8e1;
+            --white: #ffffff;
+            --bg: #f0f2f5;
+            --text: #0f1923;
+            --muted: #6b7280;
+            --border: #e2e6ea;
+            --card: #ffffff;
+            --radius: 10px;
+            --shadow-sm: 0 1px 3px rgba(6, 24, 81, .07);
+            --shadow: 0 4px 20px rgba(6, 24, 81, .11);
+            --font: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            min-height: 100vh;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 24px 48px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .page-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--orange);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(231, 59, 27, .35);
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .page-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-l);
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .btn-orange:hover {
+            background: var(--orange-h);
+        }
+
+        .btn-ghost {
+            background: var(--white);
+            color: var(--navy);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg);
+        }
+
+        .btn-danger {
+            background: var(--red-l);
+            color: var(--red);
+            border: 1px solid #fecaca;
+        }
+
+        .btn-danger:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 5px 11px;
+            font-size: 12px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon i {
+            font-size: 21px;
+        }
+
+        .si-blue {
+            background: var(--blue-l);
+            color: var(--blue);
+        }
+
+        .si-amber {
+            background: var(--amber-l);
+            color: var(--amber);
+        }
+
+        .si-green {
+            background: var(--green-l);
+            color: var(--green);
+        }
+
+        .si-red {
+            background: var(--red-l);
+            color: var(--red);
+        }
+
+        .stat-val {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .table-wrap {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-toolbar {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            background: #fafbfc;
+        }
+
+        .page.hidden {
+            display: none;
+        }
+
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 10px 0 33px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+        }
+
+        .filter-sel {
+            height: 36px;
+            padding: 0 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: #fafbfc;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .pill-blue {
+            background: var(--blue-l);
+            color: var(--blue);
+            border: 1px solid #bfdbfe;
+        }
+
+        .pill-amber {
+            background: var(--amber-l);
+            color: var(--amber);
+            border: 1px solid #f0d080;
+        }
+
+        .pill-green {
+            background: var(--green-l);
+            color: var(--green);
+            border: 1px solid #a7f3d0;
+        }
+
+        .pill-red {
+            background: var(--red-l);
+            color: var(--red);
+            border: 1px solid #fecaca;
+        }
+
+        .pill-navy {
+            background: #f0f4ff;
+            color: var(--navy);
+            border: 1px solid #c7d2fe;
+        }
+
+        .empty {
+            padding: 48px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty i {
+            font-size: 34px;
+            display: block;
+            margin-bottom: 8px;
+            opacity: .35;
+        }
+
+        .message-preview {
+            max-width: 520px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .message-text {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--navy);
+            color: #fff;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .3s;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 24, 81, .55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 900;
+            backdrop-filter: blur(4px);
+            padding: 20px;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(6, 24, 81, .2);
+        }
+
+        .modal-header {
+            background: var(--navy);
+            padding: 16px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: transparent;
+            color: rgba(255, 255, 255, .7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-footer {
+            padding: 14px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background: #fafbfc;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 90px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: var(--font);
+            font-size: 13px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: var(--navy);
+        }
+
+        @media(max-width:900px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:600px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                padding: 20px 14px 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page hidden">
+        <div class="page-header">
+            <div class="page-header-left">
+                <div class="logo-mark">RH</div>
+                <div>
+                    <div class="page-title">Canal RH</div>
+                    <div class="page-sub">Mensagens anônimas enviadas pelo Fale com a AESA</div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-ghost" onclick="location.href='index.html'">
+                    <i class="ti ti-home-2"></i>
+                    Página Inicial
+                </button>
+
+                <button class="btn btn-primary" onclick="carregarMensagens()">
+                    <i class="ti ti-refresh"></i>
+                    Atualizar
+                </button>
+            </div>
+        </div>
+
+        <div id="conteudo-rh">
+
+            <div class="stats-row">
+
+                <div class="stat-card">
+                    <div class="stat-icon si-blue">
+                        <i class="ti ti-message-circle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-total">–</div>
+                        <div class="stat-lbl">Total de mensagens</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon si-blue">
+                        <i class="ti ti-mail"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-novas">–</div>
+                        <div class="stat-lbl">Novas</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon si-amber">
+                        <i class="ti ti-eye"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-lidas">–</div>
+                        <div class="stat-lbl">Lidas</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon si-green">
+                        <i class="ti ti-circle-check"></i>
+                    </div>
+                    <div>
+                        <div class="stat-val" id="stat-resolvidas">–</div>
+                        <div class="stat-lbl">Resolvidas</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <div class="table-toolbar">
+
+                    <div class="search-wrap">
+                        <i class="ti ti-search"></i>
+                        <input class="search-input" id="busca" type="text"
+                            placeholder="Buscar por mensagem, categoria ou destinatário..."
+                            oninput="filtrarMensagens()">
+                    </div>
+
+                    <select class="filter-sel" id="filtro-status" onchange="filtrarMensagens()">
+                        <option value="todos">Todos os status</option>
+                        <option value="NOVA">Novas</option>
+                        <option value="LIDA">Lidas</option>
+                        <option value="RESOLVIDA">Resolvidas</option>
+                        <option value="ARQUIVADA">Arquivadas</option>
+                    </select>
+
+                    <select class="filter-sel" id="filtro-destinatario" onchange="filtrarMensagens()">
+                        <option value="todos">Todos os destinatários</option>
+                        <option value="rh">RH</option>
+                        <option value="ambos">RH e Diretoria</option>
+                        <option value="diretoria">Diretoria</option>
+                    </select>
+
+                </div>
+
+                <div id="lista-mensagens">
+                    <div class="empty">
+                        <i class="ti ti-loader-2"></i>
+                        Carregando mensagens...
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL DETALHE -->
+    <div class="modal-overlay" id="modal-detalhe">
+        <div class="modal">
+
+            <div class="modal-header">
+                <h3>
+                    <i class="ti ti-message-report"></i>
+                    Detalhes da Mensagem
+                </h3>
+
+                <button class="modal-close" onclick="fecharModal()">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div id="detalhe-meta" style="margin-bottom:16px"></div>
+
+                <div style="margin-bottom:16px">
+                    <div
+                        style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">
+                        Mensagem
+                    </div>
+                    <div class="message-text" id="detalhe-mensagem"></div>
+                </div>
+
+                <div>
+                    <div
+                        style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">
+                        Observação interna do RH
+                    </div>
+
+                    <textarea id="detalhe-observacao"
+                        placeholder="Anote aqui uma observação interna, se necessário..."></textarea>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" onclick="atualizarMensagem('ARQUIVADA')">
+                    <i class="ti ti-archive"></i>
+                    Arquivar
+                </button>
+
+                <div style="flex:1"></div>
+
+                <button class="btn btn-ghost btn-sm" onclick="fecharModal()">
+                    Fechar
+                </button>
+
+                <button class="btn btn-orange btn-sm" onclick="atualizarMensagem('LIDA')">
+                    <i class="ti ti-eye"></i>
+                    Marcar lida
+                </button>
+
+                <button class="btn btn-primary btn-sm" onclick="atualizarMensagem('RESOLVIDA')">
+                    <i class="ti ti-check"></i>
+                    Resolver
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="toast" id="toast">
+        <i class="ti ti-check"></i>
+        <span id="toast-msg"></span>
+    </div>
+
+
+    <script>
+        const API = 'http://10.1.1.54:3001';
+        let mensagens = [];
+        let mensagemAtual = null;
+
+        const usuarioLogado = getUsuario();
+
+        async function verificarPermissaoRH(usuario) {
+            if (usuario.ehTI === true) return true;
+            const perfisLocais = (usuario.perfis || []);
+            if (perfisLocais.includes('RH') || perfisLocais.includes('TI') || perfisLocais.includes('ADMIN')) {
+                return true;
+            }
+            try {
+                const res = await fetch(API + '/db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        metodo: 'GET',
+                        tabela: 'usuarios_intranet',
+                        params: `?select=perfis&usuario_ad=eq.${encodeURIComponent(usuario.sAMAccountName || usuario.email || '')}`
+                    })
+                });
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0 && data[0].perfis) {
+                    const perfisBanco = data[0].perfis;
+                    console.log('📋 Perfis do banco:', perfisBanco);
+                    return perfisBanco.includes('RH') || perfisBanco.includes('TI') || perfisBanco.includes('ADMIN');
+                }
+            } catch (e) {
+                console.error('Erro ao verificar permissão no banco:', e);
+            }
+            return false;
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const temPermissao = await verificarPermissaoRH(usuarioLogado);
+                console.log('🔍 Verificação RH:', {
+                    usuario: usuarioLogado.nome || usuarioLogado.sAMAccountName,
+                    perfis: usuarioLogado.perfis,
+                    ehTI: usuarioLogado.ehTI,
+                    resultado: temPermissao
+                });
+
+                if (!temPermissao) {
+                    document.body.innerHTML = `
+            <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f0f2f5;font-family:'DM Sans', sans-serif;padding:24px;">
+                <div style="background:#fff;border:1px solid #e2e6ea;border-radius:14px;padding:36px;max-width:420px;text-align:center;box-shadow:0 4px 20px rgba(6,24,81,.11);">
+                    <div style="width:60px;height:60px;border-radius:50%;background:#fef2f2;color:#991b1b;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;">
+                        <i class="ti ti-lock"></i>
+                    </div>
+                    <h2 style="font-size:20px;color:#061851;margin-bottom:8px">Acesso restrito</h2>
+                    <p style="font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:20px">
+                        Esta área é exclusiva para usuários com perfil RH.
+                    </p>
+                    <button onclick="location.href='index.html'" style="background:#061851;color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:'DM Sans', sans-serif;font-size:13px;font-weight:600;cursor:pointer;">
+                        <i class="ti ti-home-2"></i> Voltar para intranet
+                    </button>
+                </div>
+            </div>`;
+                    return;
+                }
+
+                // Autorizado
+                const page = document.querySelector('.page');
+                if (page) {
+                    page.classList.remove('hidden');
+                }
+                carregarMensagens();
+            } catch (erro) {
+                console.error('Erro na inicialização:', erro);
+                document.body.innerHTML = '<div style="padding:40px;text-align:center">Erro ao carregar. Recarregue a página.</div>';
+            }
+        });
+
+        // ... (restante das funções: supabase, carregarMensagens, etc. permanecem IGUAIS, sem alteração)
+        // Apenas certifique-se de remover qualquer outra chamada avulsa a carregarMensagens().
+
+
+        /* ============================
+           SUPABASE PROXY
+        ============================ */
+        async function supabase(metodo, tabela, params, body) {
+            const res = await fetch(API + '/db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    metodo,
+                    tabela,
+                    params: params || '',
+                    body: body || null
+                })
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                throw new Error(data.mensagem || 'Erro ' + res.status);
+            }
+
+            return data;
+        }
+
+
+        /* ============================
+           CARREGAR MENSAGENS
+        ============================ */
+        async function carregarMensagens() {
+            const el = document.getElementById('lista-mensagens');
+
+            el.innerHTML = `
+                <div class="empty">
+                    <i class="ti ti-loader-2"></i>
+                    Carregando mensagens...
+                </div>
+            `;
+
+            try {
+                const dados = await supabase(
+                    'GET',
+                    'mensagens_anonimas',
+                    '?select=*&order=data_envio.desc'
+                );
+
+                mensagens = Array.isArray(dados) ? dados : [];
+
+                atualizarStats();
+                renderMensagens(mensagens);
+
+            } catch (e) {
+                el.innerHTML = `
+                    <div class="empty" style="color:#991b1b">
+                        <i class="ti ti-alert-circle"></i>
+                        Erro ao carregar mensagens.<br>
+                        <span style="font-size:11px">${escapeHTML(e.message)}</span>
+                    </div>
+                `;
+            }
+        }
+
+
+        function atualizarStats() {
+            document.getElementById('stat-total').textContent = mensagens.length;
+
+            document.getElementById('stat-novas').textContent =
+                mensagens.filter(m => m.status === 'NOVA').length;
+
+            document.getElementById('stat-lidas').textContent =
+                mensagens.filter(m => m.status === 'LIDA').length;
+
+            document.getElementById('stat-resolvidas').textContent =
+                mensagens.filter(m => m.status === 'RESOLVIDA').length;
+        }
+
+
+        function filtrarMensagens() {
+            const q = document.getElementById('busca').value.toLowerCase();
+            const status = document.getElementById('filtro-status').value;
+            const destinatario = document.getElementById('filtro-destinatario').value;
+
+            const lista = mensagens.filter(m => {
+                const matchQ =
+                    !q ||
+                    String(m.mensagem || '').toLowerCase().includes(q) ||
+                    String(m.categoria || '').toLowerCase().includes(q) ||
+                    String(m.destinatario || '').toLowerCase().includes(q);
+
+                const matchStatus =
+                    status === 'todos' || m.status === status;
+
+                const matchDest =
+                    destinatario === 'todos' || m.destinatario === destinatario;
+
+                return matchQ && matchStatus && matchDest;
+            });
+
+            renderMensagens(lista);
+        }
+
+
+        function renderMensagens(lista) {
+            const el = document.getElementById('lista-mensagens');
+
+            if (!lista.length) {
+                el.innerHTML = `
+                    <div class="empty">
+                        <i class="ti ti-message-off"></i>
+                        Nenhuma mensagem encontrada.
+                    </div>
+                `;
+                return;
+            }
+
+            el.innerHTML = `
+                <div style="overflow-x:auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Destinatário</th>
+                                <th>Categoria</th>
+                                <th>Mensagem</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            ${lista.map(m => `
+                                <tr>
+                                    <td style="white-space:nowrap;color:var(--muted);font-size:12px">
+                                        ${formatarData(m.data_envio)}
+                                    </td>
+
+                                    <td>
+                                        ${destinatarioBadge(m.destinatario)}
+                                    </td>
+
+                                    <td>
+                                        <span class="pill pill-navy">
+                                            ${escapeHTML(m.categoria || 'Não informado')}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="message-preview">
+                                            ${escapeHTML(resumir(m.mensagem, 180))}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        ${statusBadge(m.status)}
+                                    </td>
+
+                                    <td>
+                                        <div style="display:flex;gap:6px;flex-wrap:wrap">
+                                            <button class="btn btn-ghost btn-sm"
+                                                onclick="abrirDetalhe('${m.id}')">
+                                                <i class="ti ti-eye"></i>
+                                                Ver
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+
+        function abrirDetalhe(id) {
+            const msg = mensagens.find(m => String(m.id) === String(id));
+
+            if (!msg) return;
+
+            mensagemAtual = msg;
+
+            document.getElementById('detalhe-meta').innerHTML = `
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+                    ${destinatarioBadge(msg.destinatario)}
+                    <span class="pill pill-navy">
+                        ${escapeHTML(msg.categoria || 'Não informado')}
+                    </span>
+                    ${statusBadge(msg.status)}
+                </div>
+
+                <div style="font-size:12px;color:var(--muted)">
+                    Enviada em ${formatarData(msg.data_envio)}
+                </div>
+            `;
+
+            document.getElementById('detalhe-mensagem').textContent =
+                msg.mensagem || '';
+
+            document.getElementById('detalhe-observacao').value =
+                msg.observacao_rh || '';
+
+            document.getElementById('modal-detalhe').style.display = 'flex';
+        }
+
+
+        function fecharModal() {
+            document.getElementById('modal-detalhe').style.display = 'none';
+            mensagemAtual = null;
+        }
+
+
+        async function atualizarMensagem(status) {
+            if (!mensagemAtual) return;
+
+            const obs = document.getElementById('detalhe-observacao').value.trim();
+
+            const payload = {
+                status,
+                observacao_rh: obs || null,
+                data_atualizacao: new Date().toISOString()
+            };
+
+            if (status === 'LIDA') {
+                payload.data_leitura = new Date().toISOString();
+            }
+
+            if (status === 'RESOLVIDA') {
+                payload.data_resolucao = new Date().toISOString();
+            }
+
+            try {
+                await supabase(
+                    'PATCH',
+                    'mensagens_anonimas',
+                    `?id=eq.${mensagemAtual.id}`,
+                    payload
+                );
+
+                toast('Mensagem atualizada.');
+                fecharModal();
+                carregarMensagens();
+
+            } catch (e) {
+                toast('Erro ao atualizar: ' + e.message, true);
+            }
+        }
+
+
+        function destinatarioBadge(dest) {
+            const map = {
+                rh: '<span class="pill pill-blue">RH</span>',
+                diretoria: '<span class="pill pill-red">Diretoria</span>',
+                ambos: '<span class="pill pill-green">RH e Diretoria</span>'
+            };
+
+            return map[dest] || `<span class="pill pill-navy">${escapeHTML(dest || '—')}</span>`;
+        }
+
+
+        function statusBadge(status) {
+            const map = {
+                NOVA: '<span class="pill pill-blue">Nova</span>',
+                LIDA: '<span class="pill pill-amber">Lida</span>',
+                RESOLVIDA: '<span class="pill pill-green">Resolvida</span>',
+                ARQUIVADA: '<span class="pill pill-red">Arquivada</span>'
+            };
+
+            return map[status] || `<span class="pill pill-navy">${escapeHTML(status || '—')}</span>`;
+        }
+
+
+        function resumir(txt, max) {
+            const s = String(txt || '');
+
+            if (s.length <= max) return s;
+
+            return s.substring(0, max) + '...';
+        }
+
+
+        function formatarData(dt) {
+            if (!dt) return '—';
+
+            return new Date(dt).toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+
+        function escapeHTML(str) {
+            return String(str || '')
+                .replace(/[&<>"']/g, function (m) {
+                    return {
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        '"': '&quot;',
+                        "'": '&#039;'
+                    }[m];
+                });
+        }
+
+
+        let toastTimer;
+
+        function toast(msg, isErr) {
+            const el = document.getElementById('toast');
+
+            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+
+            el.querySelector('i').className =
+                'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
+
+            document.getElementById('toast-msg').textContent = msg;
+
+            el.classList.add('show');
+
+            clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+                el.classList.remove('show');
+            }, 3200);
+        }
+
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                fecharModal();
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
