@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AESA — Fale com a AESA</title>
 
+    <link rel="icon" type="image/png" href="img/favicon1.png?v=2">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -552,9 +553,11 @@
             }
         }
     </style>
+    <script src="tema.js"></script>
 </head>
 
 <body>
+
     <div class="page">
 
         <!-- HEADER -->
@@ -567,14 +570,14 @@
                 </div>
             </div>
             <div class="update-note">
-                <i class="ti ti-clock"></i>
+                <i data-lucide="clock" style="width:17px;height:17px"></i>
                 <span id="update-label">Carregando...</span>
             </div>
         </div>
 
         <!-- AVISO -->
         <div class="notice-card">
-            <i class="ti ti-info-circle"></i>
+            <i data-lucide="info" style="width:17px;height:17px"></i>
             <p>
                 Bem-vindo(a) ao canal de comunicação anônima entre o colaborador e o RH / Diretoria da AESA.
                 Escreva sua mensagem e clique em <strong>Enviar</strong>. Utilize esta ferramenta para enviar
@@ -620,7 +623,7 @@
         <div class="form-card" id="form-card">
 
             <div class="form-card-head">
-                <i class="ti ti-send"></i>
+                <i data-lucide="send" style="width:17px;height:17px"></i>
                 <div>
                     <div class="form-card-head-title">Nova Mensagem</div>
                     <div class="form-card-head-sub">Preencha os campos abaixo e clique em Enviar</div>
@@ -633,7 +636,7 @@
                 <div class="form-group">
                     <label class="form-label">Destinatário da Mensagem</label>
                     <div class="dest-fixed">
-                        <i class="ti ti-users"></i>
+                        <i data-lucide="users" style="width:17px;height:17px"></i>
                         RH e Diretoria
                         <span class="dest-fixed-sub">Mensagem enviada para ambos</span>
                     </div>
@@ -644,19 +647,19 @@
                     <label class="form-label">Categoria da Mensagem</label>
                     <div class="category-chips">
                         <div class="cat-chip" data-color="blue" onclick="selectCat(this)">
-                            <i class="ti ti-thumb-up"></i> Elogio
+                            <i data-lucide="thumbs-up" style="width:17px;height:17px"></i> Elogio
                         </div>
                         <div class="cat-chip" data-color="orange" onclick="selectCat(this)">
-                            <i class="ti ti-message-exclamation"></i> Crítica
+                            <i data-lucide="message-square-warning" style="width:17px;height:17px"></i> Crítica
                         </div>
                         <div class="cat-chip" data-color="green" onclick="selectCat(this)">
-                            <i class="ti ti-bulb"></i> Sugestão
+                            <i data-lucide="lightbulb" style="width:17px;height:17px"></i> Sugestão
                         </div>
                         <div class="cat-chip" data-color="orange" onclick="selectCat(this)">
-                            <i class="ti ti-alert-triangle"></i> Relato / Denúncia
+                            <i data-lucide="alert-triangle" style="width:17px;height:17px"></i> Relato / Denúncia
                         </div>
                         <div class="cat-chip" data-color="" onclick="selectCat(this)">
-                            <i class="ti ti-dots-circle-horizontal"></i> Outro
+                            <i data-lucide="more-horizontal" style="width:17px;height:17px"></i> Outro
                         </div>
                     </div>
                 </div>
@@ -674,11 +677,11 @@
 
             <div class="form-footer">
                 <div class="form-footer-note">
-                    <i class="ti ti-lock"></i>
+                    <i data-lucide="lock" style="width:17px;height:17px"></i>
                     Mensagem enviada com segurança. Nenhum nome, usuário AD ou e-mail é armazenado.
                 </div>
                 <button class="btn-send" onclick="enviarMensagem()">
-                    <i class="ti ti-send"></i>
+                    <i data-lucide="send" style="width:17px;height:17px"></i>
                     Enviar Mensagem
                 </button>
             </div>
@@ -688,7 +691,7 @@
         <!-- SUCCESS -->
         <div class="success-overlay" id="success-overlay">
             <div class="success-icon">
-                <i class="ti ti-check"></i>
+                <i data-lucide="check" style="width:17px;height:17px"></i>
             </div>
             <div class="success-title">Mensagem enviada com sucesso!</div>
             <div class="success-desc">
@@ -696,7 +699,7 @@
                 melhoria da AESA.
             </div>
             <button class="btn-ghost" onclick="novaMensagem()">
-                <i class="ti ti-refresh"></i>
+                <i data-lucide="refresh-cw" style="width:17px;height:17px"></i>
                 Enviar outra mensagem
             </button>
         </div>
@@ -705,12 +708,12 @@
 
     <!-- TOAST -->
     <div class="toast" id="toast">
-        <i class="ti ti-alert-circle" id="toast-icon"></i>
+        <i data-lucide="alert-circle" style="width:17px;height:17px" id="toast-icon"></i>
         <span id="toast-msg">Mensagem</span>
     </div>
 
     <script>
-        const API = 'http://10.1.1.54:3001';
+        const EDGE_URL = 'https://hahqycsfmqoselhmqpbp.supabase.co/functions/v1/painel-fale-rh';
         let categoriaSelecionada = '';
 
         /* Data de atualização */
@@ -720,18 +723,6 @@
             now.getDate().toString().padStart(2, '0') + '/' +
             (now.getMonth() + 1).toString().padStart(2, '0') + '/' +
             now.getFullYear();
-
-        /* Supabase proxy */
-        async function supabase(metodo, tabela, params, body) {
-            const res = await fetch(API + '/db', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ metodo, tabela, params: params || '', body: body || null })
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data.mensagem || 'Erro ' + res.status);
-            return data;
-        }
 
         /* Categoria */
         function selectCat(el) {
@@ -749,7 +740,7 @@
             counter.classList.toggle('warn', count > 1800);
         }
 
-        /* Enviar */
+        /* Enviar via Edge Function */
         async function enviarMensagem() {
             const msg = document.getElementById('mensagem').value.trim();
             const btn = document.querySelector('.btn-send');
@@ -757,20 +748,25 @@
             if (!msg) { showToast('Escreva sua mensagem antes de enviar.', true); return; }
             if (msg.length < 10) { showToast('Escreva uma mensagem com pelo menos 10 caracteres.', true); return; }
 
-            const payload = {
-                destinatario: 'ambos',
-                categoria: categoriaSelecionada || 'Não informado',
-                mensagem: msg,
-                lida: false
-            };
-
             try {
                 btn.disabled = true;
                 btn.style.opacity = '.65';
                 btn.style.cursor = 'not-allowed';
-                btn.innerHTML = '<i class="ti ti-loader-2"></i> Enviando...';
+                btn.innerHTML = '<i data-lucide="loader-2" style="width:17px;height:17px"></i> Enviando...';
 
-                await supabase('POST', 'mensagens_anonimas', '', payload);
+                const res = await fetch(EDGE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        categoria: categoriaSelecionada || 'Não informado',
+                        mensagem: msg
+                    })
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.error || 'Erro ' + res.status);
+                }
 
                 document.getElementById('form-card').style.display = 'none';
                 document.getElementById('success-overlay').classList.add('visible');
@@ -782,7 +778,8 @@
                 btn.disabled = false;
                 btn.style.opacity = '';
                 btn.style.cursor = '';
-                btn.innerHTML = '<i class="ti ti-send"></i> Enviar Mensagem';
+                btn.innerHTML = '<i data-lucide="send" style="width:17px;height:17px"></i> Enviar Mensagem';
+                lucide.createIcons();
             }
         }
 
@@ -812,6 +809,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>lucide.createIcons();</script>
     <script src="auth.js"></script>
+<div id="sidebar-root"></div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

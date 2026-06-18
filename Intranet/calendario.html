@@ -5,12 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AESA — Calendário Corporativo</title>
+    <link rel="icon" type="image/png" href="img/favicon1.png?v=2">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
         rel="stylesheet" />
     <script src="auth.js"></script>
+    <script src="notificacoes-chamados.js"></script>
     <style>
         *,
         *::before,
@@ -412,7 +415,7 @@
         }
 
         .cal-day-cell {
-            min-height: 72px;
+            min-height: 52px;
             padding: 4px;
             border-radius: 8px;
             cursor: pointer;
@@ -461,6 +464,7 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            margin-top: 3px;
         }
 
         .day-event-chip {
@@ -876,9 +880,12 @@
 </head>
 
 <body>
-    <div style="display:flex;justify-content:flex-end;padding:16px 24px 0">
+    <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:16px 24px 0">
+        <button class="btn btn-sm" id="btn-enviar-email-ti" style="display:none;background:#f0f4ff;color:#1e40af;border:1px solid #bfdbfe" onclick="enviarEmailTeste()">
+            <i data-lucide="send"></i>Disparar emails de hoje
+        </button>
         <button class="btn btn-orange btn-sm" id="btn-novo-evento" style="display:none" onclick="abrirModalNovo()">
-            <i class="ti ti-plus"></i>Novo Evento
+            <i data-lucide="plus"></i>Novo Evento
         </button>
     </div>
     <div class="content">
@@ -890,8 +897,8 @@
                     <h2 id="cal-titulo">Maio de 2025</h2>
                     <div class="cal-nav-btns">
                         <button class="cal-today-btn" onclick="irParaHoje()">Hoje</button>
-                        <button class="cal-nav-btn" onclick="mudarMes(-1)"><i class="ti ti-chevron-left"></i></button>
-                        <button class="cal-nav-btn" onclick="mudarMes(1)"><i class="ti ti-chevron-right"></i></button>
+                        <button class="cal-nav-btn" onclick="mudarMes(-1)"><i data-lucide="chevron-left"></i></button>
+                        <button class="cal-nav-btn" onclick="mudarMes(1)"><i data-lucide="chevron-right"></i></button>
                     </div>
                 </div>
                 <div class="cal-grid-wrap">
@@ -916,11 +923,11 @@
                     <div class="events-card-header">
                         <h3 id="eventos-dia-titulo">Eventos de hoje</h3>
                         <button class="btn btn-primary btn-sm" id="btn-add-dia" style="display:none"
-                            onclick="abrirModalNovo()"><i class="ti ti-plus"></i></button>
+                            onclick="abrirModalNovo()"><i data-lucide="plus"></i></button>
                     </div>
                     <div class="events-list" id="eventos-dia-lista">
                         <div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
-                            <i class="ti ti-calendar-off"
+                            <i data-lucide="calendar-off"
                                 style="font-size:24px;display:block;margin-bottom:6px;opacity:.3"></i>
                             Nenhum evento neste dia
                         </div>
@@ -950,8 +957,8 @@
     <div class="modal-overlay" id="modal-evento" style="display:none">
         <div class="modal">
             <div class="modal-header">
-                <h3><i class="ti ti-calendar-plus"></i><span id="modal-evento-titulo">Novo Evento</span></h3>
-                <button class="modal-close" onclick="fecharModal('modal-evento')"><i class="ti ti-x"></i></button>
+                <h3><i data-lucide="calendar-plus"></i><span id="modal-evento-titulo">Novo Evento</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-evento')"><i data-lucide="x"></i></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -983,17 +990,37 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:0">
-                    <label class="form-label">Descrição</label>
+                    <label class="form-label">Descricao</label>
                     <textarea class="form-textarea" id="f-ev-desc" placeholder="Detalhes do evento..."></textarea>
+                </div>
+                <div class="form-group" style="margin-top:14px;margin-bottom:0;border-top:1px solid var(--border);padding-top:14px">
+                    <label class="form-label" style="margin-bottom:8px">Aviso por email</label>
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:10px">
+                        <input type="checkbox" id="f-ev-aviso" onchange="toggleAvisoOpcoes()" style="width:16px;height:16px;accent-color:var(--orange)" />
+                        <span style="font-size:13px;color:var(--text)">Enviar email de aviso para os grupos</span>
+                    </label>
+                    <div id="f-ev-aviso-opcoes" style="display:none;background:var(--bg);border-radius:8px;padding:12px;border:1px solid var(--border)">
+                        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Avisar com antecedencia de:</div>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+                            <label class="aviso-chip"><input type="checkbox" value="1" /> 1 dia antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="3" /> 3 dias antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="4" /> 4 dias antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="5" /> 5 dias antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="7" /> 7 dias antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="14" /> 14 dias antes</label>
+                            <label class="aviso-chip"><input type="checkbox" value="30" /> 30 dias antes</label>
+                        </div>
+                        <div style="font-size:11px;color:var(--muted)">O email tambem sera enviado automaticamente no proprio dia do evento.</div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger btn-sm" id="btn-excluir-evento" style="display:none"
-                    onclick="excluirEvento()"><i class="ti ti-trash"></i>Excluir</button>
+                    onclick="excluirEvento()"><i data-lucide="trash"></i>Excluir</button>
                 <div style="flex:1"></div>
                 <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-evento')">Cancelar</button>
                 <button class="btn btn-orange btn-sm" onclick="salvarEvento()"><i
-                        class="ti ti-check"></i>Salvar</button>
+                        data-lucide="check"></i>Salvar</button>
             </div>
         </div>
     </div>
@@ -1002,8 +1029,8 @@
     <div class="modal-overlay" id="modal-detalhe" style="display:none">
         <div class="modal">
             <div class="modal-header">
-                <h3><i class="ti ti-calendar-event"></i><span id="det-titulo">Evento</span></h3>
-                <button class="modal-close" onclick="fecharModal('modal-detalhe')"><i class="ti ti-x"></i></button>
+                <h3><i data-lucide="calendar"></i><span id="det-titulo">Evento</span></h3>
+                <button class="modal-close" onclick="fecharModal('modal-detalhe')"><i data-lucide="x"></i></button>
             </div>
             <div class="modal-body">
                 <div class="detalhe-tipo-banner" id="det-banner"></div>
@@ -1011,16 +1038,16 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger btn-sm" id="det-btn-excluir" style="display:none"
-                    onclick="excluirEventoDetalhe()"><i class="ti ti-trash"></i>Excluir</button>
+                    onclick="excluirEventoDetalhe()"><i data-lucide="trash"></i>Excluir</button>
                 <div style="flex:1"></div>
                 <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-detalhe')">Fechar</button>
                 <button class="btn btn-primary btn-sm" id="det-btn-editar" style="display:none"
-                    onclick="editarEventoDetalhe()"><i class="ti ti-pencil"></i>Editar</button>
+                    onclick="editarEventoDetalhe()"><i data-lucide="pencil"></i>Editar</button>
             </div>
         </div>
     </div>
 
-    <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+    <div class="toast" id="toast"><span id="toast-icon" style="font-size:16px;line-height:1">✓</span><span id="toast-msg"></span></div>
 
     <style>
         @keyframes spin {
@@ -1028,26 +1055,43 @@
                 transform: rotate(360deg);
             }
         }
+
+        .aviso-chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--navy);
+            cursor: pointer;
+            transition: all .15s;
+        }
+        .aviso-chip:hover { border-color: var(--orange); color: var(--orange); }
+        .aviso-chip input[type=checkbox] { accent-color: var(--orange); cursor: pointer; }
     </style>
 
     <script>
-        const API = 'http://10.1.1.54:3001';
+        const API = '';
 
-        // ── Auth ──────────────────────────────────────────────────────
+        // Auth
         const usuarioLogado = getUsuario();
         preencherUsuarioUI('user-nome', 'user-setor', 'user-iniciais');
 
-        // Função que consulta o banco e retorna true se o usuário tem permissão
+        // Funcao que consulta o banco e retorna true se o usuario tem permissao
         async function verificarPermissaoRH(usuario) {
             // Se for TI, libera direto
             if (usuario.ehTI === true) return true;
 
-            // Se já tem perfis e inclui RH/TI, libera
+            // Se ja tem perfis e inclui RH/TI, libera
             if ((usuario.perfis || []).includes('RH') || (usuario.perfis || []).includes('TI')) {
                 return true;
             }
 
-            // Caso contrário, busca no banco pelo sAMAccountName
+            // Caso contrario, busca no banco pelo sAMAccountName
             try {
                 const res = await fetch(API + '/db', {
                     method: 'POST',
@@ -1061,19 +1105,19 @@
                 const data = await res.json();
                 if (Array.isArray(data) && data.length > 0 && data[0].perfis) {
                     const perfis = data[0].perfis;
-                    console.log('📋 Perfis do banco:', perfis);
+                    console.log(' Perfis do banco:', perfis);
                     return perfis.includes('RH') || perfis.includes('TI');
                 }
             } catch (e) {
-                console.error('Erro ao verificar permissão no banco:', e);
+                console.error('Erro ao verificar permissao no banco:', e);
             }
             return false;
         }
 
-        // ── variável global de permissão (usada em verEvento) ──
+        // variavel global de permissao (usada em verEvento)
         let ehRH = false;
 
-        // Inicialização assíncrona
+        // Inicializacao assincrona
         (async function init() {
             ehRH = await verificarPermissaoRH(usuarioLogado);
             if (ehRH) {
@@ -1082,11 +1126,20 @@
                 const btnDia = document.getElementById('btn-add-dia');
                 if (btnDia) btnDia.style.display = 'inline-flex';
             }
-            // Carrega os eventos (independente da permissão)
+            // Botao de email visivel para TI ou RH
+            if (ehRH || usuarioLogado.ehTI === true || String(usuarioLogado.ehTI) === 'true') {
+                const btnEmail = document.getElementById('btn-enviar-email-ti');
+                if (btnEmail) btnEmail.style.display = 'inline-flex';
+            }
+
+            // Carrega os eventos (independente da permissao)
             diaSelecionado = hoje;
             carregarEventos();
+
+
+            
         })();
-        // ── Supabase ──────────────────────────────────────────────────
+        // Supabase
         async function supabase(metodo, tabela, params, body) {
             const res = await fetch(API + '/db', {
                 method: 'POST',
@@ -1098,7 +1151,7 @@
             return data;
         }
 
-        // ── State ─────────────────────────────────────────────────────
+        // State
         let todosEventos = [];
         let viewYear = new Date().getFullYear();
         let viewMonth = new Date().getMonth();
@@ -1107,22 +1160,38 @@
         const hoje = new Date();
         hoje.setHours(0, 0, 0, 0);
 
-        const MESES_PT = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const MESES_PT = ['Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         const TIPO_CFG = {
-            feriado: { emoji: '🎉', label: 'Feriado', bg: '#dcfce7', color: '#065f46', cls: 'tipo-feriado' },
-            evento: { emoji: '📅', label: 'Evento', bg: '#dbeafe', color: '#1e40af', cls: 'tipo-evento' },
-            reuniao: { emoji: '👥', label: 'Reunião', bg: '#fce7f3', color: '#9d174d', cls: 'tipo-reuniao' },
-            treinamento: { emoji: '📚', label: 'Treinamento', bg: '#fef3c7', color: '#92400e', cls: 'tipo-treinamento' },
-            aniversario: { emoji: '🎂', label: 'Aniversário', bg: '#ede9fe', color: '#5b21b6', cls: 'tipo-aniversario' },
-            outro: { emoji: '📌', label: 'Outro', bg: '#f1f5f9', color: '#475569', cls: 'tipo-outro' },
+            feriado: { emoji: '\uD83C\uDF89', label: 'Feriado', bg: '#dcfce7', color: '#065f46', cls: 'tipo-feriado' },
+            evento: { emoji: '\uD83D\uDCC5', label: 'Evento', bg: '#dbeafe', color: '#1e40af', cls: 'tipo-evento' },
+            reuniao: { emoji: '\uD83D\uDC65', label: 'Reuniao', bg: '#fce7f3', color: '#9d174d', cls: 'tipo-reuniao' },
+            treinamento: { emoji: '\uD83D\uDCDA', label: 'Treinamento', bg: '#fef3c7', color: '#92400e', cls: 'tipo-treinamento' },
+            aniversario: { emoji: '\uD83C\uDF82', label: 'Aniversario', bg: '#ede9fe', color: '#5b21b6', cls: 'tipo-aniversario' },
+            outro: { emoji: '\uD83D\uDCCC', label: 'Outro', bg: '#f1f5f9', color: '#475569', cls: 'tipo-outro' },
         };
 
-        // ── Carregar ──────────────────────────────────────────────────
+        // Carregar
         async function carregarEventos() {
             try {
                 const dados = await supabase('GET', 'eventos_calendario', '?order=data.asc&select=*');
-                todosEventos = Array.isArray(dados) ? dados : [];
+                todosEventos = (Array.isArray(dados) ? dados : []).map(ev => ({
+                    ...ev,
+                    data: ev.data ? ev.data.split("T")[0] : ev.data,
+                    data_fim: ev.data_fim ? ev.data_fim.split("T")[0] : ev.data_fim,
+                }));
                 renderCalendario();
+
+            // Abre direto na data passada via URL (?data=YYYY-MM-DD)
+            const paramData = new URLSearchParams(window.location.search).get('data');
+            if (paramData) {
+            const d = new Date(paramData + 'T00:00:00');
+            if (!isNaN(d)) {
+                viewYear = d.getFullYear();
+                viewMonth = d.getMonth();
+                diaSelecionado = d;
+            }
+            }
+
                 renderEventosDia(diaSelecionado || hoje);
                 renderProximos();
             } catch (e) {
@@ -1130,7 +1199,7 @@
             }
         }
 
-        // ── Calendário ────────────────────────────────────────────────
+        // Calendario
         function renderCalendario() {
             document.getElementById('cal-titulo').textContent = MESES_PT[viewMonth] + ' de ' + viewYear;
             const primeiroDia = new Date(viewYear, viewMonth, 1).getDay();
@@ -1151,12 +1220,12 @@
 
             let html = '';
 
-            // Dias do mês anterior
+            // Dias do mes anterior
             for (let i = primeiroDia - 1; i >= 0; i--) {
                 html += `<div class="cal-day-cell other-month"><div class="day-num">${diasAnterior - i}</div></div>`;
             }
 
-            // Dias do mês atual
+            // Dias do mes atual
             for (let d = 1; d <= diasNoMes; d++) {
                 const dataStr = `${viewYear}-${String(viewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const dataObj = new Date(dataStr + 'T00:00:00');
@@ -1170,7 +1239,7 @@
 
                 const chipsHTML = eventos.slice(0, 3).map(ev => {
                     const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
-                    return `<div class="day-event-chip ${tc.cls}" onclick="event.stopPropagation();verEvento(${ev.id})" title="${ev.titulo}">${ev.titulo}</div>`;
+                    return `<div class="day-event-chip ${tc.cls}" onclick="event.stopPropagation();verEvento('${ev.id}')" title="${ev.titulo}">${ev.titulo}</div>`;
                 }).join('');
                 const mais = eventos.length > 3 ? `<div style="font-size:10px;color:var(--muted);padding-left:2px">+${eventos.length - 3} mais</div>` : '';
 
@@ -1180,7 +1249,7 @@
     </div>`;
             }
 
-            // Completar última linha
+            // Completar ultima linha
             const total = primeiroDia + diasNoMes;
             const resto = total % 7 === 0 ? 0 : 7 - (total % 7);
             for (let i = 1; i <= resto; i++) {
@@ -1194,7 +1263,7 @@
             diaSelecionado = new Date(dataStr + 'T00:00:00');
             renderCalendario();
             renderEventosDia(diaSelecionado);
-            // Pré-preenche data no modal
+            // Pre-preenche data no modal
             document.getElementById('f-ev-data').value = dataStr;
         }
 
@@ -1213,7 +1282,7 @@
             renderCalendario();
         }
 
-        // ── Eventos do dia ────────────────────────────────────────────
+        // Eventos do dia
         function renderEventosDia(data) {
             const dataStr = data.toISOString().split('T')[0];
             const isHoje = data.getTime() === hoje.getTime();
@@ -1229,25 +1298,25 @@
             const el = document.getElementById('eventos-dia-lista');
             if (!lista.length) {
                 el.innerHTML = `<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
-      <i class="ti ti-calendar-off" style="font-size:24px;display:block;margin-bottom:6px;opacity:.3"></i>
+      <i data-lucide="calendar-off" style="font-size:24px;display:block;margin-bottom:6px;opacity:.3"></i>
       Nenhum evento neste dia
     </div>`;
                 return;
             }
             el.innerHTML = lista.map(ev => {
                 const tc = TIPO_CFG[ev.tipo] || TIPO_CFG.outro;
-                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento(${ev.id})">
+                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento('${ev.id}')">
       <div class="event-dot" style="background:${tc.color}"></div>
       <div class="event-info">
         <div class="event-title">${ev.titulo}</div>
-        <div class="event-date">${formatarData(ev.data)}${ev.data_fim && ev.data_fim !== ev.data ? ' → ' + formatarData(ev.data_fim) : ''}</div>
+        <div class="event-date">${formatarData(ev.data)}${ev.data_fim && ev.data_fim !== ev.data ? ' -> ' + formatarData(ev.data_fim) : ''}</div>
         <span class="event-tipo" style="background:${tc.bg};color:${tc.color}">${tc.emoji} ${tc.label}</span>
       </div>
     </div>`;
             }).join('');
         }
 
-        // ── Próximos eventos ──────────────────────────────────────────
+        // Proximos eventos
         function renderProximos() {
             const hojeStr = hoje.toISOString().split('T')[0];
             const proximos = todosEventos
@@ -1257,7 +1326,7 @@
 
             const el = document.getElementById('proximos-lista');
             if (!proximos.length) {
-                el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Nenhum evento próximo</div>';
+                el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Nenhum evento proximo</div>';
                 return;
             }
             el.innerHTML = proximos.map(ev => {
@@ -1265,22 +1334,22 @@
                 const dataEv = new Date(ev.data + 'T00:00:00');
                 const diff = Math.round((dataEv - hoje) / 86400000);
                 const diffLabel = diff === 0 ? '<span style="color:var(--orange);font-weight:700">Hoje</span>'
-                    : diff === 1 ? '<span style="color:var(--amber)">Amanhã</span>'
+                    : diff === 1 ? '<span style="color:var(--amber)">Amanha</span>'
                         : `<span style="color:var(--muted)">em ${diff} dias</span>`;
-                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento(${ev.id})">
+                return `<div class="event-item" style="border-left-color:${tc.color}" onclick="verEvento('${ev.id}')">
       <div class="event-dot" style="background:${tc.color}"></div>
       <div class="event-info">
         <div class="event-title">${ev.titulo}</div>
-        <div class="event-date">${formatarData(ev.data)} · ${diffLabel}</div>
+        <div class="event-date">${formatarData(ev.data)} . ${diffLabel}</div>
         <span class="event-tipo" style="background:${tc.bg};color:${tc.color}">${tc.emoji} ${tc.label}</span>
       </div>
     </div>`;
             }).join('');
         }
 
-        // ── Ver evento (detalhe) ──────────────────────────────────────
+        // Ver evento (detalhe)
         function verEvento(id) {
-            const ev = todosEventos.find(x => x.id === id);
+            const ev = todosEventos.find(x => String(x.id) === String(id));
             if (!ev) return;
             eventoEditandoId = id;
 
@@ -1293,20 +1362,20 @@
             banner.innerHTML = `<span style="font-size:18px">${tc.emoji}</span>${tc.label}`;
 
             const periodo = ev.data_fim && ev.data_fim !== ev.data
-                ? `${formatarData(ev.data)} → ${formatarData(ev.data_fim)}`
+                ? `${formatarData(ev.data)} -> ${formatarData(ev.data_fim)}`
                 : formatarData(ev.data);
 
             document.getElementById('det-campos').innerHTML = `
     <div style="padding:8px 0;border-bottom:1px solid var(--border)">
-      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Período</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px">Periodo</div>
       <div style="font-size:13px;font-weight:600">${periodo}</div>
     </div>
     ${ev.descricao ? `<div style="padding:10px 0">
-      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Descrição</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:6px">Descricao</div>
       <div style="font-size:13px;line-height:1.7;color:var(--text)">${ev.descricao}</div>
     </div>` : ''}
     <div style="padding:8px 0;margin-top:4px;font-size:11px;color:var(--muted)">
-      Criado por: ${ev.criado_por || '–'}
+      Criado por: ${ev.criado_por || '-'}
     </div>`;
 
             document.getElementById('det-btn-editar').style.display = ehRH ? 'inline-flex' : 'none';
@@ -1321,7 +1390,7 @@
             abrirModalEditar(ev);
         }
 
-        // ── Modal criar/editar ────────────────────────────────────────
+        // Modal criar/editar
         let tipoSelecionado = 'evento';
 
         function selecionarTipo(el) {
@@ -1337,13 +1406,17 @@
             document.getElementById('f-ev-titulo').value = '';
             document.getElementById('f-ev-desc').value = '';
             document.getElementById('f-ev-data-fim').value = '';
-            // Mantém a data do dia selecionado se houver
+            // Mantem a data do dia selecionado se houver
             if (!document.getElementById('f-ev-data').value) {
                 document.getElementById('f-ev-data').value = hoje.toISOString().split('T')[0];
             }
             document.querySelectorAll('.tipo-opt').forEach(o => o.classList.remove('sel'));
             document.querySelector('.tipo-opt[data-tipo="evento"]').classList.add('sel');
             document.getElementById('btn-excluir-evento').style.display = 'none';
+            // Aviso email defaults
+            document.getElementById('f-ev-aviso').checked = true;
+            document.getElementById('f-ev-aviso-opcoes').style.display = 'block';
+            setAvisoDias([]);
             document.getElementById('modal-evento').style.display = 'flex';
             setTimeout(() => document.getElementById('f-ev-titulo').focus(), 100);
         }
@@ -1360,21 +1433,28 @@
                 o.classList.toggle('sel', o.dataset.tipo === ev.tipo);
             });
             document.getElementById('btn-excluir-evento').style.display = 'inline-flex';
+            // Aviso email
+            const avisoAtivo = ev.aviso_email !== false;
+            document.getElementById('f-ev-aviso').checked = avisoAtivo;
+            document.getElementById('f-ev-aviso-opcoes').style.display = avisoAtivo ? 'block' : 'none';
+            setAvisoDias(ev.aviso_dias || []);
             document.getElementById('modal-evento').style.display = 'flex';
         }
 
         async function salvarEvento() {
             const titulo = document.getElementById('f-ev-titulo').value.trim();
             const data = document.getElementById('f-ev-data').value;
-            if (!titulo || !data) { toast('Preencha título e data.', true); return; }
+            if (!titulo || !data) { toast('Preencha titulo e data.', true); return; }
 
             const payload = {
-                titulo, data,
-                data_fim: document.getElementById('f-ev-data-fim').value || null,
+                titulo,
+                data: data.split('T')[0],
+                data_fim: document.getElementById('f-ev-data-fim').value ? document.getElementById('f-ev-data-fim').value.split('T')[0] : null,
                 tipo: tipoSelecionado,
                 descricao: document.getElementById('f-ev-desc').value.trim() || null,
                 criado_por: usuarioLogado.nome || usuarioLogado.sAMAccountName,
-                data_atualizacao: new Date().toISOString(),
+                aviso_email: document.getElementById('f-ev-aviso').checked,
+                aviso_dias:  getAvisoDias(),
             };
 
             try {
@@ -1395,7 +1475,7 @@
             try {
                 await supabase('DELETE', 'eventos_calendario', `?id=eq.${eventoEditandoId}`);
                 fecharModal('modal-evento');
-                toast('Evento excluído.');
+                toast('Evento excluido.');
                 carregarEventos();
             } catch (e) { toast('Erro ao excluir: ' + e.message, true); }
         }
@@ -1405,14 +1485,61 @@
             try {
                 await supabase('DELETE', 'eventos_calendario', `?id=eq.${eventoEditandoId}`);
                 fecharModal('modal-detalhe');
-                toast('Evento excluído.');
+                toast('Evento excluido.');
                 carregarEventos();
             } catch (e) { toast('Erro ao excluir: ' + e.message, true); }
         }
 
-        // ── Helpers ───────────────────────────────────────────────────
+        // Envio de email (TI/RH)
+        async function enviarEmailTeste() {
+            const btn = document.getElementById('btn-enviar-email-ti');
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+            try {
+                const res = await fetch('/enviar-eventos-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-ti-usuario': usuarioLogado.sAMAccountName || '',
+                    },
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    toast(data.mensagem || 'Email enviado com sucesso!');
+                    if (data.detalhes && data.detalhes.erros && data.detalhes.erros.length > 0) {
+                        setTimeout(() => toast('Atenção: ' + data.detalhes.erros.map(e => e.grupo + ': ' + e.erro).join(' | '), true), 3500);
+                    }
+                } else {
+                    toast('Erro: ' + (data.mensagem || res.status), true);
+                }
+            } catch (e) {
+                toast('Erro ao conectar: ' + e.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Disparar emails de hoje';
+            }
+        }
+
+        // Aviso email helpers
+        function toggleAvisoOpcoes() {
+            const checked = document.getElementById('f-ev-aviso').checked;
+            document.getElementById('f-ev-aviso-opcoes').style.display = checked ? 'block' : 'none';
+        }
+
+        function getAvisoDias() {
+            return Array.from(document.querySelectorAll('#f-ev-aviso-opcoes input[type=checkbox]:checked'))
+                .map(el => parseInt(el.value));
+        }
+
+        function setAvisoDias(dias) {
+            document.querySelectorAll('#f-ev-aviso-opcoes input[type=checkbox]').forEach(el => {
+                el.checked = Array.isArray(dias) && dias.includes(parseInt(el.value));
+            });
+        }
+
+        // Helpers
         function formatarData(str) {
-            if (!str) return '–';
+            if (!str) return '-';
             const [y, m, d] = str.split('-');
             return `${d}/${m}/${y}`;
         }
@@ -1424,19 +1551,27 @@
 
         let toastTimer;
         function toast(msg, isErr) {
-            const el = document.getElementById('toast');
-            el.style.background = isErr ? '#991b1b' : 'var(--navy)';
-            el.querySelector('i').className = 'ti ' + (isErr ? 'ti-alert-circle' : 'ti-check');
-            document.getElementById('toast-msg').textContent = msg;
-            el.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+            try {
+                const el = document.getElementById('toast');
+                el.style.background = isErr ? '#991b1b' : 'var(--navy)';
+                const icon = document.getElementById('toast-icon');
+                if (icon) icon.textContent = isErr ? '✕' : '✓';
+                document.getElementById('toast-msg').textContent = msg;
+                el.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+            } catch(e) { console.warn('toast error', e); }
         }
 
-        // ── Init ──────────────────────────────────────────────────────
+        // Init
         diaSelecionado = hoje;
         carregarEventos();
     </script>
+
+      <div id="sidebar-root"></div>
+  <script src="sidebar.js"></script>
+
+
 </body>
 
 </html>

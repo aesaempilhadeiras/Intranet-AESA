@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-base="../">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitação de Reembolso — AESA</title>
+  <link rel="icon" type="image/png" href="../img/favicon1.png?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="reembolso-bridge.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="../sidebar.js"></script>
+  <style>
+    :root {
+      --azul: #061851;
+      --laranja: #E73B1B;
+      --texto: #0f1923;
+      --suave: #6b7280;
+      --branco: #fff;
+      --borda: #e2e6ea;
+      --verde: #065f46;
+      --verde-bg: #ecfdf5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: var(--texto);
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--azul);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header h1::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      background: var(--laranja);
+      border-radius: 2px;
+    }
+
+    .page-header p {
+      color: var(--suave);
+      font-size: 13px;
+      margin-top: 4px;
+      margin-left: 14px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--borda);
+      margin-bottom: 28px;
+    }
+
+    .tab {
+      padding: 10px 24px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--suave);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+
+    .tab.ativo {
+      color: var(--laranja);
+      border-bottom-color: var(--laranja);
+      font-weight: 600;
+    }
+
+    .tab:hover:not(.ativo) {
+      color: var(--azul);
+    }
+
+    .tab-setor-hidden {
+      display: none !important;
+    }
+
+    .badge-setor {
+      display: inline-block;
+      background: #f0f4ff;
+      color: #061851;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--borda);
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--suave);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-grid .full {
+      grid-column: 1/-1;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--texto);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--borda);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--texto);
+      background: #f8f9fb;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--azul);
+      background: var(--branco);
+      box-shadow: 0 0 0 3px rgba(6, 24, 81, 0.07);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .upload-area {
+      border: 2px dashed var(--borda);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8f9fb;
+      position: relative;
+    }
+
+    .upload-area:hover,
+    .upload-area.drag {
+      border-color: var(--laranja);
+      background: #fff5f3;
+    }
+
+    .upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      font-size: 13px;
+      color: var(--suave);
+    }
+
+    .upload-text strong {
+      color: var(--laranja);
+    }
+
+    .upload-preview {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .upload-preview.show {
+      display: flex;
+    }
+
+    .upload-preview span {
+      font-size: 13px;
+      color: var(--verde);
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .btn-remove {
+      background: none;
+      border: none;
+      color: #dc2626;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .btn-primary {
+      padding: 11px 28px;
+      background: var(--laranja);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #c93218;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(231, 59, 27, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .msg {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .msg.show {
+      display: block;
+    }
+
+    .msg.ok {
+      background: var(--verde-bg);
+      border: 1px solid #6ee7b7;
+      color: var(--verde);
+    }
+
+    .msg.err {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--borda);
+    }
+
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #f1f4f8;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr.clicavel {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    tr.clicavel:hover td {
+      background: #f0f4ff;
+    }
+
+    tr.clicavel:hover td:first-child {
+      border-left: 3px solid var(--laranja);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 52px;
+      color: var(--suave);
+      font-size: 14px;
+    }
+
+    .req {
+      color: var(--laranja);
+    }
+
+    .btn-ajuda {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: #f0f4ff;
+      color: var(--azul);
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-ajuda:hover {
+      background: var(--azul);
+      color: white;
+    }
+
+    .info-box {
+      background: #f0f4ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1e40af;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    /* ── MODAL DETALHES ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 24, 81, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-det {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .modal-det-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+    }
+
+    .modal-det-titulo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .modal-fechar {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--suave);
+      font-size: 22px;
+      padding: 0 4px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-fechar:hover {
+      color: var(--laranja);
+    }
+
+    .modal-det-body {
+      padding: 24px 28px;
+    }
+
+    .modal-det-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--borda);
+      display: flex;
+      justify-content: flex-end;
+      background: #fafbfc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn-fechar-det {
+      padding: 9px 20px;
+      background: #f4f6f9;
+      color: var(--suave);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .det-secao {
+      margin-bottom: 24px;
+    }
+
+    .det-secao-titulo {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--suave);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .det-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .det-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .det-item label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    .det-item .valor {
+      font-size: 14px;
+      color: var(--texto);
+      font-weight: 500;
+    }
+
+    .det-item .valor.destaque {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .det-item .valor.desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      width: 2px;
+      height: 100%;
+      background: var(--borda);
+    }
+
+    .timeline-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .timeline-dot svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .timeline-dot.criado {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+    }
+
+    .timeline-dot.aprovado {
+      background: #ecfdf5;
+      border: 2px solid #6ee7b7;
+    }
+
+    .timeline-dot.rejeitado {
+      background: #fef2f2;
+      border: 2px solid #fca5a5;
+    }
+
+    .timeline-dot.editado {
+      background: #fff8e1;
+      border: 2px solid #fde68a;
+    }
+
+    .timeline-info {
+      padding-bottom: 20px;
+    }
+
+    .timeline-titulo {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--texto);
+    }
+
+    .timeline-data {
+      font-size: 12px;
+      color: var(--suave);
+      margin-top: 2px;
+    }
+
+    .timeline-obs {
+      font-size: 12px;
+      color: #374151;
+      margin-top: 4px;
+      background: #f8f9fb;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--borda);
+    }
+
+    .comprovante-area {
+      background: #f8f9fb;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .comprovante-area img {
+      max-width: 100%;
+      max-height: 320px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .comprovante-area embed {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+    }
+
+    .sem-comp {
+      color: var(--suave);
+      font-size: 13px;
+      padding: 24px;
+    }
+
+    /* ── MODAL AJUDA ── */
+    .modal-ajuda-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 24, 81, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-ajuda-overlay.show {
+      display: flex;
+    }
+
+    .modal-ajuda {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
+      animation: slideUp 0.2s ease;
+    }
+
+    .modal-ajuda-header {
+      background: #061851;
+      padding: 24px 28px;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-ajuda-titulo {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-ajuda-fechar {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 22px;
+      padding: 0 4px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-ajuda-fechar:hover {
+      color: white;
+    }
+
+    .modal-ajuda-body {
+      padding: 28px;
+    }
+
+    .modal-ajuda-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--borda);
+      display: flex;
+      justify-content: flex-end;
+      background: #fafbfc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn-fechar-ajuda {
+      padding: 9px 20px;
+      background: #f4f6f9;
+      color: var(--suave);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .passo {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .passo:last-child {
+      margin-bottom: 0;
+    }
+
+    .passo-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .passo-titulo {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--azul);
+      margin: 0 0 4px;
+    }
+
+    .passo-desc {
+      font-size: 13px;
+      color: var(--suave);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .ajuda-regras {
+      background: #f8f9fb;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 20px;
+    }
+
+    .ajuda-regras-titulo {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--suave);
+      margin: 0 0 12px;
+    }
+
+    .ajuda-regra {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .ajuda-regra:last-child {
+      margin-bottom: 0;
+    }
+
+    .ajuda-contato {
+      background: #fff8e1;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 16px;
+    }
+
+    .sb-content-wrap .page,
+    .sb-content-wrap>div:not(#bridge-loading):not(#reembolso-topbar)>.page {
+      box-sizing: border-box;
+    }
+
+    #reembolso-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .sb-content-wrap {
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar-root"></div>
+  <div id="bridge-loading"
+    style="position:fixed;inset:0;background:#f0f2f5;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;">
+    <div
+      style="width:44px;height:44px;border:3px solid #e2e6ea;border-top-color:#E73B1B;border-radius:50%;animation:_spin .7s linear infinite;margin-bottom:16px;">
+    </div>
+    <div style="font-family:'Inter',sans-serif;font-size:13px;color:#6b7280;">Verificando acesso...</div>
+    <style>
+      @keyframes _spin {
+        to {
+          transform: rotate(360deg)
+        }
+      }
+    </style>
+  </div>
+
+  <div id="reembolso-topbar"
+    style="background:#061851;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;width:100%;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:3px;height:18px;background:#E73B1B;border-radius:2px;"></div>
+      <span style="color:white;font-size:13px;font-weight:600;" id="topbar-titulo">Solicitações</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="color:rgba(255,255,255,0.5);font-size:12px;" id="topbar-nome">—</span>
+      <div id="topbar-avatar"
+        style="width:28px;height:28px;border-radius:50%;background:#E73B1B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;">
+        —</div>
+      <button id="topbar-btn-trocar" onclick="trocarTela()"
+        style="display:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Trocar
+        painel</button>
+      <button onclick="logout()"
+        style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;">Sair</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between;">
+      <div>
+        <h1>Solicitação de Reembolso</h1>
+        <p>Registre e acompanhe suas solicitações de reembolso</p>
+      </div>
+      <button class="btn-ajuda" onclick="document.getElementById('modalAjuda').classList.add('show')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+        Como funciona?
+      </button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab ativo" onclick="trocarAba('novo')">Nova Solicitação</button>
+      <button class="tab" onclick="trocarAba('lista')">Minhas Solicitações</button>
+      <button class="tab tab-setor-hidden" id="btnAbaSetor" onclick="trocarAba('setor')">Meu Setor <span
+          class="badge-setor" id="badgeSetor"></span></button>
+    </div>
+
+    <div id="abaNovo">
+      <div class="card">
+        <div class="section-label">Dados da Solicitação</div>
+        <div class="msg" id="msgForm"></div>
+        <div class="form-grid">
+          <div class="field"><label>Nome completo</label><input type="text" id="fNome" readonly
+              style="background:#f0f2f5;color:#6b7280;cursor:not-allowed;" /></div>
+          <div class="field"><label>Setor <span class="req">*</span></label><select id="fSetor">
+              <option value="">Selecione o setor</option>
+            </select></div>
+          <div class="field"><label>Data da Despesa <span class="req">*</span></label><input type="date" id="fData" />
+          </div>
+          <div class="field"><label>Valor (R$) <span class="req">*</span></label><input type="number" id="fValor"
+              placeholder="0,00" min="0.01" step="0.01" /></div>
+          <div class="field full"><label>Descrição da despesa <span class="req">*</span></label><textarea id="fDesc"
+              placeholder="Descreva o motivo e detalhes da despesa..."></textarea></div>
+          <div class="field full">
+            <label>Comprovante <span class="req">*</span></label>
+            <div class="info-box">Anexe o comprovante da despesa: nota fiscal, recibo, cupom fiscal ou comprovante de
+              Pix.</div>
+            <div class="upload-area" id="uploadArea">
+              <input type="file" id="fArquivo" accept="image/*,.pdf" onchange="onFileChange(event)" />
+              <div class="upload-icon">📎</div>
+              <div class="upload-text"><strong>Clique para selecionar</strong> ou arraste o arquivo aqui</div>
+              <div class="upload-text" style="font-size:11px;margin-top:4px;">Aceito: imagens JPG/PNG e PDF — máx. 10MB
+              </div>
+            </div>
+            <div class="upload-preview" id="uploadPreview">
+              <span id="nomeArquivo"></span>
+              <button class="btn-remove" onclick="removerArquivo()">×</button>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:24px;display:flex;justify-content:flex-end;align-items:center;gap:12px;">
+          <span style="font-size:12px;color:var(--suave);"><span class="req">*</span> Campos obrigatórios</span>
+          <button class="btn-primary" id="btnEnviar" onclick="enviarSolicitacao()">Enviar Solicitação</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="abaLista" style="display:none;">
+      <div class="card">
+        <div class="section-label">Minhas Solicitações</div>
+        <div id="listaConteudo">
+          <div class="empty">Carregando...</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="abaSetor" style="display:none;">
+      <div id="abaSetorConteudo">
+        <div class="empty">Carregando...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHES DA SOLICITAÇÃO -->
+  <div class="modal-overlay" id="modalDetalhes">
+    <div class="modal-det">
+      <div class="modal-det-header">
+        <div>
+          <div class="modal-det-titulo" id="detTitulo">Detalhes da Solicitação</div>
+          <div id="detSub"></div>
+        </div>
+        <button class="modal-fechar" onclick="fecharDetalhes()">×</button>
+      </div>
+      <div class="modal-det-body" id="detBody"></div>
+      <div class="modal-det-footer">
+        <button class="btn-fechar-det" onclick="fecharDetalhes()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL COMO FUNCIONA -->
+  <div class="modal-ajuda-overlay" id="modalAjuda">
+    <div class="modal-ajuda">
+      <div class="modal-ajuda-header">
+        <span class="modal-ajuda-titulo">📋 Como funciona o reembolso</span>
+        <button class="modal-ajuda-fechar"
+          onclick="document.getElementById('modalAjuda').classList.remove('show')">×</button>
+      </div>
+      <div class="modal-ajuda-body">
+        <div class="passo">
+          <div class="passo-num" style="background:#E73B1B;">1</div>
+          <div>
+            <div class="passo-titulo">Faça sua solicitação</div>
+            <div class="passo-desc">Clique em <strong>Nova Solicitação</strong>, preencha os dados da despesa e anexe o
+              comprovante.</div>
+          </div>
+        </div>
+        <div class="passo">
+          <div class="passo-num" style="background:#b45309;">2</div>
+          <div>
+            <div class="passo-titulo">Aguarde a aprovação</div>
+            <div class="passo-desc">O aprovador será notificado automaticamente por e-mail.</div>
+          </div>
+        </div>
+        <div class="passo">
+          <div class="passo-num" style="background:#065f46;">3</div>
+          <div>
+            <div class="passo-titulo">Receba o pagamento</div>
+            <div class="passo-desc">Após aprovação, o financeiro processa o pagamento e marca como
+              <strong>Concluído</strong>.
+            </div>
+          </div>
+        </div>
+        <div class="ajuda-regras">
+          <div class="ajuda-regras-titulo">Regras importantes</div>
+          <div class="ajuda-regra"><span style="color:#E73B1B;font-weight:700;">✓</span> O <strong>comprovante é
+              obrigatório</strong>.</div>
+          <div class="ajuda-regra"><span style="color:#E73B1B;font-weight:700;">✓</span> Solicite <strong>dentro do
+              mês</strong> em que a despesa foi realizada.</div>
+          <div class="ajuda-regra"><span style="color:#E73B1B;font-weight:700;">✓</span> Descreva claramente o
+            <strong>motivo da despesa</strong>.
+          </div>
+        </div>
+        <div class="ajuda-contato">
+          <p style="color:#92400e;font-size:13px;font-weight:700;margin:0 0 4px;">💬 Dúvidas ou problemas?</p>
+          <p style="color:#78350f;font-size:13px;margin:0;">Entre em contato com o TI:
+            <strong>ti@aesaempilhadeiras.com.br</strong>
+          </p>
+        </div>
+      </div>
+      <div class="modal-ajuda-footer">
+        <button class="btn-fechar-ajuda"
+          onclick="document.getElementById('modalAjuda').classList.remove('show')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('modalAjuda').addEventListener('click', function (e) { if (e.target === this) this.classList.remove('show'); });
+    document.getElementById('modalDetalhes').addEventListener('click', function (e) { if (e.target === this) fecharDetalhes(); });
+
+    const cfgTimeline = {
+      CRIADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`, classe: 'criado', label: 'Solicitação criada' },
+      APROVADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`, classe: 'aprovado', label: 'Aprovada' },
+      REJEITADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`, classe: 'rejeitado', label: 'Rejeitada' },
+      EDITADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>`, classe: 'editado', label: 'Atualizada' },
+    };
+
+    function formatarDataHora(dt) {
+      if (!dt) return '—';
+      const dtUTC = dt.endsWith('Z') || dt.includes('+') ? dt : dt + 'Z';
+      const d = new Date(new Date(dtUTC).toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+      const pad = n => String(n).padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    window.fecharDetalhes = function () { document.getElementById('modalDetalhes').classList.remove('show'); };
+
+    window.abrirDetalhe = async function (id) {
+      document.getElementById('modalDetalhes').classList.add('show');
+      document.getElementById('detBody').innerHTML = '<div class="empty">Carregando detalhes...</div>';
+      try {
+        const [reembolso, historico] = await Promise.all([
+          db('GET', 'solicitacoes', `?id=eq.${id}&select=*`),
+          db('GET', 'historico', `?solicitacao_id=eq.${id}&order=data_acao.asc&select=*`),
+        ]);
+        const r = reembolso[0];
+        if (!r) { document.getElementById('detBody').innerHTML = '<div class="empty">Não encontrado.</div>'; return; }
+
+        document.getElementById('detTitulo').textContent = `Solicitação de ${r.nome_solicitante}`;
+        document.getElementById('detSub').innerHTML =
+          `<span style="color:var(--suave)">${r.departamento}</span> &nbsp;·&nbsp;
+           <strong style="color:var(--azul)">${formatarValor(r.valor)}</strong> &nbsp;·&nbsp;
+           ${statusBadge(r.status)}`;
+
+        const timelineHTML = historico.length
+          ? historico.map(h => {
+            const c = cfgTimeline[h.acao] || { svg: '', classe: 'criado', label: h.acao };
+            return `<div class="timeline-item">
+                <div class="timeline-dot ${c.classe}">${c.svg}</div>
+                <div class="timeline-info">
+                  <div class="timeline-titulo">${c.label}</div>
+                  <div class="timeline-data">${formatarDataHora(h.data_acao)}</div>
+                  ${h.descricao ? `<div class="timeline-obs">${h.descricao}</div>` : ''}
+                </div>
+              </div>`;
+          }).join('')
+          : `<div class="timeline-item">
+               <div class="timeline-dot criado">${cfgTimeline.CRIADO.svg}</div>
+               <div class="timeline-info">
+                 <div class="timeline-titulo">Solicitação criada</div>
+                 <div class="timeline-data">${formatarDataHora(r.criado_em)}</div>
+               </div>
+             </div>`;
+
+        // Busca comprovante na tabela anexos
+        let comprovanteHTML = '<div class="sem-comp">Nenhum comprovante anexado.</div>';
+        try {
+          const anexos = await db('GET', 'anexos', `?solicitacao_id=eq.${id}&limit=1`);
+          if (anexos && anexos[0] && anexos[0].conteudo_data_uri) {
+            const src = anexos[0].conteudo_data_uri;
+            if (src.startsWith('data:image')) {
+              comprovanteHTML = `<img src="${src}" onclick="ampliarImagem(this.src)" title="Clique para ampliar"/>
+                <div style="font-size:11px;color:var(--suave);margin-top:8px;">Clique na imagem para ampliar</div>`;
+            } else if (src.startsWith('data:application/pdf')) {
+              comprovanteHTML = `<embed src="${src}" type="application/pdf" width="100%" height="320px"/>`;
+            } else {
+              comprovanteHTML = `<a href="${src}" download style="color:var(--azul);font-weight:600;">⬇ Baixar comprovante</a>`;
+            }
+          }
+        } catch (e) { console.warn('Erro ao buscar anexo:', e); }
+
+        document.getElementById('detBody').innerHTML = `
+          <div class="det-secao">
+            <div class="det-secao-titulo">Informações da Despesa</div>
+            <div class="det-grid">
+              <div class="det-item"><label>Solicitante</label><div class="valor">${r.nome_solicitante}</div></div>
+              <div class="det-item"><label>Setor</label><div class="valor">${r.departamento}</div></div>
+              <div class="det-item"><label>Data da Despesa</label><div class="valor">${formatarData(r.data_despesa)}</div></div>
+              <div class="det-item"><label>Mês de Referência</label><div class="valor">${r.mes_referencia || '—'}</div></div>
+              <div class="det-item"><label>Valor Solicitado</label><div class="valor destaque">${formatarValor(r.valor)}</div></div>
+              <div class="det-item"><label>Status Atual</label><div class="valor">${statusBadge(r.status)}</div></div>
+            </div>
+            <div class="det-grid full" style="margin-top:14px;">
+              <div class="det-item"><label>Descrição da Despesa</label><div class="valor desc">${r.descricao}</div></div>
+              ${r.justificativa_rejeicao ? `
+                <div class="det-item" style="margin-top:10px;">
+                  <label>Motivo da Rejeição</label>
+                  <div class="valor desc" style="color:#991b1b;background:#fef2f2;padding:8px 12px;border-radius:6px;border-left:3px solid #fca5a5;">${r.justificativa_rejeicao}</div>
+                </div>` : ''}
+            </div>
+          </div>
+          <div class="det-secao">
+            <div class="det-secao-titulo">Datas e Horários</div>
+            <div class="det-grid">
+              <div class="det-item"><label>Criado em</label><div class="valor">${formatarDataHora(r.criado_em)}</div></div>
+              <div class="det-item">
+                <label>${r.status === 'REJEITADO' ? 'Rejeitado em' : 'Aprovado em'}</label>
+                <div class="valor">${formatarDataHora(r.data_aprovacao)}</div>
+              </div>
+              ${r.data_conclusao ? `<div class="det-item"><label>Concluído em</label><div class="valor">${formatarDataHora(r.data_conclusao)}</div></div>` : ''}
+            </div>
+          </div>
+          <div class="det-secao">
+            <div class="det-secao-titulo">Histórico da Solicitação</div>
+            <div class="timeline">${timelineHTML}</div>
+          </div>
+          <div class="det-secao">
+            <div class="det-secao-titulo">Comprovante Anexado</div>
+            <div class="comprovante-area">${comprovanteHTML}</div>
+          </div>`;
+      } catch (e) {
+        document.getElementById('detBody').innerHTML = '<div class="empty">Erro ao carregar detalhes.</div>';
+        console.error(e);
+      }
+    };
+
+    window.ampliarImagem = function (src) {
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:20px;';
+      overlay.innerHTML = `<img src="${src}" style="max-width:100%;max-height:90vh;border-radius:8px;"/>`;
+      overlay.onclick = () => document.body.removeChild(overlay);
+      document.body.appendChild(overlay);
+    };
+
+    // ── Inicialização via bridge ──────────────────────────────
+    iniciarSessaoReembolso().then(usuario => {
+      if (!usuario) return;
+
+      const perfilAtivo = localStorage.getItem('reembolso_perfilAtivo') || 'GESTOR';
+      const ROTAS = { CHEFE: 'aprovador.html', FINANCEIRO: 'financeiro.html', TI: 'adm.html', GESTOR: 'gestor.html' };
+      if (perfilAtivo !== 'GESTOR' && usuario.perfis.includes(perfilAtivo)) {
+        window.location.href = ROTAS[perfilAtivo] || 'gestor.html';
+        return;
+      }
+
+      const _bl = document.getElementById('bridge-loading');
+      if (_bl) _bl.remove();
+
+      const _tb_nome = document.getElementById('topbar-nome');
+      const _tb_avatar = document.getElementById('topbar-avatar');
+      const _tb_trocar = document.getElementById('topbar-btn-trocar');
+      if (_tb_nome) _tb_nome.textContent = usuario.nome;
+      if (_tb_avatar) _tb_avatar.textContent = usuario.nome.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+      if (_tb_trocar && usuario.perfis && usuario.perfis.length > 1) _tb_trocar.style.display = 'block';
+
+      document.getElementById('fNome').value = usuario.nome;
+
+      // Preenche setores — usa SETORES do bridge (já inclui todos os 17 do fallback)
+      SETORES.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = s;
+        document.getElementById('fSetor').appendChild(o);
+      });
+
+      document.getElementById('fData').value = new Date().toISOString().split('T')[0];
+
+      const ua = document.getElementById('uploadArea');
+      ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag'); });
+      ua.addEventListener('dragleave', () => ua.classList.remove('drag'));
+      ua.addEventListener('drop', e => {
+        e.preventDefault(); ua.classList.remove('drag');
+        const f = e.dataTransfer.files[0];
+        if (f) { document.getElementById('fArquivo').files = e.dataTransfer.files; onFileChange({ target: { files: [f] } }); }
+      });
+
+      function getMesReferencia() {
+        const d = document.getElementById('fData').value;
+        return d ? d.substring(0, 7) : new Date().toISOString().substring(0, 7);
+      }
+
+      let arquivoBase64 = null;
+
+      function comprimirImagem(file, maxWidth, qualidade) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          const url = URL.createObjectURL(file);
+          img.onload = () => {
+            URL.revokeObjectURL(url);
+            let w = img.width, h = img.height;
+            if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+            const canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', qualidade));
+          };
+          img.onerror = reject;
+          img.src = url;
+        });
+      }
+
+      function formatarTamanho(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+      }
+
+      window.onFileChange = async function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 10 * 1024 * 1024) { alert('Arquivo muito grande. Máximo: 10MB.'); document.getElementById('fArquivo').value = ''; return; }
+        const preview = document.getElementById('uploadPreview');
+        const nomeEl = document.getElementById('nomeArquivo');
+        const uploadArea = document.getElementById('uploadArea');
+        if (file.type === 'application/pdf') {
+          if (file.size > 5 * 1024 * 1024) { alert('PDF muito grande. Máximo: 5MB.'); document.getElementById('fArquivo').value = ''; return; }
+          fileToBase64(file).then(b64 => { arquivoBase64 = b64; nomeEl.textContent = `${file.name} (${formatarTamanho(file.size)})`; preview.classList.add('show'); uploadArea.style.borderColor = '#E73B1B'; });
+          return;
+        }
+        if (file.type.startsWith('image/')) {
+          nomeEl.textContent = 'Comprimindo imagem...'; preview.classList.add('show'); uploadArea.style.borderColor = '#E73B1B';
+          try {
+            const b64 = await comprimirImagem(file, 1200, 0.72);
+            const tamanhoFinal = Math.round((b64.length * 3) / 4);
+            if (tamanhoFinal > 1.5 * 1024 * 1024) { alert('Imagem muito grande após compressão. Use uma foto menor.'); removerArquivo(); return; }
+            arquivoBase64 = b64;
+            const reducao = Math.round((1 - tamanhoFinal / file.size) * 100);
+            nomeEl.textContent = `${file.name} — ${formatarTamanho(tamanhoFinal)} (reduzido ${reducao}%)`;
+          } catch (err) {
+            fileToBase64(file).then(b64 => { arquivoBase64 = b64; nomeEl.textContent = `${file.name} (${formatarTamanho(file.size)})`; });
+          }
+          return;
+        }
+        alert('Formato não suportado. Use imagens ou PDF.');
+        document.getElementById('fArquivo').value = '';
+      };
+
+      window.removerArquivo = function () {
+        arquivoBase64 = null;
+        document.getElementById('fArquivo').value = '';
+        document.getElementById('uploadPreview').classList.remove('show');
+        document.getElementById('uploadArea').style.borderColor = '';
+      };
+
+      window.trocarAba = function (aba) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+        const idxMap = { novo: 0, lista: 1, setor: 2 };
+        const tabs = document.querySelectorAll('.tab');
+        if (tabs[idxMap[aba]]) tabs[idxMap[aba]].classList.add('ativo');
+        document.getElementById('abaNovo').style.display = aba === 'novo' ? 'block' : 'none';
+        document.getElementById('abaLista').style.display = aba === 'lista' ? 'block' : 'none';
+        document.getElementById('abaSetor').style.display = aba === 'setor' ? 'block' : 'none';
+        if (aba === 'lista') carregarLista();
+        if (aba === 'setor') carregarSetor();
+      };
+
+      window.enviarSolicitacao = async function () {
+        const setor = document.getElementById('fSetor').value;
+        const data = document.getElementById('fData').value;
+        const valor = parseFloat(document.getElementById('fValor').value);
+        const desc = document.getElementById('fDesc').value.trim();
+        const msg = document.getElementById('msgForm');
+        msg.className = 'msg';
+        if (!setor || !data || !valor || !desc) { msg.textContent = 'Preencha todos os campos obrigatórios.'; msg.classList.add('show', 'err'); return; }
+        if (valor <= 0) { msg.textContent = 'O valor deve ser maior que zero.'; msg.classList.add('show', 'err'); return; }
+        if (!arquivoBase64) { msg.textContent = 'Anexe o comprovante da despesa.'; msg.classList.add('show', 'err'); return; }
+
+        const btn = document.getElementById('btnEnviar');
+        btn.disabled = true; btn.textContent = 'Enviando...';
+        try {
+          const solicitacaoId = crypto.randomUUID();
+          await db('POST', 'solicitacoes', '', {
+            id: solicitacaoId,
+            usuario_login: usuario.usuario_login,
+            nome_solicitante: usuario.nome,
+            departamento: setor,
+            data_despesa: data,
+            valor,
+            descricao: desc,
+            mes_referencia: getMesReferencia(),
+            status: 'PENDENTE',
+            criado_em: new Date().toISOString(),
+          });
+
+          try {
+            const tipoMime = arquivoBase64.startsWith('data:application/pdf') ? 'application/pdf' : 'image/jpeg';
+            await db('POST', 'anexos', '', {
+              id: crypto.randomUUID(),
+              solicitacao_id: solicitacaoId,
+              nome_arquivo: 'comprovante',
+              tipo_mime: tipoMime,
+              tamanho_bytes: Math.round((arquivoBase64.length * 3) / 4),
+              conteudo_data_uri: arquivoBase64,
+              caminho_arquivo: '',
+            });
+          } catch (e2) { console.warn('Erro ao salvar anexo:', e2); }
+
+          await registrarHistorico(solicitacaoId, usuario.usuario_login, 'CRIADO', `Solicitação criada por ${usuario.nome} — ${setor}`);
+
+          emailNovaSolicitacao({
+            nome_solicitante: usuario.nome, nome: usuario.nome,
+            email_solicitante: `${usuario.usuario_login}@aesaempilhadeiras.com.br`,
+            descricao: desc, valor, departamento: setor,
+            data_despesa: data, mes_referencia: getMesReferencia(),
+          }).catch(() => { });
+
+          msg.textContent = 'Solicitação enviada com sucesso!'; msg.classList.add('show', 'ok');
+          document.getElementById('fValor').value = '';
+          document.getElementById('fDesc').value = '';
+          document.getElementById('fSetor').value = '';
+          document.getElementById('fData').value = new Date().toISOString().split('T')[0];
+          removerArquivo();
+        } catch (e) {
+          msg.textContent = 'Erro ao enviar: ' + e.message; msg.classList.add('show', 'err');
+        }
+        btn.disabled = false; btn.textContent = 'Enviar Solicitação';
+      };
+
+      async function carregarLista() {
+        const el = document.getElementById('listaConteudo');
+        el.innerHTML = '<div class="empty">Carregando...</div>';
+        try {
+          const dados = await db('GET', 'solicitacoes',
+            `?usuario_login=eq.${usuario.usuario_login}&order=criado_em.desc&select=id,nome_solicitante,departamento,data_despesa,valor,descricao,status,justificativa_rejeicao,mes_referencia`
+          );
+          if (!dados.length) { el.innerHTML = '<div class="empty">Você ainda não possui solicitações registradas.</div>'; return; }
+          el.innerHTML = `<table><thead><tr>
+            <th>Data Despesa</th><th>Setor</th><th>Descrição</th><th>Valor</th><th>Ref.</th><th>Status</th>
+          </tr></thead><tbody>${dados.map(r => `<tr class="clicavel" onclick="abrirDetalhe('${r.id}')">
+            <td>${formatarData(r.data_despesa)}</td>
+            <td>${r.departamento}</td>
+            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.descricao}">${r.descricao}</td>
+            <td style="font-weight:600;">${formatarValor(r.valor)}</td>
+            <td>${r.mes_referencia ? r.mes_referencia.split('-').reverse().join('/') : '-'}</td>
+            <td>${statusBadge(r.status)}${r.justificativa_rejeicao ? `<div style="font-size:11px;color:#6b7280;margin-top:3px;">Motivo: ${r.justificativa_rejeicao}</div>` : ''}</td>
+          </tr>`).join('')}</tbody></table>`;
+        } catch (e) { el.innerHTML = '<div class="empty">Erro ao carregar dados.</div>'; }
+      }
+
+      async function inicializarAbaSetor() {
+        try {
+          const dados = await db('GET', 'perfis_usuario',
+            `?usuario_login=eq.${usuario.usuario_login}&ativo=eq.true&select=setor_acesso&limit=1`
+          );
+          const setor = dados && dados[0] && dados[0].setor_acesso;
+          if (setor) {
+            usuario.setor_acesso = setor;
+            document.getElementById('btnAbaSetor').classList.remove('tab-setor-hidden');
+            document.getElementById('badgeSetor').textContent = setor;
+          }
+        } catch (e) { console.warn('Erro ao inicializar aba setor:', e); }
+      }
+
+      async function carregarSetor() {
+        const el = document.getElementById('abaSetorConteudo');
+        if (!usuario.setor_acesso) { el.innerHTML = '<div class="empty">Sem acesso configurado.</div>'; return; }
+        el.innerHTML = '<div class="empty">Carregando...</div>';
+        try {
+          const dados = await db('GET', 'solicitacoes',
+            `?departamento=eq.${encodeURIComponent(usuario.setor_acesso)}&order=criado_em.desc&select=id,nome_solicitante,departamento,data_despesa,valor,descricao,status,mes_referencia,justificativa_rejeicao`
+          );
+          if (!dados.length) { el.innerHTML = '<div class="empty">Nenhuma solicitação no setor.</div>'; return; }
+          el.innerHTML = `<div style="background:white;border-radius:12px;border:1px solid var(--borda);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+            <div style="padding:14px 20px;border-bottom:1px solid var(--borda);background:#fafbfc;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:14px;font-weight:600;color:var(--azul);">Solicitações — ${usuario.setor_acesso}</span>
+              <span style="font-size:12px;color:var(--suave);">${dados.length} registro(s)</span>
+            </div>
+            <table><thead><tr>
+              <th>Solicitante</th><th>Data Despesa</th><th>Valor</th><th>Descrição</th><th>Status</th><th>Mês Ref.</th>
+            </tr></thead><tbody>
+            ${dados.map(r => `<tr class="clicavel" onclick="abrirDetalhe('${r.id}')">
+              <td><strong>${r.nome_solicitante || r.usuario_login || '—'}</strong></td>
+              <td>${formatarData(r.data_despesa)}</td>
+              <td style="font-weight:700;color:var(--azul);">${formatarValor(r.valor)}</td>
+              <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.descricao}">${r.descricao}</td>
+              <td>${statusBadge(r.status)}${r.justificativa_rejeicao ? `<div style="font-size:11px;color:#991b1b;margin-top:2px;">${r.justificativa_rejeicao}</div>` : ''}</td>
+              <td style="color:var(--suave);">${r.mes_referencia || '—'}</td>
+            </tr>`).join('')}
+            </tbody></table>
+          </div>`;
+        } catch (e) { el.innerHTML = '<div class="empty">Erro ao carregar dados do setor.</div>'; }
+      }
+
+      inicializarAbaSetor();
+
+    }).catch(e => {
+      console.error('Bridge erro:', e);
+      const el = document.getElementById('bridge-loading');
+      if (el) { const t = el.querySelector('div:last-child'); if (t) t.textContent = 'Erro ao carregar. Recarregue a página.'; }
+    });
+  </script>
+</body>
+
+</html>

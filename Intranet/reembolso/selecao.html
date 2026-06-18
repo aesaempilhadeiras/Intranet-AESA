@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-base="../">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AESA — Selecione o Painel</title>
+    <link rel="icon" type="image/png" href="../img/favicon1.png?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul: #061851;
+            --laranja: #E73B1B;
+            --branco: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--azul);
+        }
+
+        /* Quando sidebar está presente, o conteúdo fica em .sb-content-wrap */
+        .sb-content-wrap,
+        body:not(:has(.aesa-sidebar)) {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            background: var(--azul);
+        }
+
+        .aesa-sidebar {
+        height: 100% !important;
+        position: fixed !important;
+        }
+
+        .sb-content-wrap {
+        margin-left: 230px;
+        }
+
+        .sb-content-wrap::before,
+        body::before {
+            content: '';
+            position: absolute;
+            bottom: -120px;
+            left: -120px;
+            width: 500px;
+            height: 500px;
+            border: 1.5px solid rgba(231, 59, 27, 0.12);
+            border-radius: 80px;
+            transform: rotate(-12deg);
+            pointer-events: none;
+        }
+
+        .sb-content-wrap::after,
+        body::after {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 380px;
+            height: 380px;
+            border: 1.5px solid rgba(255, 255, 255, 0.05);
+            border-radius: 60px;
+            transform: rotate(15deg);
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 580px;
+            z-index: 1;
+        }
+
+        .topo {
+            text-align: center;
+            margin-bottom: 44px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .logo-barra {
+            width: 5px;
+            height: 28px;
+            background: var(--laranja);
+            border-radius: 3px;
+        }
+
+        .logo-nome {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+
+        .saudacao {
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .saudacao em {
+            color: var(--laranja);
+            font-style: normal;
+        }
+
+        .subtitulo {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+
+        .perfis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .card-perfil {
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 18px;
+            padding: 28px 22px 24px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-perfil:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.09);
+        }
+
+        .card-perfil:active {
+            transform: translateY(0);
+        }
+
+        .card-perfil.gestor:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .card-perfil.chefe:hover {
+            border-color: rgba(231, 59, 27, 0.5);
+            box-shadow: 0 12px 40px rgba(231, 59, 27, 0.15);
+        }
+
+        .card-perfil.financeiro:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .card-perfil.ti:hover {
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 12px 40px rgba(167, 139, 250, 0.15);
+        }
+
+        .card-icone {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-icone svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .card-icone.gestor {
+            background: rgba(59, 130, 246, 0.18);
+        }
+
+        .card-icone.chefe {
+            background: rgba(231, 59, 27, 0.18);
+        }
+
+        .card-icone.financeiro {
+            background: rgba(16, 185, 129, 0.18);
+        }
+
+        .card-icone.ti {
+            background: rgba(167, 139, 250, 0.18);
+        }
+
+        .card-nome {
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.5;
+        }
+
+        .card-arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.2s;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .card-perfil:hover .card-arrow {
+            opacity: 1;
+            right: 16px;
+        }
+
+        .rodape {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-voltar {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 9px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-voltar.visivel {
+            display: flex;
+        }
+
+        .btn-voltar:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-sair {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.28);
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            padding: 9px 16px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-sair:hover {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 480px) {
+            .perfis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-arrow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar-root"></div>
+    <div class="container">
+        <div class="topo">
+            <div class="logo">
+                <div class="logo-barra"></div>
+                <div class="logo-nome">AESA Reembolsos</div>
+            </div>
+            <div class="saudacao">Olá, <em id="nomeUsuario">—</em>!</div>
+            <div class="subtitulo">Selecione o painel que deseja acessar</div>
+        </div>
+        <div class="perfis-grid" id="perfisGrid"></div>
+        <div class="rodape">
+            <button class="btn-voltar" id="btnVoltar" onclick="voltar()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+                Voltar à página principal
+            </button>
+            <button class="btn-sair" onclick="sair()">Sair da conta</button>
+        </div>
+    </div>
+
+    <script src="reembolso-bridge.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="../sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const wrap = document.querySelector('.sb-content-wrap');
+            if (wrap) wrap.style.minWidth = '0';
+        });
+    </script>
+    <script>
+        const PERFIL_CONFIG = {
+            GESTOR: {
+                nome: 'Solicitações',
+                desc: 'Crie e acompanhe suas solicitações de reembolso',
+                classe: 'gestor', rota: 'gestor.html',
+                icone: `<svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>`,
+            },
+            CHEFE: {
+                nome: 'Aprovações',
+                desc: 'Analise e delibere sobre solicitações da equipe',
+                classe: 'chefe', rota: 'aprovador.html',
+                icone: `<svg viewBox="0 0 24 24" fill="none" stroke="#E73B1B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>`,
+            },
+            FINANCEIRO: {
+                nome: 'Financeiro',
+                desc: 'Controle e relatórios de reembolsos corporativos',
+                classe: 'financeiro', rota: 'financeiro.html',
+                icone: `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>`,
+            },
+            TI: {
+                nome: 'Administração',
+                desc: 'Gerencie usuários e acessos do sistema',
+                classe: 'ti', rota: 'ti.html',
+                icone: `<svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14M12 2v2M12 20v2M2 12h2M20 12h2"/>
+        </svg>`,
+            },
+        };
+
+        // ── Lê sessão da Intranet (aesa_usuario) ─────────────────
+        // SESSION_TTL já definido no reembolso-bridge.js
+        const rawSessao = localStorage.getItem('aesa_usuario');
+        const sessao = rawSessao ? JSON.parse(rawSessao) : null;
+        const anterior = localStorage.getItem('reembolso_perfilAtivo');
+
+        if (!sessao) {
+            window.location.href = '../login.html?motivo=expirado';
+        }
+
+        // ── Inicia sessão de reembolso via bridge ─────────────────
+        // iniciarSessaoReembolso() vem do reembolso-bridge.js
+        iniciarSessaoReembolso().then(usuario => {
+            if (!usuario) return; // bridge já redirecionou para login
+
+            const perfis = usuario.perfis && usuario.perfis.length ? usuario.perfis : [usuario.perfil || 'GESTOR'];
+
+            // Se só tem 1 perfil, vai direto
+            if (perfis.length === 1) {
+                localStorage.setItem('reembolso_perfilAtivo', perfis[0]);
+                window.location.href = PERFIL_CONFIG[perfis[0]]?.rota || 'gestor.html';
+                return;
+            }
+
+            // Nome — primeiro nome
+            const primeiroNome = (usuario.nome || sessao.nome || 'Usuário').split(' ')[0];
+            document.getElementById('nomeUsuario').textContent = primeiroNome;
+
+            // Botão Voltar — se veio de uma tela via "Trocar tela"
+            if (anterior && perfis.includes(anterior) && PERFIL_CONFIG[anterior]) {
+                const btn = document.getElementById('btnVoltar');
+                btn.classList.add('visivel');
+                btn.title = `Voltar para ${PERFIL_CONFIG[anterior].nome}`;
+            }
+
+            // Renderiza cards
+            const grid = document.getElementById('perfisGrid');
+            perfis.forEach(perfil => {
+                const cfg = PERFIL_CONFIG[perfil];
+                if (!cfg) return;
+                const card = document.createElement('div');
+                card.className = `card-perfil ${cfg.classe}`;
+                card.innerHTML = `
+          <div class="card-icone ${cfg.classe}">${cfg.icone}</div>
+          <div class="card-texto">
+            <div class="card-nome">${cfg.nome}</div>
+            <div class="card-desc">${cfg.desc}</div>
+          </div>
+          <div class="card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>`;
+                card.onclick = () => selecionarPerfil(perfil, cfg.rota);
+                grid.appendChild(card);
+            });
+
+        }).catch(err => {
+            console.error('Erro ao iniciar sessão de reembolso:', err);
+            // Fallback — usa perfis da sessão da intranet diretamente
+            const perfisIntranet = Array.isArray(sessao.perfis) ? sessao.perfis : (sessao.ehTI ? ['TI'] : []);
+            const perfisFallback = _mapearPerfis(perfisIntranet);
+            renderizarCards(perfisFallback, sessao.nome || 'Usuário');
+        });
+
+        function selecionarPerfil(perfil, rota) {
+            localStorage.setItem('reembolso_perfilAtivo', perfil);
+            window.location.href = rota;
+        }
+
+        function renderizarCards(perfis, nome) {
+            document.getElementById('nomeUsuario').textContent = (nome || 'Usuário').split(' ')[0];
+            if (perfis.length === 1) {
+                selecionarPerfil(perfis[0], PERFIL_CONFIG[perfis[0]]?.rota || 'gestor.html');
+                return;
+            }
+            const grid = document.getElementById('perfisGrid');
+            perfis.forEach(perfil => {
+                const cfg = PERFIL_CONFIG[perfil];
+                if (!cfg) return;
+                const card = document.createElement('div');
+                card.className = `card-perfil ${cfg.classe}`;
+                card.innerHTML = `
+          <div class="card-icone ${cfg.classe}">${cfg.icone}</div>
+          <div class="card-texto">
+            <div class="card-nome">${cfg.nome}</div>
+            <div class="card-desc">${cfg.desc}</div>
+          </div>
+          <div class="card-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>`;
+                card.onclick = () => selecionarPerfil(perfil, cfg.rota);
+                grid.appendChild(card);
+            });
+        }
+
+        function voltar() {
+            window.location.href = '../index.html';
+        }
+        
+
+        function sair() {
+            localStorage.removeItem('reembolso_perfilAtivo');
+            window.location.href = '../index.html';
+        }
+    </script>
+</body>
+
+</html>

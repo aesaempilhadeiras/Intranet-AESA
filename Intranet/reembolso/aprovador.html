@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-base="../">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Aprovação — AESA</title>
+  <link rel="icon" type="image/png" href="../img/favicon1.png?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="reembolso-bridge.js"></script>
+  <style id="loading-overlay">
+    #loading-overlay-div {
+      position: fixed !important;
+      inset: 0 !important;
+      background: #f0f2f5 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 999999 !important;
+    }
+
+    @keyframes _spin2 {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    (function () {
+      function criarOverlay() {
+        var d = document.createElement('div');
+        d.id = 'loading-overlay-div';
+        d.style.cssText = 'position:fixed!important;inset:0!important;background:#f0f2f5!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;z-index:999999!important;';
+        d.innerHTML = '<div style="width:44px;height:44px;border:3px solid #e2e6ea;border-top-color:#E73B1B;border-radius:50%;animation:_spin2 .7s linear infinite;margin-bottom:16px;"></div><div style="font-family:Inter,sans-serif;font-size:13px;color:#6b7280;">Verificando acesso...</div>';
+        document.body.appendChild(d);
+      }
+      criarOverlay();
+      window._removeLoading = function () {
+        document.querySelectorAll('#loading-overlay-div').forEach(function (el) { el.remove(); });
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+          var el = document.getElementById('loading-overlay-div');
+          if (el && el.parentElement !== document.body) {
+            document.body.appendChild(el);
+          }
+        }, 0);
+      });
+    })();
+  </script>
+  <script src="../sidebar.js"></script>
+  <style>
+    :root {
+      --azul: #061851;
+      --laranja: #E73B1B;
+      --texto: #0f1923;
+      --suave: #6b7280;
+      --branco: #fff;
+      --borda: #e2e6ea;
+      --verde: #065f46;
+      --verde-bg: #ecfdf5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: var(--texto);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--azul);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header h1::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      background: var(--laranja);
+      border-radius: 2px;
+    }
+
+    .page-header p {
+      color: var(--suave);
+      font-size: 13px;
+      margin-top: 4px;
+      margin-left: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--borda);
+      border-left: 3px solid transparent;
+    }
+
+    .stat.pendente {
+      border-left-color: #b45309;
+    }
+
+    .stat.aprovado {
+      border-left-color: #065f46;
+    }
+
+    .stat.rejeitado {
+      border-left-color: #991b1b;
+    }
+
+    .stat-val {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--suave);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .filtros {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 18px 22px;
+      border: 1px solid var(--borda);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .filtro-grupo {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .filtro-grupo label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--borda);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--texto);
+      background: #f8f9fb;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--azul);
+    }
+
+    .btn-filtrar {
+      padding: 9px 20px;
+      background: var(--azul);
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-filtrar:hover {
+      background: #0a2266;
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 12px;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--borda);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+
+    .hint-clique {
+      font-size: 11px;
+      color: var(--suave);
+      font-style: italic;
+    }
+
+    .count-badge {
+      background: #f0f4ff;
+      color: var(--azul);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 11px 16px;
+      border-bottom: 2px solid var(--borda);
+      background: #fafbfc;
+    }
+
+    td {
+      padding: 13px 16px;
+      border-bottom: 1px solid #f1f4f8;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr.clicavel {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    tr.clicavel:hover td {
+      background: #f0f4ff;
+    }
+
+    tr.clicavel:hover td:first-child {
+      border-left: 3px solid var(--laranja);
+    }
+
+    .btn-aprovar {
+      padding: 6px 14px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn-aprovar:hover {
+      background: #065f46;
+      color: white;
+    }
+
+    .btn-rejeitar {
+      padding: 6px 14px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn-rejeitar:hover {
+      background: #991b1b;
+      color: white;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 52px;
+      color: var(--suave);
+      font-size: 14px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 24, 81, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-det {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-det-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+    }
+
+    .modal-det-titulo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .modal-fechar {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--suave);
+      font-size: 22px;
+      padding: 0 4px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .modal-fechar:hover {
+      color: var(--laranja);
+    }
+
+    .modal-det-body {
+      padding: 24px 28px;
+    }
+
+    .modal-det-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--borda);
+      display: flex;
+      justify-content: flex-end;
+      background: #fafbfc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn-fechar-det {
+      padding: 9px 20px;
+      background: #f4f6f9;
+      color: var(--suave);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .det-secao {
+      margin-bottom: 24px;
+    }
+
+    .det-secao-titulo {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--suave);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .det-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .det-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .det-item label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    .det-item .valor {
+      font-size: 14px;
+      color: var(--texto);
+      font-weight: 500;
+    }
+
+    .det-item .valor.destaque {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .det-item .valor.desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+    }
+
+    .alerta-valor {
+      background: #fff8e1;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #92400e;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      width: 2px;
+      height: 100%;
+      background: var(--borda);
+    }
+
+    .timeline-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .timeline-dot svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .timeline-dot.criado {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+    }
+
+    .timeline-dot.aprovado {
+      background: #ecfdf5;
+      border: 2px solid #6ee7b7;
+    }
+
+    .timeline-dot.rejeitado {
+      background: #fef2f2;
+      border: 2px solid #fca5a5;
+    }
+
+    .timeline-dot.editado {
+      background: #fff8e1;
+      border: 2px solid #fde68a;
+    }
+
+    .timeline-info {
+      padding-bottom: 20px;
+    }
+
+    .timeline-titulo {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--texto);
+    }
+
+    .timeline-data {
+      font-size: 12px;
+      color: var(--suave);
+      margin-top: 2px;
+    }
+
+    .timeline-obs {
+      font-size: 12px;
+      color: #374151;
+      margin-top: 4px;
+      background: #f8f9fb;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--borda);
+    }
+
+    .comprovante-area {
+      background: #f8f9fb;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .comprovante-area img {
+      max-width: 100%;
+      max-height: 320px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .comprovante-area embed {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+    }
+
+    .sem-comp {
+      color: var(--suave);
+      font-size: 13px;
+      padding: 24px;
+    }
+
+    .modal-rej {
+      background: white;
+      border-radius: 14px;
+      padding: 32px;
+      width: 480px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-rej-titulo {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 6px;
+    }
+
+    .modal-rej-sub {
+      font-size: 13px;
+      color: var(--suave);
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--borda);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--azul);
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      justify-content: flex-end;
+    }
+
+    .btn-cancelar {
+      padding: 9px 20px;
+      background: #f4f6f9;
+      color: var(--suave);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-confirmar {
+      padding: 9px 20px;
+      background: var(--laranja);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .sb-content-wrap .page,
+    .sb-content-wrap>div:not(#bridge-loading):not(#reembolso-topbar)>.page {
+      box-sizing: border-box;
+    }
+
+    #reembolso-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .sb-content-wrap {
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+
+    #reembolso-topbar {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar-root"></div>
+
+  <div id="reembolso-topbar"
+    style="background:#061851;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;width:100%;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:3px;height:18px;background:#E73B1B;border-radius:2px;"></div>
+      <span style="color:white;font-size:13px;font-weight:600;" id="topbar-titulo">Aprovações</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="color:rgba(255,255,255,0.5);font-size:12px;" id="topbar-nome">—</span>
+      <div id="topbar-avatar"
+        style="width:28px;height:28px;border-radius:50%;background:#E73B1B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;">
+        —</div>
+      <button id="topbar-btn-trocar" onclick="trocarTela()"
+        style="display:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Trocar
+        painel</button>
+      <button onclick="logout()"
+        style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;">Sair</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <div class="page-header">
+      <h1>Painel de Aprovação</h1>
+      <p>Analise e delibere sobre as solicitações de reembolso</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat pendente">
+        <div class="stat-val" id="stPendente">—</div>
+        <div class="stat-label">Pendentes de aprovação</div>
+      </div>
+      <div class="stat aprovado">
+        <div class="stat-val" id="stAprovado">—</div>
+        <div class="stat-label">Aprovados no período</div>
+      </div>
+      <div class="stat rejeitado">
+        <div class="stat-val" id="stRejeitado">—</div>
+        <div class="stat-label">Rejeitados no período</div>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <label>Setor</label>
+        <select id="fSetor">
+          <option value="">Todos os setores</option>
+        </select>
+      </div>
+      <div class="filtro-grupo">
+        <label>Status</label>
+        <select id="fStatus">
+          <option value="PENDENTE">Pendentes</option>
+          <option value="">Todos</option>
+          <option value="APROVADO">Aprovados</option>
+          <option value="REJEITADO">Rejeitados</option>
+          <option value="CONCLUIDO">Concluídos</option>
+        </select>
+      </div>
+      <div class="filtro-grupo">
+        <label>Mês referência</label>
+        <input type="month" id="fMes" />
+      </div>
+      <button class="btn-filtrar" onclick="carregarLista()">Filtrar</button>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title" id="tituloCard">Solicitações Pendentes</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="hint-clique">clique em uma linha para ver detalhes</span>
+          <span class="count-badge" id="countBadge">0</span>
+        </div>
+      </div>
+      <div id="listaConteudo">
+        <div class="empty">Carregando...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL DETALHES -->
+  <div class="modal-overlay" id="modalDetalhes">
+    <div class="modal-det">
+      <div class="modal-det-header">
+        <div>
+          <div class="modal-det-titulo" id="detTitulo">Detalhes da Solicitação</div>
+          <div id="detSub"></div>
+        </div>
+        <button class="modal-fechar" onclick="fecharDetalhes()">×</button>
+      </div>
+      <div class="modal-det-body" id="detBody"></div>
+      <div class="modal-det-footer">
+        <button class="btn-fechar-det" onclick="fecharDetalhes()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL REJEIÇÃO -->
+  <div class="modal-overlay" id="modalRejeicao">
+    <div class="modal-rej">
+      <div class="modal-rej-titulo">Rejeitar Solicitação</div>
+      <div class="modal-rej-sub">Informe o motivo da rejeição para registro e notificação do solicitante.</div>
+      <textarea id="justificativa" placeholder="Descreva o motivo da rejeição..."></textarea>
+      <div class="modal-btns">
+        <button class="btn-cancelar" onclick="fecharModal('modalRejeicao')">Cancelar</button>
+        <button class="btn-confirmar" onclick="confirmarRejeicao()">Confirmar Rejeição</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    iniciarSessaoReembolso().then(usuario => {
+      if (!usuario) return;
+      if (window._removeLoading) window._removeLoading();
+
+      const _tb_nome = document.getElementById('topbar-nome');
+      const _tb_avatar = document.getElementById('topbar-avatar');
+      const _tb_trocar = document.getElementById('topbar-btn-trocar');
+      if (_tb_nome) _tb_nome.textContent = usuario.nome;
+      if (_tb_avatar) _tb_avatar.textContent = usuario.nome.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+      if (_tb_trocar && usuario.perfis && usuario.perfis.length > 1) _tb_trocar.style.display = 'block';
+
+      const _btnTrocar = document.querySelector('[onclick="trocarTela()"]');
+      if (_btnTrocar && usuario.perfis && usuario.perfis.length <= 1) {
+        _btnTrocar.style.display = 'none';
+      }
+
+      const _nt = document.getElementById('nomeTopbar');
+      if (_nt) _nt.textContent = usuario.nome.split(' ')[0];
+
+      let idRejeitando = null;
+
+      SETORES.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = s;
+        document.getElementById('fSetor').appendChild(o);
+      });
+
+      document.getElementById('modalDetalhes').addEventListener('click', function (e) {
+        if (e.target === this) fecharDetalhes();
+      });
+
+      const cfgTimeline = {
+        CRIADO: {
+          svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+          classe: 'criado', label: 'Solicitação criada'
+        },
+        APROVADO: {
+          svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+          classe: 'aprovado', label: 'Aprovada'
+        },
+        REJEITADO: {
+          svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+          classe: 'rejeitado', label: 'Rejeitada'
+        },
+        EDITADO: {
+          svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>`,
+          classe: 'editado', label: 'Atualizada'
+        },
+      };
+
+      window.formatarDataHora = function (dt) {
+        if (!dt) return '—';
+        const dtUTC = dt.endsWith('Z') || dt.includes('+') ? dt : dt + 'Z';
+        const d = new Date(new Date(dtUTC).toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+        const pad = n => String(n).padStart(2, '0');
+        return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
+      window.carregarStats = async function () {
+        try {
+          const dados = await db('GET', 'solicitacoes', '?select=status');
+          document.getElementById('stPendente').textContent = dados.filter(r => r.status === 'PENDENTE').length;
+          document.getElementById('stAprovado').textContent = dados.filter(r => r.status === 'APROVADO' || r.status === 'CONCLUIDO').length;
+          document.getElementById('stRejeitado').textContent = dados.filter(r => r.status === 'REJEITADO').length;
+        } catch (e) { }
+      }
+
+      window.carregarLista = async function () {
+        const el = document.getElementById('listaConteudo');
+        el.innerHTML = '<div class="empty">Carregando...</div>';
+
+        const setor = document.getElementById('fSetor').value;
+        const status = document.getElementById('fStatus').value;
+        const mes = document.getElementById('fMes').value;
+
+        const labels = { PENDENTE: 'Pendentes', APROVADO: 'Aprovados', REJEITADO: 'Rejeitados', CONCLUIDO: 'Concluídos', '': 'Todas' };
+        document.getElementById('tituloCard').textContent = `Solicitações — ${labels[status] || 'Todas'}`;
+
+        let params = '?order=criado_em.desc&select=*';
+        if (status) params += `&status=eq.${status}`;
+        if (setor) params += `&departamento=eq.${encodeURIComponent(setor)}`;
+        if (mes) params += `&mes_referencia=eq.${mes}`;
+
+        try {
+          const dados = await db('GET', 'solicitacoes', params);
+          document.getElementById('countBadge').textContent = dados.length;
+
+          if (!dados.length) {
+            el.innerHTML = '<div class="empty">Nenhuma solicitação encontrada.</div>';
+            return;
+          }
+
+          el.innerHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Solicitante</th><th>Setor</th><th>Data Despesa</th>
+                  <th>Valor</th><th>Descrição</th><th>Status</th><th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${dados.map(r => `
+                  <tr class="clicavel" onclick="abrirDetalhes('${r.id}')">
+                    <td><strong>${r.nome_solicitante}</strong></td>
+                    <td>${r.departamento}</td>
+                    <td>${formatarData(r.data_despesa)}</td>
+                    <td style="font-weight:700;color:var(--azul);">${formatarValor(r.valor)}</td>
+                    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.descricao}">${r.descricao}</td>
+                    <td>
+                      ${statusBadge(r.status)}
+                      ${r.justificativa_rejeicao ? `<div style="font-size:11px;color:#6b7280;margin-top:2px;">${r.justificativa_rejeicao}</div>` : ''}
+                    </td>
+                    <td onclick="event.stopPropagation()">
+                      ${r.status === 'PENDENTE' ? `
+                        <div style="display:flex;gap:6px;">
+                          <button class="btn-aprovar" onclick="aprovar('${r.id}','${(r.nome_solicitante || '').replace(/'/g, "\\'")}')">Aprovar</button>
+                          <button class="btn-rejeitar" onclick="iniciarRejeicao('${r.id}')">Rejeitar</button>
+                        </div>` : '—'}
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`;
+        } catch (e) {
+          console.error('carregarLista erro:', e);
+          el.innerHTML = '<div class="empty">Erro ao carregar dados.</div>';
+        }
+      }
+
+      window.abrirDetalhes = async function (id) {
+        document.getElementById('modalDetalhes').classList.add('show');
+        document.getElementById('detBody').innerHTML = '<div class="empty">Carregando detalhes...</div>';
+
+        try {
+          const [reembolso, historico] = await Promise.all([
+            db('GET', 'solicitacoes', `?id=eq.${id}&select=*`),
+            db('GET', 'historico', `?solicitacao_id=eq.${id}&order=data_acao.asc&select=*`),
+          ]);
+
+          const r = reembolso[0];
+          if (!r) { document.getElementById('detBody').innerHTML = '<div class="empty">Não encontrado.</div>'; return; }
+
+          document.getElementById('detTitulo').textContent = `Solicitação de ${r.nome_solicitante}`;
+          document.getElementById('detSub').innerHTML =
+            `<span style="color:var(--suave)">${r.departamento}</span>
+             &nbsp;·&nbsp;
+             <strong style="color:var(--azul)">${formatarValor(r.valor)}</strong>
+             &nbsp;·&nbsp;
+             ${statusBadge(r.status)}`;
+
+          const alertaValor = parseFloat(r.valor) >= 500
+            ? `<div class="alerta-valor">⚠️ Valor elevado — verifique o comprovante com atenção antes de aprovar.</div>`
+            : '';
+
+          const timelineHTML = historico.length
+            ? historico.map(h => {
+              const c = cfgTimeline[h.acao] || { svg: '', classe: 'criado', label: h.acao };
+              return `
+                  <div class="timeline-item">
+                    <div class="timeline-dot ${c.classe}">${c.svg}</div>
+                    <div class="timeline-info">
+                      <div class="timeline-titulo">${c.label}</div>
+                      <div class="timeline-data">${formatarDataHora(h.data_acao)}</div>
+                      ${h.descricao ? `<div class="timeline-obs">${h.descricao}</div>` : ''}
+                    </div>
+                  </div>`;
+            }).join('')
+            : `<div class="timeline-item">
+                 <div class="timeline-dot criado">${cfgTimeline.CRIADO.svg}</div>
+                 <div class="timeline-info">
+                   <div class="timeline-titulo">Solicitação criada</div>
+                   <div class="timeline-data">${formatarDataHora(r.criado_em)}</div>
+                 </div>
+               </div>`;
+          // Busca comprovante na tabela anexos
+          let comprovanteHTML = '<div class="sem-comp">Nenhum comprovante anexado.</div>';
+          try {
+            const anexos = await db('GET', 'anexos', `?solicitacao_id=eq.${id}&limit=1`);
+            if (anexos && anexos[0] && anexos[0].conteudo_data_uri) {
+              r.comprovante = anexos[0].conteudo_data_uri;
+            }
+          } catch (e) { console.warn('Erro ao buscar anexo:', e); }
+          if (r.comprovante) {
+            if (r.comprovante.startsWith('data:image')) {
+              comprovanteHTML = `<img src="${r.comprovante}" onclick="ampliarImagem(this.src)" title="Clique para ampliar" />
+                <div style="font-size:11px;color:var(--suave);margin-top:8px;">Clique na imagem para ampliar</div>`;
+            } else if (r.comprovante.startsWith('data:application/pdf')) {
+              comprovanteHTML = `<embed src="${r.comprovante}" type="application/pdf" width="100%" height="320px" />`;
+            } else {
+              comprovanteHTML = `<a href="${r.comprovante}" download style="color:var(--azul);font-weight:600;">⬇ Baixar comprovante</a>`;
+            }
+          }
+
+          document.getElementById('detBody').innerHTML = `
+            ${alertaValor}
+            <div class="det-secao">
+              <div class="det-secao-titulo">Informações da Despesa</div>
+              <div class="det-grid">
+                <div class="det-item"><label>Solicitante</label><div class="valor">${r.nome_solicitante}</div></div>
+                <div class="det-item"><label>Setor</label><div class="valor">${r.departamento}</div></div>
+                <div class="det-item"><label>Data da Despesa</label><div class="valor">${formatarData(r.data_despesa)}</div></div>
+                <div class="det-item"><label>Mês de Referência</label><div class="valor">${r.mes_referencia || '—'}</div></div>
+                <div class="det-item"><label>Valor Solicitado</label><div class="valor destaque">${formatarValor(r.valor)}</div></div>
+                <div class="det-item"><label>Status Atual</label><div class="valor">${statusBadge(r.status)}</div></div>
+              </div>
+              <div class="det-grid full" style="margin-top:14px;">
+                <div class="det-item">
+                  <label>Descrição da Despesa</label>
+                  <div class="valor desc">${r.descricao}</div>
+                </div>
+                ${r.justificativa_rejeicao ? `
+                  <div class="det-item" style="margin-top:10px;">
+                    <label>Motivo da Rejeição</label>
+                    <div class="valor desc" style="color:#991b1b;background:#fef2f2;padding:8px 12px;border-radius:6px;border-left:3px solid #fca5a5;">
+                      ${r.justificativa_rejeicao}
+                    </div>
+                  </div>` : ''}
+              </div>
+            </div>
+            <div class="det-secao">
+              <div class="det-secao-titulo">Datas e Horários</div>
+              <div class="det-grid">
+                <div class="det-item"><label>Criado em</label><div class="valor">${formatarDataHora(r.criado_em)}</div></div>
+                <div class="det-item">
+                  <label>${r.status === 'REJEITADO' ? 'Rejeitado em' : 'Aprovado em'}</label>
+                  <div class="valor">${formatarDataHora(r.data_aprovacao)}</div>
+                </div>
+                ${r.data_conclusao ? `<div class="det-item"><label>Concluído em</label><div class="valor">${formatarDataHora(r.data_conclusao)}</div></div>` : ''}
+              </div>
+            </div>
+            <div class="det-secao">
+              <div class="det-secao-titulo">Histórico da Solicitação</div>
+              <div class="timeline">${timelineHTML}</div>
+            </div>
+            <div class="det-secao">
+              <div class="det-secao-titulo">Comprovante Anexado</div>
+              <div class="comprovante-area">${comprovanteHTML}</div>
+            </div>`;
+
+        } catch (e) {
+          document.getElementById('detBody').innerHTML = '<div class="empty">Erro ao carregar detalhes.</div>';
+          console.error(e);
+        }
+      }
+
+      window.fecharDetalhes = function () {
+        document.getElementById('modalDetalhes').classList.remove('show');
+      }
+
+      window.fecharModal = function (id) {
+        document.getElementById(id).classList.remove('show');
+      }
+
+      // ✅ CORRIGIDO: removido .catch(() => {}) silencioso — erros agora aparecem no console
+      window.aprovar = async function (id, nome) {
+        if (!confirm(`Confirma aprovação da solicitação de ${nome}?`)) return;
+        try {
+          await db('PATCH', 'solicitacoes', `?id=eq.${id}`, {
+            status: 'APROVADO',
+            aprovador_login: usuario.usuario_login,
+            data_aprovacao: new Date().toISOString()
+          });
+          await registrarHistorico(id, usuario.usuario_login, 'APROVADO', `Aprovado por ${usuario.nome}`);
+          try {
+            const rem = await db('GET', 'solicitacoes', `?id=eq.${id}&select=nome_solicitante,usuario_login,descricao,valor,departamento`);
+            if (rem && rem[0]) {
+              const emailSolic = await buscarEmailSolicitante(rem[0].usuario_login);
+              await emailAtualizacaoStatus({
+                ...rem[0],
+                nome: rem[0].nome_solicitante,
+                email_solicitante: emailSolic
+              }, 'APROVADO');
+            }
+          } catch (e) { console.warn('Erro ao enviar e-mail de aprovação:', e); }
+          carregarLista();
+          carregarStats();
+        } catch (e) {
+          alert('Erro ao aprovar. Tente novamente.');
+        }
+      }
+
+      window.iniciarRejeicao = function (id) {
+        idRejeitando = id;
+        document.getElementById('justificativa').value = '';
+        document.getElementById('modalRejeicao').classList.add('show');
+      }
+
+      // ✅ CORRIGIDO: removido .catch(() => {}) silencioso — erros agora aparecem no console
+      window.confirmarRejeicao = async function () {
+        const just = document.getElementById('justificativa').value.trim();
+        if (!just) { alert('Informe o motivo da rejeição.'); return; }
+        try {
+          await db('PATCH', 'solicitacoes', `?id=eq.${idRejeitando}`, {
+            status: 'REJEITADO',
+            aprovador_login: usuario.usuario_login,
+            data_aprovacao: new Date().toISOString(),
+            justificativa_rejeicao: just
+          });
+          await registrarHistorico(idRejeitando, usuario.usuario_login, 'REJEITADO', `Rejeitado por ${usuario.nome}: ${just}`);
+          try {
+            const rem = await db('GET', 'solicitacoes', `?id=eq.${idRejeitando}&select=nome_solicitante,usuario_login,descricao,valor,departamento`);
+            if (rem && rem[0]) {
+              const emailSolic = await buscarEmailSolicitante(rem[0].usuario_login);
+              await emailAtualizacaoStatus({
+                ...rem[0],
+                nome: rem[0].nome_solicitante,
+                email_solicitante: emailSolic
+              }, 'REJEITADO', just);
+            }
+          } catch (e) { console.warn('Erro ao enviar e-mail de rejeição:', e); }
+          fecharModal('modalRejeicao');
+          carregarLista();
+          carregarStats();
+        } catch (e) {
+          alert('Erro ao rejeitar. Tente novamente.');
+        }
+      }
+
+      window.ampliarImagem = function (src) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:20px;';
+        overlay.innerHTML = `<img src="${src}" style="max-width:100%;max-height:90vh;border-radius:8px;" />`;
+        overlay.onclick = () => document.body.removeChild(overlay);
+        document.body.appendChild(overlay);
+      }
+
+      carregarStats();
+      carregarLista();
+
+    }).catch(e => {
+      console.error('Bridge erro:', e);
+      const el = document.getElementById('bridge-loading');
+      if (el) { const t = el.querySelector('div:last-child'); if (t) t.textContent = 'Erro ao carregar. Recarregue a página.'; }
+    });
+  </script>
+</body>
+
+</html>

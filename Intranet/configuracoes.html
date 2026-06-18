@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Configurações — AESA Intranet</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="icon" type="image/png" href="img/favicon1.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<script src="auth.js"></script>
+<script src="notificacoes-chamados.js"></script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#061851;--navy-light:#0d2570;--orange:#E73B1B;--orange-hover:#c4320f;
+  --green:#065f46;--green-light:#ecfdf5;--white:#ffffff;--bg:#f0f2f5;
+  --bg-hover:#e5e8ef;--text:#0f1923;--text-muted:#6b7280;--border:#e2e6ea;
+  --card:#ffffff;--font:'DM Sans',sans-serif;--radius:10px;
+  --shadow-sm:0 1px 3px rgba(6,24,81,.07);--shadow:0 4px 16px rgba(6,24,81,.10);
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:56px;background:var(--white);border-bottom:1px solid var(--border);
+  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:100;
+}
+.topbar-back{
+  display:flex;align-items:center;gap:8px;color:var(--text-muted);
+  font-size:13px;font-weight:500;cursor:pointer;transition:color .15s;
+}
+.topbar-back:hover{color:var(--navy)}
+.topbar-back i{font-size:18px}
+.topbar-title{font-size:15px;font-weight:700;color:var(--navy)}
+.topbar-user{
+  display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted)
+}
+.topbar-avatar{
+  width:32px;height:32px;border-radius:50%;background:var(--orange);
+  color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;
+}
+
+/* ── LAYOUT ── */
+.page{max-width:760px;margin:0 auto;padding:28px 24px 48px}
+
+/* ── PERFIL HERO ── */
+.perfil-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:24px;display:flex;align-items:center;gap:20px;
+  box-shadow:var(--shadow-sm);margin-bottom:28px;
+}
+.perfil-avatar{
+  width:64px;height:64px;border-radius:50%;background:var(--navy);
+  color:#fff;font-size:22px;font-weight:700;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;
+  box-shadow:0 4px 14px rgba(6,24,81,.25);
+}
+.perfil-info{flex:1;min-width:0}
+.perfil-nome{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.perfil-meta{font-size:13px;color:var(--text-muted)}
+.perfil-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:3px 10px;border-radius:20px;
+}
+.badge-navy{background:rgba(6,24,81,.08);color:var(--navy)}
+.badge-orange{background:#fff0ec;color:var(--orange);border:1px solid #f9c4b8}
+.badge-green{background:var(--green-light);color:var(--green)}
+
+/* ── SECTION ── */
+.section{margin-bottom:28px}
+.section-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.section-head h2{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:1px;white-space:nowrap}
+.section-line{flex:1;height:1px;background:var(--border)}
+
+/* ── SETTINGS CARD ── */
+.settings-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.setting-row{
+  display:flex;align-items:center;gap:14px;padding:14px 18px;
+  border-bottom:1px solid var(--border);transition:background .12s;
+}
+.setting-row:last-child{border-bottom:none}
+.setting-row:hover{background:var(--bg)}
+.setting-icon{
+  width:36px;height:36px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.setting-icon i{font-size:17px}
+.si-blue{background:#eff6ff;color:#1e40af}
+.si-purple{background:#faf5ff;color:#6b21a8}
+.si-amber{background:#fff8e1;color:#b45309}
+.si-green{background:var(--green-light);color:var(--green)}
+.si-red{background:#fff0ec;color:var(--orange)}
+.si-slate{background:#f1f5f9;color:#475569}
+.setting-body{flex:1;min-width:0}
+.setting-label{font-size:13px;font-weight:600;color:var(--navy)}
+.setting-desc{font-size:11px;color:var(--text-muted);margin-top:1px}
+.setting-ctrl{flex-shrink:0}
+
+/* ── TOGGLE ── */
+.toggle{position:relative;width:42px;height:24px;display:inline-block}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-track{
+  position:absolute;inset:0;background:#d1d5db;border-radius:24px;
+  cursor:pointer;transition:background .2s;
+}
+.toggle input:checked ~ .toggle-track{background:var(--navy)}
+.toggle-track::after{
+  content:'';position:absolute;width:18px;height:18px;border-radius:50%;
+  background:#fff;top:3px;left:3px;transition:transform .2s;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.toggle input:checked ~ .toggle-track::after{transform:translateX(18px)}
+
+/* ── SELECT ── */
+.setting-select{
+  border:1px solid var(--border);border-radius:7px;
+  padding:6px 10px;font-family:var(--font);font-size:12px;
+  color:var(--navy);background:var(--white);outline:none;cursor:pointer;
+  transition:border-color .15s;
+}
+.setting-select:focus{border-color:var(--navy)}
+
+/* ── TEMA ── */
+.tema-grid{display:flex;gap:8px}
+.tema-opt{
+  width:44px;height:44px;border-radius:10px;border:2px solid transparent;
+  cursor:pointer;transition:border-color .15s,transform .1s;display:flex;
+  align-items:center;justify-content:center;font-size:18px;
+}
+.tema-opt:hover{transform:scale(1.07)}
+.tema-opt.ativo{border-color:var(--orange)}
+.tema-claro{background:var(--bg)}
+.tema-escuro{background:#1a1d23}
+.tema-auto{background:linear-gradient(135deg,var(--bg) 50%,#1a1d23 50%)}
+
+/* ── SAVE BTN ── */
+.btn-salvar{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 24px;border-radius:8px;border:none;
+  background:var(--navy);color:#fff;font-family:var(--font);
+  font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;
+}
+.btn-salvar:hover{background:var(--navy-light)}
+.btn-salvar:active{transform:scale(.97)}
+.btn-salvar i{font-size:16px}
+.btn-salvar.salvando{opacity:.7;pointer-events:none}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:28px;right:28px;
+  background:var(--navy);color:#fff;
+  padding:12px 18px;border-radius:10px;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;
+  box-shadow:var(--shadow);
+  transform:translateY(80px);opacity:0;
+  transition:transform .25s ease,opacity .25s ease;
+  z-index:9999;pointer-events:none;
+}
+#toast.show{transform:translateY(0);opacity:1}
+#toast i{font-size:17px;color:#4ade80}
+
+/* ── DANGER ZONE ── */
+.danger-card{
+  background:#fff8f6;border:1px solid #f9c4b8;border-radius:var(--radius);
+  padding:16px 18px;display:flex;align-items:center;gap:14px;
+}
+.danger-body{flex:1}
+.danger-label{font-size:13px;font-weight:700;color:#9a1c0e;margin-bottom:3px}
+.danger-desc{font-size:12px;color:#b45309}
+.btn-danger{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:8px;border:1px solid var(--orange);
+  background:var(--white);color:var(--orange);font-family:var(--font);
+  font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;
+  white-space:nowrap;flex-shrink:0;
+}
+.btn-danger:hover{background:var(--orange);color:#fff}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .page{padding:20px 16px 40px}
+  .perfil-card{flex-direction:column;text-align:center}
+  .perfil-badges{justify-content:center}
+  .setting-row{padding:12px 14px}
+  #toast{right:16px;bottom:16px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-back" onclick="history.back()">
+    <i data-lucide="arrow-left" style="width:18px;height:18px"></i>
+    Voltar
+  </div>
+  <div class="topbar-title">Configurações</div>
+  <div class="topbar-user">
+    <span id="tb-nome">—</span>
+    <div class="topbar-avatar" id="tb-avatar">CO</div>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- PERFIL -->
+  <div class="perfil-card">
+    <div class="perfil-avatar" id="pf-avatar">CO</div>
+    <div class="perfil-info">
+      <div class="perfil-nome" id="pf-nome">Colaborador(a)</div>
+      <div class="perfil-meta" id="pf-meta">AESA Empilhadeiras</div>
+      <div class="perfil-badges" id="pf-badges">
+        <span class="badge badge-navy"><i data-lucide="shield" style="width:10px;height:10px"></i> Colaborador</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- APARÊNCIA -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Aparência</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="settings-card">
+
+      <div class="setting-row">
+        <div class="setting-icon si-blue"><i data-lucide="palette" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Tema da interface</div>
+          <div class="setting-desc">Escolha entre claro, escuro ou automático (segue o sistema)</div>
+        </div>
+        <div class="setting-ctrl">
+          <div class="tema-grid">
+            <div class="tema-opt tema-claro ativo" id="tema-claro"   onclick="setTema('claro')"   title="Claro">☀️</div>
+            <div class="tema-opt tema-escuro"      id="tema-escuro"  onclick="setTema('escuro')"  title="Escuro">🌙</div>
+            <div class="tema-opt tema-auto"        id="tema-auto"    onclick="setTema('auto')"    title="Automático">⚙️</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-purple"><i data-lucide="type" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Tamanho do texto</div>
+          <div class="setting-desc">Ajuste o tamanho da fonte em toda a intranet</div>
+        </div>
+        <div class="setting-ctrl">
+          <select class="setting-select" id="sel-fonte" onchange="aplicarFonte(this.value)">
+            <option value="13">Pequeno</option>
+            <option value="14" selected>Médio (padrão)</option>
+            <option value="15">Grande</option>
+            <option value="16">Extra grande</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-amber"><i data-lucide="panel-left" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Sidebar recolhida por padrão</div>
+          <div class="setting-desc">Inicia a intranet com o menu lateral fechado</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-sidebar"/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÕES -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Notificações</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="settings-card">
+
+      <div class="setting-row">
+        <div class="setting-icon si-green"><i data-lucide="bell" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Notificações de comunicados</div>
+          <div class="setting-desc">Exibir badge no sino quando há novos comunicados</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-notif-com" checked/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-blue"><i data-lucide="ticket" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Notificações de chamados</div>
+          <div class="setting-desc">Alertar quando o status de um chamado seu for atualizado</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-notif-cha" checked/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-amber"><i data-lucide="calendar-days" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Lembrete de eventos</div>
+          <div class="setting-desc">Mostrar banner de evento próximo na página inicial</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-notif-ev" checked/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PREFERÊNCIAS -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Preferências</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="settings-card">
+
+      <div class="setting-row">
+        <div class="setting-icon si-slate"><i data-lucide="home" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Página de início padrão</div>
+          <div class="setting-desc">Qual página abre ao entrar na intranet</div>
+        </div>
+        <div class="setting-ctrl">
+          <select class="setting-select" id="sel-inicio">
+            <option value="home">Página Inicial</option>
+            <option value="chamados.html">Chamados TI</option>
+            <option value="calendario.html">Calendário</option>
+            <option value="ramais.html">Ramais</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-blue"><i data-lucide="search" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Barra de busca sempre visível</div>
+          <div class="setting-desc">Mantém o campo de busca expandido no topbar</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-busca-fixa"/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-green"><i data-lucide="clock" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Exibir horário no topbar</div>
+          <div class="setting-desc">Mostra o relógio ao lado da data na barra superior</div>
+        </div>
+        <div class="setting-ctrl">
+          <label class="toggle">
+            <input type="checkbox" id="tog-relogio"/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SALVAR -->
+  <div style="display:flex;justify-content:flex-end;margin-bottom:24px">
+    <button class="btn-salvar" id="btn-salvar" onclick="salvar()">
+      <i data-lucide="save" style="width:18px;height:18px"></i>
+      Salvar preferências
+    </button>
+  </div>
+
+  <!-- SESSÃO / SAIR -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Sessão</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="settings-card">
+
+      <div class="setting-row">
+        <div class="setting-icon si-slate"><i data-lucide="clock" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Sessão ativa</div>
+          <div class="setting-desc" id="info-sessao">Calculando tempo de sessão...</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-icon si-red"><i data-lucide="log-in" style="width:18px;height:18px"></i></div>
+        <div class="setting-body">
+          <div class="setting-label">Login atual</div>
+          <div class="setting-desc" id="info-login">—</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DANGER ZONE -->
+  <div class="section">
+    <div class="section-head">
+      <h2>Ações da conta</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="danger-card">
+      <div style="width:38px;height:38px;border-radius:9px;background:#fff0ec;color:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i data-lucide="log-out" style="width:18px;height:18px"></i>
+      </div>
+      <div class="danger-body">
+        <div class="danger-label">Encerrar sessão</div>
+        <div class="danger-desc">Você será redirecionado para a tela de login</div>
+      </div>
+      <button class="btn-danger" onclick="confirmarLogout()">
+        <i data-lucide="log-out" style="width:16px;height:16px;vertical-align:middle"></i> Sair
+      </button>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- TOAST -->
+<div id="toast"><i data-lucide="circle-check" style="width:16px;height:16px"></i> <span id="toast-msg">Preferências salvas!</span></div>
+
+<script>
+const PREF_KEY = 'aesa_preferencias';
+
+// ─── Carregar usuário ─────────────────────────────────────────────────────────
+
+function getUsuario() {
+  try { return JSON.parse(localStorage.getItem('aesa_usuario')) || {}; } catch { return {}; }
+}
+
+(function iniciarUI() {
+  const u = getUsuario();
+  const nome   = u.nome || u.usuario_ad || 'Colaborador(a)';
+  const login  = u.usuario_ad || '—';
+  const depto  = u.departamento || 'AESA Empilhadeiras';
+  const perfis = Array.isArray(u.perfis) ? u.perfis : [u.perfil || 'COLABORADOR'];
+
+  const iniciais = nome.split(' ').slice(0,2).map(p => p[0]).join('').toUpperCase();
+
+  document.getElementById('pf-avatar').textContent  = iniciais;
+  document.getElementById('tb-avatar').textContent  = iniciais;
+  document.getElementById('pf-nome').textContent    = nome;
+  document.getElementById('tb-nome').textContent    = nome.split(' ')[0];
+  document.getElementById('pf-meta').textContent    = depto + ' · ' + login;
+  document.getElementById('info-login').textContent = login + '@aesaempilhadeiras.rede';
+
+  // Badges de perfil
+  const PERFIL_CFG = {
+    TI:          { cls: 'badge-orange', icon: 'monitor', label: 'TI' },
+    RH:          { cls: 'badge-green',  icon: 'users',          label: 'RH' },
+    COLABORADOR: { cls: 'badge-navy',   icon: 'user',           label: 'Colaborador' },
+  };
+  const badgesEl = document.getElementById('pf-badges');
+  badgesEl.innerHTML = perfis.map(p => {
+    const c = PERFIL_CFG[p.toUpperCase()] || PERFIL_CFG.COLABORADOR;
+    return `<span class="badge ${c.cls}"><i data-lucide="${c.icon}" style="width:10px;height:10px;display:inline-block;vertical-align:middle"></i> ${c.label}</span>`;
+  }).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [badgesEl] });
+
+  // Tempo de sessão
+  if (u._expira) {
+    const ttl = Math.round((u._expira - Date.now()) / 1000 / 60);
+    const h = Math.floor(ttl / 60), m = ttl % 60;
+    document.getElementById('info-sessao').textContent =
+      ttl > 0
+        ? `Expira em ${h > 0 ? h + 'h ' : ''}${m}min`
+        : 'Sessão expirada — faça login novamente';
+  } else {
+    document.getElementById('info-sessao').textContent = 'Sessão ativa (TTL: 8h)';
+  }
+})();
+
+// ─── Preferências ─────────────────────────────────────────────────────────────
+
+function carregarPrefs() {
+  try { return JSON.parse(localStorage.getItem(PREF_KEY)) || {}; } catch { return {}; }
+}
+
+(function aplicarPrefs() {
+  const p = carregarPrefs();
+
+  if (p.tema)         setTema(p.tema, false);
+  if (p.fonte)        { document.getElementById('sel-fonte').value = p.fonte; aplicarFonte(p.fonte, false); }
+  if (p.inicio)       document.getElementById('sel-inicio').value = p.inicio;
+
+  const tog = (id, val) => { if (val !== undefined) document.getElementById(id).checked = val; };
+  tog('tog-sidebar',    p.sidebar_recolhida);
+  tog('tog-notif-com',  p.notif_comunicados !== false);
+  tog('tog-notif-cha',  p.notif_chamados    !== false);
+  tog('tog-notif-ev',   p.notif_eventos     !== false);
+  tog('tog-busca-fixa', p.busca_fixa);
+  tog('tog-relogio',    p.relogio);
+})();
+
+// ─── Tema ─────────────────────────────────────────────────────────────────────
+
+function setTema(t, salvarLocal = true) {
+  ['claro','escuro','auto'].forEach(id => {
+    document.getElementById('tema-' + id)?.classList.toggle('ativo', id === t);
+  });
+  // Aplica no document (preparação para dark mode futuro)
+  document.documentElement.dataset.tema = t;
+  if (salvarLocal) _pref_set('tema', t);
+}
+
+// ─── Fonte ────────────────────────────────────────────────────────────────────
+
+function aplicarFonte(val, salvarLocal = true) {
+  document.documentElement.style.fontSize = val + 'px';
+  if (salvarLocal) _pref_set('fonte', val);
+}
+
+// ─── Salvar tudo ──────────────────────────────────────────────────────────────
+
+function salvar() {
+  const btn = document.getElementById('btn-salvar');
+  btn.classList.add('salvando');
+  btn.innerHTML = '<i data-lucide="loader-circle" style="width:16px;height:16px;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle"></i> Salvando...';
+  if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [btn] });
+
+  const prefs = {
+    tema:               document.documentElement.dataset.tema || 'claro',
+    fonte:              document.getElementById('sel-fonte').value,
+    inicio:             document.getElementById('sel-inicio').value,
+    sidebar_recolhida:  document.getElementById('tog-sidebar').checked,
+    notif_comunicados:  document.getElementById('tog-notif-com').checked,
+    notif_chamados:     document.getElementById('tog-notif-cha').checked,
+    notif_eventos:      document.getElementById('tog-notif-ev').checked,
+    busca_fixa:         document.getElementById('tog-busca-fixa').checked,
+    relogio:            document.getElementById('tog-relogio').checked,
+  };
+
+  localStorage.setItem(PREF_KEY, JSON.stringify(prefs));
+
+  setTimeout(() => {
+    btn.classList.remove('salvando');
+    btn.innerHTML = '<i data-lucide="save" style="width:18px;height:18px"></i> Salvar preferências';
+    if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [btn] });
+    mostrarToast('Preferências salvas com sucesso!');
+  }, 600);
+}
+
+function _pref_set(key, val) {
+  const p = carregarPrefs();
+  p[key] = val;
+  localStorage.setItem(PREF_KEY, JSON.stringify(p));
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── Logout ───────────────────────────────────────────────────────────────────
+
+function confirmarLogout() {
+  if (confirm('Deseja realmente encerrar a sessão?')) logout();
+}
+
+// ─── Animação spin ────────────────────────────────────────────────────────────
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+
+// ─── Lucide Icons ─────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+});
+</script>
+</body>
+</html>

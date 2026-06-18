@@ -5,12 +5,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AESA — Chamados TI</title>
+  <link rel="icon" type="image/png" href="img/favicon1.png?v=2">
   <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap"
     rel="stylesheet" />
   <script src="auth.js"></script>
+  <script src="notificacoes-chamados.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="busca.js"></script>
+  <script src="tema.js"></script>
   <style>
     *,
     *::before,
@@ -66,7 +71,7 @@
     }
 
     .shell {
-      display: block;
+      display: flex; flex-direction: column; flex: 1; min-height: 0;
       width: 100%;
     }
 
@@ -1023,8 +1028,16 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      justify-content: flex-end;
+      padding: 12px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
       width: 100%;
+      box-shadow: 0 1px 3px rgba(6,24,81,.07);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-sizing: border-box;
     }
 
     .ti-tab {
@@ -1135,8 +1148,40 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
-  <script src="embed.js"></script>
+  
+        /* ── DARK MODE ── */
+        [data-tema="escuro"] {
+            --navy: #4a7fd4; --navy-l: #5a8fde;
+            --orange: #f4623a; --orange-h: #e04f28; --orange-l: #3d1a10;
+            --green: #34d399; --green-l: #064e3b;
+            --red: #f87171; --red-l: #450a0a;
+            --blue: #93c5fd; --blue-l: #1e3a5f;
+            --amber: #fbbf24; --amber-l: #451a03;
+            --white: #1a1e2e;
+            --bg: #141720; --bg-h: #1e2233;
+            --text: #e2e8f0; --muted: #8b93a7;
+            --border: #2d3347; --card: #1a1e2e;
+        }
+        [data-tema="escuro"] body { background: var(--bg); color: var(--text); }
+        [data-tema="escuro"] .sidebar { background: #0d1117; }
+        [data-tema="escuro"] .topbar { background: #1a1e2e; border-color: var(--border); }
+        [data-tema="escuro"] .topbar-btn { background: #1a1e2e; border-color: var(--border); color: var(--muted); }
+        [data-tema="escuro"] .topbar-btn:hover { background: var(--bg-h); color: var(--text); }
+        [data-tema="escuro"] .card, [data-tema="escuro"] .chamado-card { background: var(--card); border-color: var(--border); }
+        [data-tema="escuro"] .chamado-card:hover { background: #1e2233; }
+        [data-tema="escuro"] input, [data-tema="escuro"] select, [data-tema="escuro"] textarea {
+            background: #1e2233; border-color: var(--border); color: var(--text);
+        }
+        [data-tema="escuro"] input::placeholder, [data-tema="escuro"] textarea::placeholder { color: var(--muted); }
+        [data-tema="escuro"] .modal-overlay { background: rgba(0,0,0,.7); }
+        [data-tema="escuro"] .modal { background: #1a1e2e; border-color: var(--border); }
+        [data-tema="escuro"] .modal-header { border-color: var(--border); }
+        [data-tema="escuro"] .modal-footer { border-color: var(--border); background: #141720; }
+        [data-tema="escuro"] .section-head h2 { color: var(--text); }
+        [data-tema="escuro"] .badge-status { background: #1e2233; }
+        [data-tema="escuro"] .topbar-left h1 { color: var(--text); }
+        [data-tema="escuro"] .topbar-left p { color: var(--muted); }
+    </style>
 </head>
 
 <body>
@@ -1144,18 +1189,18 @@
     <div class="ti-toolbar">
 
       <button class="ti-tab active" onclick="showSection('abrir', this)">
-        <i class="ti ti-plus"></i>
+        <i data-lucide="plus" style="width:16px;height:16px"></i>
         Abrir Chamado
       </button>
 
       <button class="ti-tab" onclick="showSection('meus', this)">
-        <i class="ti ti-list-check"></i>
+        <i data-lucide="list-checks" style="width:16px;height:16px"></i>
         Meus Chamados
       </button>
 
       <button class="ti-tab ti-admin" id="btn-admin" onclick="showSection('admin', this)" style="display:none">
 
-        <i class="ti ti-layout-dashboard"></i>
+        <i data-lucide="layout-dashboard" style="width:16px;height:16px"></i>
         Todos
 
         <span class="ti-badge" id="badge-abertos">0</span>
@@ -1163,7 +1208,7 @@
 
       <button class="ti-tab ti-admin" id="btn-urgentes" onclick="showSection('urgentes', this)" style="display:none">
 
-        <i class="ti ti-alert-triangle"></i>
+        <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
         Urgentes
 
         <span class="ti-badge urgente" id="badge-urgentes">0</span>
@@ -1270,7 +1315,7 @@
             <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()"
               ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')"
               ondrop="onDrop(event)">
-              <i class="ti ti-cloud-upload"></i>
+              <i data-lucide="cloud-upload" style="width:32px;height:32px"></i>
               <p>Clique ou arraste arquivos aqui</p>
               <small>PNG, JPG, PDF, DOCX, XLSX, ZIP</small>
             </div>
@@ -1281,9 +1326,9 @@
 
           <div style="margin-top:22px;display:flex;gap:10px;justify-content:flex-end;align-items:center">
             <span id="form-erro" style="font-size:12px;color:var(--red);display:none"></span>
-            <button class="btn btn-ghost btn-sm" onclick="limparFormulario()"><i class="ti ti-trash"></i>Limpar</button>
+            <button class="btn btn-ghost btn-sm" onclick="limparFormulario()"><i data-lucide="trash-2" style="width:15px;height:15px"></i>Limpar</button>
             <button class="btn btn-orange" id="btn-enviar" onclick="enviarChamado()">
-              <span id="btn-enviar-text"><i class="ti ti-send"></i>Enviar Chamado</span>
+              <span id="btn-enviar-text"><i data-lucide="send" style="width:16px;height:16px"></i>Enviar Chamado</span>
               <div class="spinner" id="btn-enviar-spin" style="display:none"></div>
             </button>
           </div>
@@ -1294,21 +1339,21 @@
       <div class="section" id="sec-meus">
         <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
           <div class="stat-card">
-            <div class="stat-icon si-blue"><i class="ti ti-ticket"></i></div>
+            <div class="stat-icon si-blue"><i data-lucide="ticket" style="width:17px;height:17px"></i></div>
             <div>
               <div class="stat-val" id="m-abertos">–</div>
               <div class="stat-lbl">Abertos</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon si-amber"><i class="ti ti-loader"></i></div>
+            <div class="stat-icon si-amber"><i data-lucide="loader-2" style="width:15px;height:15px"></i></div>
             <div>
               <div class="stat-val" id="m-andamento">–</div>
               <div class="stat-lbl">Em andamento</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon si-green"><i class="ti ti-check"></i></div>
+            <div class="stat-icon si-green"><i data-lucide="check" style="width:15px;height:15px"></i></div>
             <div>
               <div class="stat-val" id="m-finalizados">–</div>
               <div class="stat-lbl">Finalizados</div>
@@ -1317,7 +1362,7 @@
         </div>
         <div class="table-wrap">
           <div class="table-toolbar">
-            <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="meus-search"
+            <div class="search-wrap"><i data-lucide="search" style="width:15px;height:15px"></i><input class="search-input" id="meus-search"
                 type="text" placeholder="Buscar chamado..." oninput="filtrarMeus()" /></div>
             <select class="filter-sel" id="meus-filter-status" onchange="filtrarMeus()">
               <option value="todos">Todos os status</option>
@@ -1339,28 +1384,28 @@
       <div class="section" id="sec-admin">
         <div class="stats-row">
           <div class="stat-card">
-            <div class="stat-icon si-navy"><i class="ti ti-ticket"></i></div>
+            <div class="stat-icon si-navy"><i data-lucide="ticket" style="width:17px;height:17px"></i></div>
             <div>
               <div class="stat-val" id="a-total">–</div>
               <div class="stat-lbl">Total</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon si-blue"><i class="ti ti-ticket"></i></div>
+            <div class="stat-icon si-blue"><i data-lucide="ticket" style="width:17px;height:17px"></i></div>
             <div>
               <div class="stat-val" id="a-abertos">–</div>
               <div class="stat-lbl">Abertos</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon si-amber"><i class="ti ti-loader"></i></div>
+            <div class="stat-icon si-amber"><i data-lucide="loader-2" style="width:15px;height:15px"></i></div>
             <div>
               <div class="stat-val" id="a-andamento">–</div>
               <div class="stat-lbl">Em andamento</div>
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon si-red"><i class="ti ti-alert-triangle"></i></div>
+            <div class="stat-icon si-red"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i></div>
             <div>
               <div class="stat-val" id="a-urgentes">–</div>
               <div class="stat-lbl">Urgentes</div>
@@ -1369,7 +1414,7 @@
         </div>
         <div class="table-wrap">
           <div class="table-toolbar">
-            <div class="search-wrap"><i class="ti ti-search"></i><input class="search-input" id="admin-search"
+            <div class="search-wrap"><i data-lucide="search" style="width:15px;height:15px"></i><input class="search-input" id="admin-search"
                 type="text" placeholder="Buscar por colaborador, setor ou assunto..." oninput="filtrarAdmin()" />
             </div>
             <select class="filter-sel" id="admin-filter-status" onchange="filtrarAdmin()">
@@ -1420,8 +1465,8 @@
   <div class="modal-overlay" id="modal-detalhe" style="display:none">
     <div class="modal">
       <div class="modal-header">
-        <h3><i class="ti ti-ticket"></i><span id="modal-numero">CHM-0000</span></h3>
-        <button class="modal-close" onclick="fecharModal('modal-detalhe')"><i class="ti ti-x"></i></button>
+        <h3><i data-lucide="ticket" style="width:17px;height:17px"></i><span id="modal-numero">CHM-0000</span></h3>
+        <button class="modal-close" onclick="fecharModal('modal-detalhe')"><i data-lucide="x" style="width:15px;height:15px"></i></button>
       </div>
       <div class="modal-body">
         <div id="modal-prio-banner"
@@ -1454,11 +1499,11 @@
       <div class="modal-footer">
         <button class="btn btn-sm" id="modal-excluir-btn"
           style="display:none;background:var(--red-l);color:var(--red);border:1px solid #fecaca"
-          onclick="excluirChamadoAtual()"><i class="ti ti-trash"></i>Excluir</button>
+          onclick="excluirChamadoAtual()"><i data-lucide="trash-2" style="width:15px;height:15px"></i>Excluir</button>
         <div style="flex:1"></div>
         <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-detalhe')">Fechar</button>
         <button class="btn btn-primary btn-sm" id="modal-salvar-btn" style="display:none"
-          onclick="salvarStatusChamado()"><i class="ti ti-check"></i>Salvar</button>
+          onclick="salvarStatusChamado()"><i data-lucide="check" style="width:15px;height:15px"></i>Salvar</button>
       </div>
     </div>
   </div>
@@ -1467,13 +1512,13 @@
   <div class="modal-overlay" id="modal-confirmacao" style="display:none">
     <div class="modal" style="max-width:420px">
       <div class="modal-header">
-        <h3><i class="ti ti-circle-check"></i>Chamado Enviado!</h3>
-        <button class="modal-close" onclick="fecharModal('modal-confirmacao')"><i class="ti ti-x"></i></button>
+        <h3><i data-lucide="circle-check" style="width:15px;height:15px"></i>Chamado Enviado!</h3>
+        <button class="modal-close" onclick="fecharModal('modal-confirmacao')"><i data-lucide="x" style="width:15px;height:15px"></i></button>
       </div>
       <div class="modal-body" style="text-align:center;padding:30px">
         <div
           style="width:60px;height:60px;background:var(--green-l);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-          <i class="ti ti-check" style="font-size:28px;color:var(--green)"></i>
+          <i data-lucide="check" style="width:28px;height:28px"></i>
         </div>
         <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px">Chamado registrado com sucesso!
         </div>
@@ -1482,17 +1527,16 @@
         <div style="font-size:12px;color:var(--muted)">O TI foi notificado e entrará em contato em breve.</div>
       </div>
       <div class="modal-footer" style="justify-content:center">
-        <button class="btn btn-primary btn-sm" onclick="fecharModal('modal-confirmacao');showSection('meus',null)"><i
-            class="ti ti-list-check"></i>Ver meus chamados</button>
+        <button class="btn btn-primary btn-sm" onclick="fecharModal('modal-confirmacao');showSection('meus',null)"><i data-lucide="list-checks" style="width:16px;height:16px"></i>Ver meus chamados</button>
         <button class="btn btn-ghost btn-sm" onclick="fecharModal('modal-confirmacao')">Abrir outro</button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+  <div class="toast" id="toast"><i data-lucide="check" style="width:15px;height:15px"></i><span id="toast-msg"></span></div>
 
   <script>
-    const API = 'http://10.1.1.54:3001';
+    const API = '';
 
     // ── Supabase proxy ────────────────────────────────────────────
     async function supabase(metodo, tabela, params, body) {
@@ -1505,7 +1549,11 @@
       if (!res.ok) throw new Error(data.mensagem || `Erro ${res.status}`);
       return data;
     }
-
+    function renderizarIconesLucide() {
+   if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+}
     // ── State ─────────────────────────────────────────────────────
     let prioridadeSelecionada = 'Baixa';
     let arquivos = [];
@@ -1547,8 +1595,10 @@
       document.querySelectorAll('.ti-tab').forEach(n => n.classList.remove('active'));
       document.getElementById('sec-' + id).classList.add('active');
       if (el) el.classList.add('active');
-      document.getElementById('topbar-title').textContent = TITLES[id][0];
-      document.getElementById('topbar-sub').textContent = TITLES[id][1];
+    const topbarTitle = document.getElementById('topbar-title');
+    const topbarSub = document.getElementById('topbar-sub');
+    if (topbarTitle) topbarTitle.textContent = TITLES[id][0];
+    if (topbarSub) topbarSub.textContent = TITLES[id][1];
       if (id === 'meus') carregarMeus();
       if (id === 'admin') carregarTodos();
       if (id === 'urgentes') renderUrgentes();
@@ -1590,20 +1640,39 @@
     }
 
     function renderAnexos() {
-      const ICONS = { pdf: 'ti-file-type-pdf', docx: 'ti-file-type-docx', xlsx: 'ti-file-type-xls', zip: 'ti-file-zip', png: 'ti-file-type-png', jpg: 'ti-file-type-jpg', jpeg: 'ti-file-type-jpg' };
-      const el = document.getElementById('anexos-lista');
-      el.innerHTML = arquivos.map((f, i) => {
-        const ext = f.name.split('.').pop().toLowerCase();
-        const ico = ICONS[ext] || 'ti-file';
-        return `<div class="anexo-item">
+  const ICONS = {
+    pdf: 'ti-file-type-pdf',
+    docx: 'ti-file-type-docx',
+    xlsx: 'ti-file-type-xls',
+    zip: 'ti-file-zip',
+    png: 'ti-file-type-png',
+    jpg: 'ti-file-type-jpg',
+    jpeg: 'ti-file-type-jpg'
+  };
+
+  const el = document.getElementById('anexos-lista');
+
+  el.innerHTML = arquivos.map((f, i) => {
+    const ext = f.name.split('.').pop().toLowerCase();
+    const ico = ICONS[ext] || 'ti-file';
+
+    return `<div class="anexo-item">
       <i class="ti ${ico}"></i>
       <span class="anexo-nome">${f.name}</span>
       <span class="anexo-size">${(f.size / 1024).toFixed(0)} KB</span>
-      <button class="anexo-del" onclick="removerAnexo(${i})"><i class="ti ti-x"></i></button>
+      <button class="anexo-del" onclick="removerAnexo(${i})" title="Remover anexo" aria-label="Remover anexo">
+        <i data-lucide="x" style="width:15px;height:15px"></i>
+      </button>
     </div>`;
-      }).join('');
-    }
-    function removerAnexo(i) { arquivos.splice(i, 1); renderAnexos(); }
+  }).join('');
+
+  renderizarIconesLucide();
+}
+
+function removerAnexo(i) {
+  arquivos.splice(i, 1);
+  renderAnexos();
+}
 
     // ── Enviar Chamado ────────────────────────────────────────────
     async function enviarChamado() {
@@ -1629,14 +1698,41 @@
 
       setBtnLoading(true);
       try {
+        // Obtém o próximo técnico pelo revezamento Lincoln ↔ Giovani
+        let tecnicoDesignado = 'Lincoln'; // fallback
+        try {
+          const rTec = await fetch(API + '/chamados/proximo-tecnico', { method: 'POST' });
+          const dTec = await rTec.json();
+          if (dTec.ok && dTec.tecnico) tecnicoDesignado = dTec.tecnico;
+        } catch (e) { console.warn('[Revezamento] Falha ao obter técnico:', e.message); }
+
         const result = await supabase('POST', 'chamados', '', {
           nome, usuario_ad: usuarioLogado.sAMAccountName || '',
           setor, assunto, categoria, descricao,
           prioridade: prioridadeSelecionada,
           status: 'Aberto',
+          responsavel_ti: tecnicoDesignado,
           anexos: anexosData,
         });
         const chamado = Array.isArray(result) ? result[0] : result;
+
+        // Cria card no Trello (fire-and-forget)
+        fetch(API + '/trello/criar-card', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chamado_id:     chamado.id,
+            numero:         chamado.numero || 'CHM-????',
+            assunto,
+            descricao,
+            prioridade:     prioridadeSelecionada,
+            responsavel_ti: tecnicoDesignado,
+            nome,
+            setor,
+            categoria,
+          }),
+        }).catch(e => console.warn('[Trello] criar-card falhou:', e.message));
+
         document.getElementById('conf-numero').textContent = chamado?.numero || 'CHM-????';
         document.getElementById('modal-confirmacao').style.display = 'flex';
         limparFormulario();
@@ -1736,68 +1832,166 @@
       renderTabelaChamados('admin-lista', lista, true);
     }
 
-    function renderUrgentes() {
-      const el = document.getElementById('urgentes-lista');
-      const lista = todosChamados.filter(c => c.prioridade === 'Urgente' && c.status !== 'Finalizado');
-      if (!lista.length) {
-        el.innerHTML = '<div style="text-align:center;padding:48px;color:var(--muted)"><i class="ti ti-check" style="font-size:36px;display:block;margin-bottom:8px;color:var(--green)"></i>Nenhum chamado urgente no momento.</div>';
-        return;
-      }
-      el.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px">' +
-        lista.map(c => `
-    <div style="background:var(--card);border:1px solid #fecaca;border-left:4px solid #991b1b;border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm);cursor:pointer" onclick="abrirDetalhe('${c.id}')">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:12px;font-weight:700;color:var(--red);background:var(--red-l);border:1px solid #fecaca;border-radius:6px;padding:2px 8px">${c.numero || '–'}</span>
-          <span class="pill pill-red"><i class="ti ti-alert-triangle"></i>URGENTE</span>
-        </div>
-        ${statusPill(c.status)}
+   function renderUrgentes() {
+  const el = document.getElementById('urgentes-lista');
+  const lista = todosChamados.filter(c => c.prioridade === 'Urgente' && c.status !== 'Finalizado');
+
+  if (!lista.length) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:48px;color:var(--muted)">
+        <i data-lucide="check" style="width:36px;height:36px"></i>
+        Nenhum chamado urgente no momento.
       </div>
-      <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">${c.assunto}</div>
-      <div style="font-size:12px;color:var(--muted)">${c.nome} · ${c.setor} · ${c.categoria}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:6px">${formatarData(c.data_abertura)}</div>
-    </div>`).join('') + '</div>';
-    }
+    `;
+
+    renderizarIconesLucide();
+    return;
+  }
+
+  el.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px">' +
+    lista.map(c => `
+      <div style="background:var(--card);border:1px solid #fecaca;border-left:4px solid #991b1b;border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm);cursor:pointer" onclick="abrirDetalhe('${c.id}')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:12px;font-weight:700;color:var(--red);background:var(--red-l);border:1px solid #fecaca;border-radius:6px;padding:2px 8px">
+              ${c.numero || '–'}
+            </span>
+            <span class="pill pill-red">
+              <i data-lucide="alert-triangle" style="width:16px;height:16px"></i>
+              URGENTE
+            </span>
+          </div>
+          ${statusPill(c.status)}
+        </div>
+
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">
+          ${c.assunto}
+        </div>
+
+        <div style="font-size:12px;color:var(--muted)">
+          ${c.nome} · ${c.setor} · ${c.categoria}
+        </div>
+
+        <div style="font-size:11px;color:var(--muted);margin-top:6px">
+          ${formatarData(c.data_abertura)}
+        </div>
+      </div>
+    `).join('') + '</div>';
+
+  renderizarIconesLucide();
+}
 
     // ── Render Tabela ─────────────────────────────────────────────
-    function renderTabelaChamados(containerId, lista, isAdmin) {
-      const el = document.getElementById(containerId);
-      if (!lista.length) {
-        el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><i class="ti ti-ticket-off" style="font-size:32px;display:block;margin-bottom:8px;opacity:.3"></i>Nenhum chamado encontrado.</div>';
-        return;
-      }
-      el.innerHTML = `<div style="overflow-x:auto"><table class="data-table">
-    <thead><tr>
-      <th>Número</th><th>Assunto</th>
-      ${isAdmin ? '<th>Colaborador</th><th>Setor</th>' : ''}
-      <th>Categoria</th><th>Prioridade</th><th>Status</th><th>Data</th><th>Ações</th>
-    </tr></thead>
-    <tbody>${lista.map(c => {
-        const rowClass = c.prioridade === 'Urgente' ? 'urgente-row' : c.prioridade === 'Atenção' ? 'atencao-row' : '';
-        return `<tr class="${rowClass}">
-        <td><span style="font-size:11px;font-weight:700;color:var(--navy)">${c.numero || '–'}</span></td>
-        <td><div style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.assunto}</div><div style="font-size:11px;color:var(--muted)">${c.categoria}</div></td>
-        ${isAdmin ? `<td>${c.nome}</td><td style="font-size:12px;color:var(--muted)">${c.setor}</td>` : ''}
-        <td style="font-size:12px">${c.categoria}</td>
-        <td>${prioPill(c.prioridade)}</td>
-        <td>${statusPill(c.status)}</td>
-        <td style="font-size:11px;color:var(--muted);white-space:nowrap">${formatarData(c.data_abertura)}</td>
-        <td>
-          <div style="display:flex;gap:5px">
-            <button class="btn btn-ghost btn-sm" onclick="abrirDetalhe('${c.id}')" title="Ver detalhes"><i class="ti ti-eye"></i></button>
-            ${isAdmin ? `<button class="btn btn-sm" onclick="excluirChamado('${c.id}','${c.numero || ''}')" title="Excluir" style="background:var(--red-l);color:var(--red);border:1px solid #fecaca"><i class="ti ti-trash"></i></button>` : ''}
-          </div>
-        </td>
-      </tr>`;
-      }).join('')}</tbody>
-  </table></div>`;
-    }
+   function renderTabelaChamados(containerId, lista, isAdmin) {
+  const el = document.getElementById(containerId);
+
+  if (!lista.length) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:40px;color:var(--muted)">
+        <i data-lucide="ticket-x" style="width:32px;height:32px"></i>
+        Nenhum chamado encontrado.
+      </div>
+    `;
+
+    renderizarIconesLucide();
+    return;
+  }
+
+  el.innerHTML = `<div style="overflow-x:auto">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Número</th>
+          <th>Assunto</th>
+          ${isAdmin ? '<th>Colaborador</th><th>Setor</th>' : ''}
+          <th>Categoria</th>
+          <th>Prioridade</th>
+          <th>Status</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${lista.map(c => {
+          const rowClass = c.prioridade === 'Urgente' ? 'urgente-row' : c.prioridade === 'Atenção' ? 'atencao-row' : '';
+
+          return `<tr class="${rowClass}">
+            <td>
+              <span style="font-size:11px;font-weight:700;color:var(--navy)">
+                ${c.numero || '–'}
+              </span>
+            </td>
+
+            <td>
+              <div style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+                ${c.assunto || '–'}
+              </div>
+              <div style="font-size:11px;color:var(--muted)">
+                ${c.categoria || '–'}
+              </div>
+            </td>
+
+            ${isAdmin ? `
+              <td>${c.nome || '–'}</td>
+              <td style="font-size:12px;color:var(--muted)">${c.setor || '–'}</td>
+            ` : ''}
+
+            <td style="font-size:12px">${c.categoria || '–'}</td>
+            <td>${prioPill(c.prioridade)}</td>
+            <td>${statusPill(c.status)}</td>
+
+            <td style="font-size:11px;color:var(--muted);white-space:nowrap">
+              ${formatarData(c.data_abertura)}
+            </td>
+
+            <td>
+              <div style="display:flex;gap:5px">
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-sm"
+                  onclick="abrirDetalhe('${c.id}')"
+                  title="Ver detalhes"
+                  aria-label="Ver detalhes"
+                >
+                  <i data-lucide="eye" style="width:15px;height:15px"></i>
+                </button>
+
+                ${isAdmin ? `
+                  <button
+                    type="button"
+                    class="btn btn-sm"
+                    onclick="excluirChamado('${c.id}','${c.numero || ''}')"
+                    title="Excluir"
+                    aria-label="Excluir"
+                    style="background:var(--red-l);color:var(--red);border:1px solid #fecaca"
+                  >
+                    <i data-lucide="trash-2" style="width:15px;height:15px"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`;
+
+  renderizarIconesLucide();
+}
 
     // ── Modal Detalhe ─────────────────────────────────────────────
-    function abrirDetalhe(id) {
-      const c = [...todosChamados, ...meusChamados].find(x => String(x.id) === String(id));
-      if (!c) return;
+    async function abrirDetalhe(id) {
       chamadoAtualId = id;
+      // Busca dados frescos do banco para garantir responsavel_ti atualizado
+      let c;
+      try {
+        const res = await supabase('GET', 'chamados', `?id=eq.${id}`);
+        c = Array.isArray(res) ? res[0] : res;
+      } catch(e) {
+        c = [...todosChamados, ...meusChamados].find(x => String(x.id) === String(id));
+      }
+      if (!c) return;
 
       document.getElementById('modal-numero').textContent = c.numero || 'CHM-????';
 
@@ -1815,7 +2009,7 @@
 
       // Campos
       const anexosHTML = Array.isArray(c.anexos) && c.anexos.length
-        ? c.anexos.map(a => `<span style="display:inline-flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11px;margin:2px"><i class="ti ti-paperclip" style="font-size:12px"></i>${a.nome}</span>`).join('')
+        ? c.anexos.map(a => `<span style="display:inline-flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11px;margin:2px"><i data-lucide="paperclip" style="width:12px;height:12px"></i>${a.nome}</span>`).join('')
         : '<span style="color:var(--muted);font-size:12px">Sem anexos</span>';
 
       document.getElementById('modal-campos').innerHTML = `
@@ -1845,6 +2039,7 @@
       }
 
       document.getElementById('modal-detalhe').style.display = 'flex';
+renderizarIconesLucide();
     }
 
     async function salvarStatusChamado() {
@@ -1855,6 +2050,18 @@
           status, responsavel_ti: responsavel,
           data_atualizacao: new Date().toISOString(),
         });
+
+        // Move card no Trello (fire-and-forget)
+        fetch(API + '/trello/mover-card', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chamado_id:     chamadoAtualId,
+            status,
+            responsavel_ti: responsavel,
+          }),
+        }).catch(e => console.warn('[Trello] mover-card falhou:', e.message));
+
         fecharModal('modal-detalhe');
         toast('Chamado atualizado!');
         carregarTodos();
@@ -1867,7 +2074,18 @@
       const num = c?.numero || chamadoAtualId;
       if (!confirm(`Excluir permanentemente o chamado ${num}?\n\nEsta ação não pode ser desfeita.`)) return;
       try {
+        // Busca trello_card_id ANTES de deletar do banco
+        const dados = await supabase('GET', 'chamados', `?id=eq.${chamadoAtualId}&select=trello_card_id`);
+        const cardId = Array.isArray(dados) ? dados[0]?.trello_card_id : dados?.trello_card_id;
         await supabase('DELETE', 'chamados', `?id=eq.${chamadoAtualId}`);
+        // Apaga card no Trello com o card_id já obtido
+        if (cardId) {
+          fetch(API + '/trello/deletar-card', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chamado_id: chamadoAtualId, card_id: cardId }),
+          }).catch(e => console.warn('[Trello] deletar-card falhou:', e.message));
+        }
         fecharModal('modal-detalhe');
         toast(`Chamado ${num} excluído.`);
         carregarTodos();
@@ -1878,7 +2096,17 @@
     async function excluirChamado(id, numero) {
       if (!confirm(`Excluir permanentemente o chamado ${numero || id}?\n\nEsta ação não pode ser desfeita.`)) return;
       try {
+        // Busca trello_card_id ANTES de deletar do banco
+        const dados = await supabase('GET', 'chamados', `?id=eq.${id}&select=trello_card_id`);
+        const cardId = Array.isArray(dados) ? dados[0]?.trello_card_id : dados?.trello_card_id;
         await supabase('DELETE', 'chamados', `?id=eq.${id}`);
+        if (cardId) {
+          fetch(API + '/trello/deletar-card', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chamado_id: id, card_id: cardId }),
+          }).catch(e => console.warn('[Trello] deletar-card falhou:', e.message));
+        }
         toast(`Chamado ${numero || id} excluído.`);
         carregarTodos();
         carregarMeus();
@@ -1888,9 +2116,9 @@
     // ── Helpers ───────────────────────────────────────────────────
     function prioPill(p) {
       const map = {
-        'Urgente': '<span class="pill pill-red"><i class="ti ti-alert-triangle"></i>Urgente</span>',
-        'Atenção': '<span class="pill pill-amber"><i class="ti ti-alert-circle"></i>Atenção</span>',
-        'Baixa': '<span class="pill pill-blue"><i class="ti ti-circle"></i>Baixa</span>',
+        'Urgente': '<span class="pill pill-red"><i data-lucide="alert-triangle" style="width:16px;height:16px"></i>Urgente</span>',
+        'Atenção': '<span class="pill pill-amber"><i data-lucide="alert-circle" style="width:15px;height:15px"></i>Atenção</span>',
+        'Baixa': '<span class="pill pill-blue"><i data-lucide="circle" style="width:10px;height:10px"></i>Baixa</span>',
       };
       return map[p] || p;
     }
@@ -1913,7 +2141,7 @@
 
     function erroHTML(msg) {
       return `<div class="alert alert-danger" style="margin:12px;padding:12px 14px;background:var(--red-l);border:1px solid #fecaca;border-radius:9px;color:var(--red);font-size:13px;display:flex;gap:8px">
-    <i class="ti ti-alert-circle" style="font-size:17px;flex-shrink:0"></i>
+    <i data-lucide="alert-circle" style="width:17px;height:17px"></i>
     <div><strong>Erro ao carregar.</strong><br><span style="font-size:11px">${msg}</span></div>
   </div>`;
     }
@@ -1932,6 +2160,42 @@
       toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
     }
   </script>
+<div id="sidebar-root"></div>
+<script src="sidebar.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  if (typeof lucide !== "undefined") lucide.createIcons();
+  // Observer anti-loop para ícones dinâmicos
+  if (typeof lucide !== "undefined") {
+    var _running = false;
+    var obs = new MutationObserver(function(muts) {
+      if (_running) return;
+      var hasNew = muts.some(function(m) {
+        return Array.from(m.addedNodes).some(function(n) {
+          return n.nodeType === 1 && (n.matches && n.matches("[data-lucide]") || (n.querySelector && n.querySelector("[data-lucide]")));
+        });
+      });
+      if (!hasNew) return;
+      _running = true;
+      lucide.createIcons();
+      setTimeout(function() { _running = false; }, 50);
+    });
+    obs.observe(document.body, { childList: true, subtree: true });
+  }
+});
+
+
+    // Função global para busca.js navegar
+    function carregarPagina(pagina) {
+      if (pagina === 'home' || pagina === '__home') {
+        window.location.href = 'index.html';
+        return;
+      }
+      const src = pagina.endsWith('.html') ? pagina : pagina + '.html';
+      window.location.href = src;
+    }
+
+</script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>AESA — Quem Somos</title>
+    <link rel="icon" type="image/png" href="img/favicon1.png?v=2">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -628,10 +629,32 @@
             opacity: 1;
             transform: none
         }
+    
+        /* ── DARK MODE ── */
+        [data-tema="escuro"] {
+            --navy: #4a7fd4; --navy-l: #5a8fde; --navy-xl: #2d5fa8;
+            --orange: #f4623a; --orange-h: #e04f28; --orange-l: #3d1a10;
+            --green: #34d399; --green-l: #064e3b; --green-b: #065f46;
+            --white: #1a1e2e;
+            --bg: #141720;
+            --text: #e2e8f0; --muted: #8b93a7;
+            --border: #2d3347;
+        }
+        [data-tema="escuro"] body { background: var(--bg); color: var(--text); }
+        [data-tema="escuro"] .card, [data-tema="escuro"] .value-card, [data-tema="escuro"] .stat-card,
+        [data-tema="escuro"] .team-card { background: #1a1e2e; border-color: var(--border); }
+        [data-tema="escuro"] h1, [data-tema="escuro"] h2, [data-tema="escuro"] h3 { color: var(--text); }
+        [data-tema="escuro"] .hero-section { background: linear-gradient(135deg, #0d1117 0%, #1a2744 60%, #0d2a1a 100%) !important; }
+        [data-tema="escuro"] .section-alt { background: #1a1e2e; }
+        [data-tema="escuro"] [style*="background:#fafbfd"] { background: #1a1e2e !important; }
+        [data-tema="escuro"] .timeline-item::before { background: var(--border); }
+        [data-tema="escuro"] .tag, [data-tema="escuro"] .badge { background: #1e2233; color: var(--text); border-color: var(--border); }
     </style>
+    <script src="auth.js"></script>
 </head>
 
 <body>
+
 
     <!-- HERO -->
     <div class="hero">
@@ -830,6 +853,9 @@
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     </script>
     <script>lucide.createIcons();</script>
+    <script src="tema.js"></script>
+<div id="sidebar-root"></div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

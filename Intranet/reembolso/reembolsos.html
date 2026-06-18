@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<link rel="icon" type="image/png" href="../img/favicon1.png?v=2">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Reembolsos — AESA</title>
+  <script src="reembolso-bridge.js"></script>
+</head>
+
+<body>
+  <div
+    style="position:fixed;inset:0;background:#f0f2f5;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div
+      style="width:44px;height:44px;border:3px solid #e2e6ea;border-top-color:#E73B1B;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:16px;">
+    </div>
+    <div id="msgCarregando" style="font-family:'Inter',sans-serif;font-size:13px;color:#6b7280;">Carregando...</div>
+    <style>
+      @keyframes spin {
+        to {
+          transform: rotate(360deg)
+        }
+      }
+    </style>
+  </div>
+
+  <script>
+    const ROTAS = { TI: 'adm.html', FINANCEIRO: 'financeiro.html', CHEFE: 'aprovador.html', GESTOR: 'gestor.html' };
+    const PRIORIDADE = ['TI', 'FINANCEIRO', 'CHEFE', 'GESTOR'];
+
+    iniciarSessaoReembolso().then(usuario => {
+      if (!usuario) return;
+
+      const perfis = usuario.perfis && usuario.perfis.length ? usuario.perfis : [usuario.perfil || 'GESTOR'];
+
+      // Multi-perfil → tela de seleção
+      if (perfis.length > 1) {
+        window.location.href = 'selecao.html';
+        return;
+      }
+
+      // Perfil único → vai direto
+      const perfil = PRIORIDADE.find(p => perfis.includes(p)) || 'GESTOR';
+      localStorage.setItem('reembolso_perfilAtivo', perfil);
+      window.location.href = ROTAS[perfil];
+
+    }).catch(e => {
+      console.error('Erro ao iniciar reembolsos:', e);
+      const msg = document.getElementById('msgCarregando');
+      if (msg) msg.textContent = 'Erro ao carregar. Recarregue a página.';
+    });
+  </script>
+</body>
+
+</html>

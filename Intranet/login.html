@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AESA — Acesso à Intranet</title>
+    <link rel="icon" type="image/png" href="img/favicon1.png?v=2">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.19.0/webfont/tabler-icons.min.css" />
     <link
@@ -98,24 +99,19 @@
 
         .logo-wrap {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .logo-mark {
-            width: 48px;
-            height: 48px;
-            background: var(--orange);
-            border-radius: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(231, 59, 27, .4);
+            height: 110px;
+            width: auto;
+            max-width: 100%;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .logo-text {
@@ -168,15 +164,28 @@
             position: relative;
         }
 
-        .input-wrap i {
+        .input-wrap>i,
+        .input-wrap>svg {
             position: absolute;
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            width: 18px;
+            height: 18px;
             color: var(--border);
             pointer-events: none;
             transition: color .15s;
+        }
+
+        /* SVG gerado pelo Lucide dentro do botão olho — não herda o posicionamento */
+        .eye-toggle i,
+        .eye-toggle svg {
+            position: static;
+            transform: none;
+            pointer-events: none;
+            width: 18px;
+            height: 18px;
+            color: inherit;
         }
 
         .form-input {
@@ -200,24 +209,35 @@
         }
 
         .form-input:focus+i,
-        .input-wrap:focus-within i {
+        .form-input:focus+svg,
+        .input-wrap:focus-within>i,
+        .input-wrap:focus-within>svg {
             color: var(--navy);
         }
 
         /* Icon after (eye toggle) */
-        .input-wrap .icon-right {
+        .eye-toggle {
             position: absolute;
-            right: 12px;
+            right: 17px;
             top: 50%;
             transform: translateY(-50%);
             left: auto;
-            font-size: 18px;
-            color: var(--border);
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted, #6b7280);
             cursor: pointer;
             pointer-events: all;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color .15s;
+            opacity: 1;
         }
 
-        .input-wrap .icon-right:hover {
+        .eye-toggle:hover {
             color: var(--navy);
         }
 
@@ -341,6 +361,8 @@
             color: rgba(255, 255, 255, .3);
         }
     </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="tema.js"></script>
 </head>
 
 <body>
@@ -352,11 +374,8 @@
                 <!-- HEADER -->
                 <div class="card-header">
                     <div class="logo-wrap">
-                        <div class="logo-mark">AE</div>
-                        <div class="logo-text">
-                            <div class="logo-name">AESA Empilhadeiras</div>
-                            <div class="logo-sub">Intranet Corporativa</div>
-                        </div>
+                        <img src="img/logo-sidebar.png" class="logo-mark" alt="AESA" draggable="false" ondragstart="return false">
+                        <div class="logo-sub">Intranet Corporativa</div>
                     </div>
                     <div class="card-title">Acesse com sua conta <strong>AESAEMP</strong></div>
                 </div>
@@ -365,13 +384,13 @@
                 <div class="card-body">
 
                     <div class="domain-hint">
-                        <i class="ti ti-network"></i>
+                        <i data-lucide="network" style="width:18px;height:18px"></i>
                         Use seu usuário de rede Windows — o mesmo que você usa para entrar no computador.
                     </div>
 
                     <!-- ERROR -->
                     <div class="error-box" id="error-box">
-                        <i class="ti ti-alert-circle"></i>
+                        <i data-lucide="alert-circle" style="width:18px;height:18px"></i>
                         <span id="error-msg">Usuário ou senha incorretos.</span>
                     </div>
 
@@ -382,7 +401,7 @@
                             <input class="form-input" id="input-user" type="text" placeholder="ex: gserafim"
                                 autocomplete="username"
                                 onkeydown="if(event.key==='Enter')document.getElementById('input-pass').focus()" />
-                            <i class="ti ti-user"></i>
+                            <i data-lucide="user" style="width:18px;height:18px"></i>
                         </div>
                     </div>
 
@@ -391,14 +410,16 @@
                         <div class="input-wrap">
                             <input class="form-input" id="input-pass" type="password" placeholder="••••••••"
                                 autocomplete="current-password" onkeydown="if(event.key==='Enter')fazerLogin()" />
-                            <i class="ti ti-lock"></i>
-                            <i class="ti ti-eye icon-right" id="eye-toggle" onclick="toggleSenha()"
-                                title="Mostrar/ocultar senha"></i>
+                            <i data-lucide="lock" style="width:18px;height:18px"></i>
+                            <button class="eye-toggle" id="eye-toggle" onclick="toggleSenha()"
+                                title="Mostrar/ocultar senha" type="button">
+                                <i data-lucide="eye" style="width:18px;height:18px" id="eye-icon"></i>
+                            </button>
                         </div>
                     </div>
 
                     <button class="btn-login" id="btn-login" onclick="fazerLogin()">
-                        <span id="btn-text"><i class="ti ti-login"></i>Entrar</span>
+                        <span id="btn-text" style="display:flex;align-items:center;gap:8px"><i data-lucide="log-in" style="width:18px;height:18px"></i>Entrar</span>
                         <div class="spinner" id="spinner"></div>
                     </button>
 
@@ -418,7 +439,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://10.1.1.54:3001';
+        const API_URL = '';
         const AUTH_URL = API_URL + '/login';
         const SESSAO_TTL = 8 * 60 * 60 * 1000; // 8 horas em ms
 
@@ -438,6 +459,10 @@
                 const lista = await existe.json();
 
                 if (Array.isArray(lista) && lista.length > 0) {
+                    const dadosBanco = lista[0];
+                    u.id = dadosBanco.id;
+                    u.perfis = dadosBanco.perfis || ['COLABORADOR'];
+                    localStorage.setItem('aesa_usuario', JSON.stringify(u));
                     // Já existe — só atualiza último login
                     await fetch(API_URL + '/db', {
                         method: 'POST',
@@ -488,14 +513,15 @@
         // Toggle senha
         function toggleSenha() {
             const inp = document.getElementById('input-pass');
-            const icon = document.getElementById('eye-toggle');
+            const icon = document.getElementById('eye-icon');
             if (inp.type === 'password') {
                 inp.type = 'text';
-                icon.className = 'ti ti-eye-off icon-right';
+                icon.setAttribute('data-lucide', 'eye-off');
             } else {
                 inp.type = 'password';
-                icon.className = 'ti ti-eye icon-right';
+                icon.setAttribute('data-lucide', 'eye');
             }
+            if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [icon] });
         }
 
         // Mostrar erro
@@ -563,6 +589,7 @@
         // Foco automático
         document.getElementById('input-user').focus();
     </script>
+    <script>document.addEventListener("DOMContentLoaded", function () { if (typeof lucide !== "undefined") lucide.createIcons(); });</script>
 </body>
 
 </html>

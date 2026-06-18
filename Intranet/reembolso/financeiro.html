@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-base="../">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Financeiro — AESA</title>
+  <link rel="icon" type="image/png" href="../img/favicon1.png?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="reembolso-bridge.js"></script>
+  <style id="loading-overlay">
+    #loading-overlay-div {
+      position: fixed !important;
+      inset: 0 !important;
+      background: #f0f2f5 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 999999 !important;
+    }
+
+    @keyframes _spin2 {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    (function () {
+      function criarOverlay() {
+        var d = document.createElement('div');
+        d.id = 'loading-overlay-div';
+        d.style.cssText = 'position:fixed!important;inset:0!important;background:#f0f2f5!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;z-index:999999!important;';
+        d.innerHTML = '<div style="width:44px;height:44px;border:3px solid #e2e6ea;border-top-color:#E73B1B;border-radius:50%;animation:_spin2 .7s linear infinite;margin-bottom:16px;"></div><div style="font-family:Inter,sans-serif;font-size:13px;color:#6b7280;">Verificando acesso...</div>';
+        document.body.appendChild(d);
+      }
+      criarOverlay();
+      window._removeLoading = function () {
+        document.querySelectorAll('#loading-overlay-div').forEach(function (el) { el.remove(); });
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+          var el = document.getElementById('loading-overlay-div');
+          if (el && el.parentElement !== document.body) {
+            document.body.appendChild(el);
+          }
+        }, 0);
+      });
+    })();
+  </script>
+  <script src="../sidebar.js"></script>
+  <style>
+    :root {
+      --azul: #061851;
+      --laranja: #E73B1B;
+      --texto: #0f1923;
+      --suave: #6b7280;
+      --branco: #fff;
+      --borda: #e2e6ea;
+      --verde: #065f46;
+      --verde-bg: #ecfdf5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: var(--texto);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+    }
+
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--azul);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header h1::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 22px;
+      background: var(--laranja);
+      border-radius: 2px;
+    }
+
+    .page-header p {
+      color: var(--suave);
+      font-size: 13px;
+      margin-top: 4px;
+      margin-left: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 18px 22px;
+      border: 1px solid var(--borda);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--suave);
+      margin-top: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .filtros {
+      background: var(--branco);
+      border-radius: 12px;
+      padding: 18px 22px;
+      border: 1px solid var(--borda);
+      margin-bottom: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .filtro-grupo {
+      flex: 1;
+      min-width: 130px;
+    }
+
+    .filtro-grupo label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--borda);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--texto);
+      background: #f8f9fb;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--azul);
+    }
+
+    .btn-filtrar {
+      padding: 9px 20px;
+      background: var(--azul);
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-exportar {
+      padding: 9px 20px;
+      background: var(--verde-bg);
+      color: var(--verde);
+      border: 1px solid #6ee7b7;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-exportar:hover {
+      background: var(--verde);
+      color: white;
+    }
+
+    .card {
+      background: var(--branco);
+      border-radius: 12px;
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--borda);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafbfc;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--azul);
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: var(--suave);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 16px;
+      border-bottom: 2px solid var(--borda);
+    }
+
+    td {
+      padding: 11px 16px;
+      border-bottom: 1px solid #f1f4f8;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr.clicavel {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    tr.clicavel:hover td {
+      background: #f0f4ff;
+    }
+
+    tr.clicavel:hover td:first-child {
+      border-left: 3px solid var(--laranja);
+    }
+
+    .total-row td {
+      font-weight: 700;
+      color: var(--azul);
+      background: #f0f4ff;
+      border-top: 2px solid var(--borda);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 52px;
+      color: var(--suave);
+      font-size: 14px;
+    }
+
+    .mes-section {
+      margin-bottom: 28px;
+    }
+
+    .mes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--azul);
+      color: white;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .mes-nome {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mes-total {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .mes-body {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+    }
+
+    .tag-setor {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #f0f4ff;
+      color: var(--azul);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .btn-concluir {
+      padding: 5px 12px;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-concluir:hover {
+      background: #1e40af;
+      color: white;
+    }
+
+    .hint-clique {
+      font-size: 11px;
+      color: var(--suave);
+      font-style: italic;
+      margin-left: 8px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 24, 81, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-det {
+      background: white;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.25);
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .modal-det-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+    }
+
+    .modal-det-titulo {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .modal-fechar {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--suave);
+      font-size: 22px;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .modal-fechar:hover {
+      color: var(--laranja);
+    }
+
+    .modal-det-body {
+      padding: 24px 28px;
+    }
+
+    .det-secao {
+      margin-bottom: 24px;
+    }
+
+    .det-secao-titulo {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--suave);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .det-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .det-grid.full {
+      grid-template-columns: 1fr;
+    }
+
+    .det-item label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--suave);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+
+    .det-item .valor {
+      font-size: 14px;
+      color: var(--texto);
+      font-weight: 500;
+    }
+
+    .det-item .valor.destaque {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--azul);
+    }
+
+    .det-item .valor.desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #374151;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      position: relative;
+    }
+
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 32px;
+      width: 2px;
+      height: 100%;
+      background: var(--borda);
+    }
+
+    .timeline-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+
+    .timeline-dot svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .timeline-dot.criado {
+      background: #eff6ff;
+      border: 2px solid #bfdbfe;
+    }
+
+    .timeline-dot.aprovado {
+      background: #ecfdf5;
+      border: 2px solid #6ee7b7;
+    }
+
+    .timeline-dot.rejeitado {
+      background: #fef2f2;
+      border: 2px solid #fca5a5;
+    }
+
+    .timeline-dot.editado {
+      background: #fff8e1;
+      border: 2px solid #fde68a;
+    }
+
+    .timeline-info {
+      padding-bottom: 20px;
+    }
+
+    .timeline-titulo {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--texto);
+    }
+
+    .timeline-data {
+      font-size: 12px;
+      color: var(--suave);
+      margin-top: 2px;
+    }
+
+    .timeline-obs {
+      font-size: 12px;
+      color: #374151;
+      margin-top: 4px;
+      background: #f8f9fb;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--borda);
+    }
+
+    .comprovante-area {
+      background: #f8f9fb;
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .comprovante-area img {
+      max-width: 100%;
+      max-height: 320px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .comprovante-area embed {
+      width: 100%;
+      height: 320px;
+      border-radius: 8px;
+    }
+
+    .sem-comp {
+      color: var(--suave);
+      font-size: 13px;
+      padding: 24px;
+    }
+
+    .modal-det-footer {
+      padding: 16px 28px;
+      border-top: 1px solid var(--borda);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #fafbfc;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .btn-fechar-det {
+      padding: 9px 20px;
+      background: #f4f6f9;
+      color: var(--suave);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-concluir-det {
+      padding: 9px 20px;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-concluir-det:hover {
+      background: #1e40af;
+      color: white;
+    }
+
+    .sb-content-wrap .page,
+    .sb-content-wrap>div:not(#bridge-loading):not(#reembolso-topbar)>.page {
+      box-sizing: border-box;
+    }
+
+    #reembolso-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+    }
+
+    .sb-content-wrap {
+      background: #f0f2f5;
+      min-height: 100vh;
+    }
+
+    #reembolso-topbar {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar-root"></div>
+
+  <div id="reembolso-topbar"
+    style="background:#061851;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;width:100%;box-sizing:border-box;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:3px;height:18px;background:#E73B1B;border-radius:2px;"></div>
+      <span style="color:white;font-size:13px;font-weight:600;" id="topbar-titulo">Financeiro</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="color:rgba(255,255,255,0.5);font-size:12px;" id="topbar-nome">—</span>
+      <div id="topbar-avatar"
+        style="width:28px;height:28px;border-radius:50%;background:#E73B1B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;">
+        —</div>
+      <button id="topbar-btn-trocar" onclick="trocarTela()"
+        style="display:none;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Trocar
+        painel</button>
+      <button onclick="logout()"
+        style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);padding:4px 12px;border-radius:6px;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;">Sair</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <h1>Painel Financeiro</h1>
+      <p>Controle e relatórios de reembolsos corporativos</p>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-val" id="stTotal">—</div>
+        <div class="stat-label">Total Aprovado</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="stQtd">—</div>
+        <div class="stat-label">Qtd. Aprovados</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="stPendente">—</div>
+        <div class="stat-label">Pendentes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val" id="stConcluido">—</div>
+        <div class="stat-label">Concluídos</div>
+      </div>
+    </div>
+    <div class="filtros">
+      <div class="filtro-grupo"><label>Status</label>
+        <select id="fStatus">
+          <option value="APROVADO" selected>Aprovado</option>
+          <option value="">Todos</option>
+          <option value="PENDENTE">Pendente</option>
+          <option value="CONCLUIDO">Concluído</option>
+          <option value="REJEITADO">Rejeitado</option>
+        </select>
+      </div>
+      <div class="filtro-grupo"><label>Setor</label><select id="fSetor">
+          <option value="">Todos os setores</option>
+        </select></div>
+      <div class="filtro-grupo"><label>Data início</label><input type="date" id="fDataInicio" /></div>
+      <div class="filtro-grupo"><label>Data fim</label><input type="date" id="fDataFim" /></div>
+      <div class="filtro-grupo"><label>Mês referência</label><input type="month" id="fMes" /></div>
+      <div class="filtro-grupo"><label>Agrupar por mês</label><select id="fAgrupar">
+          <option value="sim">Sim</option>
+          <option value="nao">Não</option>
+        </select></div>
+      <button class="btn-filtrar" onclick="carregarDados()">Filtrar</button>
+      <button class="btn-exportar" onclick="exportarCSV()">Exportar CSV</button>
+    </div>
+    <div id="conteudo">
+      <div class="empty">Carregando...</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalDetalhes">
+    <div class="modal-det">
+      <div class="modal-det-header">
+        <div>
+          <div class="modal-det-titulo" id="detTitulo">Detalhes</div>
+          <div id="detSub"></div>
+        </div><button class="modal-fechar" onclick="fecharDetalhes()">×</button>
+      </div>
+      <div class="modal-det-body" id="detBody"></div>
+      <div class="modal-det-footer" id="detFooter"></div>
+    </div>
+  </div>
+
+  <script>
+    iniciarSessaoReembolso().then(usuario => {
+      if (!usuario) return;
+      if (window._removeLoading) window._removeLoading();
+
+      const _tb_nome = document.getElementById('topbar-nome');
+      const _tb_avatar = document.getElementById('topbar-avatar');
+      const _tb_trocar = document.getElementById('topbar-btn-trocar');
+      if (_tb_nome) _tb_nome.textContent = usuario.nome;
+      if (_tb_avatar) _tb_avatar.textContent = usuario.nome.split(' ').map(p => p[0]).join('').substring(0, 2).toUpperCase();
+      if (_tb_trocar && usuario.perfis && usuario.perfis.length > 1) _tb_trocar.style.display = 'block';
+
+      const _btnTrocar = document.querySelector('[onclick="trocarTela()"]');
+      if (_btnTrocar && usuario.perfis && usuario.perfis.length <= 1) {
+        _btnTrocar.style.display = 'none';
+      }
+
+      let dadosAtuais = [];
+      SETORES.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; document.getElementById('fSetor').appendChild(o); });
+
+      document.getElementById('modalDetalhes').addEventListener('click', function (e) { if (e.target === this) fecharDetalhes(); });
+
+      function formatarDataHora(dt) {
+        if (!dt) return '—';
+        const dtUTC = dt.endsWith('Z') || dt.includes('+') ? dt : dt + 'Z';
+        const d = new Date(new Date(dtUTC).toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+        const pad = n => String(n).padStart(2, '0');
+        return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      }
+
+      const cfgTL = {
+        CRIADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`, classe: 'criado', label: 'Solicitação criada' },
+        APROVADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`, classe: 'aprovado', label: 'Aprovada' },
+        REJEITADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`, classe: 'rejeitado', label: 'Rejeitada' },
+        EDITADO: { svg: `<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>`, classe: 'editado', label: 'Atualizada' },
+      };
+
+      window.carregarStats = async function () {
+        try {
+          const d = await db('GET', 'solicitacoes', '?select=status,valor');
+          const ap = d.filter(r => r.status === 'APROVADO');
+          document.getElementById('stTotal').textContent = formatarValor(ap.reduce((s, r) => s + parseFloat(r.valor), 0));
+          document.getElementById('stQtd').textContent = ap.length;
+          document.getElementById('stPendente').textContent = d.filter(r => r.status === 'PENDENTE').length;
+          document.getElementById('stConcluido').textContent = d.filter(r => r.status === 'CONCLUIDO').length;
+        } catch (e) { }
+      }
+
+      window.carregarDados = async function () {
+        const cont = document.getElementById('conteudo');
+        cont.innerHTML = '<div class="empty">Carregando...</div>';
+        const status = document.getElementById('fStatus').value;
+        const setor = document.getElementById('fSetor').value;
+        const di = document.getElementById('fDataInicio').value;
+        const df = document.getElementById('fDataFim').value;
+        const mes = document.getElementById('fMes').value;
+        const agrupar = document.getElementById('fAgrupar').value;
+        let p = '?order=mes_referencia.desc,criado_em.desc&select=*';
+        if (status) p += `&status=eq.${status}`;
+        if (setor) p += `&departamento=eq.${encodeURIComponent(setor)}`;
+        if (di) p += `&data_despesa=gte.${di}`;
+        if (df) p += `&data_despesa=lte.${df}`;
+        if (mes) p += `&mes_referencia=eq.${mes}`;
+        try {
+          dadosAtuais = await db('GET', 'solicitacoes', p);
+          if (!dadosAtuais.length) { cont.innerHTML = '<div class="card"><div class="empty">Nenhum registro encontrado.</div></div>'; return; }
+          agrupar === 'sim' ? renderAgrupado(dadosAtuais, cont) : renderTabela(dadosAtuais, cont);
+        } catch (e) { console.error('carregarDados erro:', e); cont.innerHTML = '<div class="card"><div class="empty">Erro ao carregar dados: ' + e.message + '</div></div>'; }
+      }
+
+      window.nomeMes = function (m) { if (!m) return '—'; const [ano, mes] = m.split('-'); return `${['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'][parseInt(mes) - 1]} ${ano}`; }
+
+      window.linhaTabela = function (r) {
+        return `<tr class="clicavel" onclick="abrirDetalhes('${r.id}')">
+    <td><strong>${r.nome_solicitante}</strong></td><td><span class="tag-setor">${r.departamento}</span></td>
+    <td>${formatarData(r.data_despesa)}</td><td>${r.mes_referencia || '—'}</td>
+    <td style="font-weight:700;">${formatarValor(r.valor)}</td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.descricao}">${r.descricao}</td>
+    <td>${statusBadge(r.status)}</td><td>${formatarData(r.data_aprovacao)}</td>
+    <td onclick="event.stopPropagation()">${r.status === 'APROVADO' ? `<button class="btn-concluir" onclick="marcarConcluido('${r.id}')">Concluir</button>` : '—'}</td>
+  </tr>`;
+      }
+
+      window.cabecalho = function () { return `<thead><tr><th>Solicitante</th><th>Setor</th><th>Data Despesa</th><th>Mês Ref.</th><th>Valor</th><th>Descrição</th><th>Status</th><th>Aprovado em</th><th>Ação</th></tr></thead>`; }
+
+      window.renderAgrupado = function (dados, cont) {
+        const g = {}; dados.forEach(r => { const k = r.mes_referencia || 'sem-mes'; if (!g[k]) g[k] = []; g[k].push(r); });
+        cont.innerHTML = Object.entries(g).map(([m, itens]) => {
+          const t = itens.filter(r => r.status === 'APROVADO' || r.status === 'CONCLUIDO').reduce((s, r) => s + parseFloat(r.valor), 0);
+          return `<div class="mes-section"><div class="mes-header"><span class="mes-nome">${nomeMes(m)}</span><span class="mes-total">${itens.length} solicitação(ões) — Total: ${formatarValor(t)}</span></div>
+      <div class="mes-body"><table>${cabecalho()}<tbody>${itens.map(linhaTabela).join('')}<tr class="total-row"><td colspan="4">TOTAL DO MÊS</td><td>${formatarValor(t)}</td><td colspan="4"></td></tr></tbody></table></div></div>`;
+        }).join('');
+      }
+
+      window.renderTabela = function (dados, cont) {
+        const t = dados.filter(r => r.status === 'APROVADO' || r.status === 'CONCLUIDO').reduce((s, r) => s + parseFloat(r.valor), 0);
+        cont.innerHTML = `<div class="card"><div class="card-header"><span class="card-title">Relatório de Reembolsos</span><span class="card-meta">${dados.length} registro(s) — Total: ${formatarValor(t)}<span class="hint-clique">· clique para ver detalhes</span></span></div>
+    <table>${cabecalho()}<tbody>${dados.map(linhaTabela).join('')}<tr class="total-row"><td colspan="4">TOTAL</td><td>${formatarValor(t)}</td><td colspan="4"></td></tr></tbody></table></div>`;
+      }
+
+      window.abrirDetalhes = async function (id) {
+        document.getElementById('modalDetalhes').classList.add('show');
+        document.getElementById('detBody').innerHTML = '<div class="empty">Carregando...</div>';
+        document.getElementById('detFooter').innerHTML = '';
+        try {
+          const [rem, hist] = await Promise.all([db('GET', 'solicitacoes', `?id=eq.${id}&select=*`), db('GET', 'historico', `?solicitacao_id=eq.${id}&order=data_acao.asc&select=*`)]);
+          const r = rem[0];
+          if (!r) { document.getElementById('detBody').innerHTML = '<div class="empty">Não encontrado.</div>'; return; }
+          document.getElementById('detTitulo').textContent = `Solicitação de ${r.nome_solicitante}`;
+          document.getElementById('detSub').innerHTML = `<span style="color:var(--suave)">${r.departamento}</span> &nbsp;·&nbsp; <strong style="color:var(--azul)">${formatarValor(r.valor)}</strong> &nbsp;·&nbsp; ${statusBadge(r.status)}`;
+          const tl = hist.length ? hist.map(h => { const c = cfgTL[h.acao] || { svg: '', classe: 'criado', label: h.acao }; return `<div class="timeline-item"><div class="timeline-dot ${c.classe}">${c.svg}</div><div class="timeline-info"><div class="timeline-titulo">${c.label}</div><div class="timeline-data">${formatarDataHora(h.data_acao)}</div>${h.descricao ? `<div class="timeline-obs">${h.descricao}</div>` : ''}</div></div>`; }).join('')
+            : `<div class="timeline-item"><div class="timeline-dot criado">${cfgTL.CRIADO.svg}</div><div class="timeline-info"><div class="timeline-titulo">Solicitação criada</div><div class="timeline-data">${formatarDataHora(r.criado_em)}</div></div></div>`;
+          let comp = '<div class="sem-comp">Nenhum comprovante.</div>';
+          try {
+            const anexos = await db('GET', 'anexos', `?solicitacao_id=eq.${id}&limit=1`);
+            if (anexos && anexos[0] && anexos[0].conteudo_data_uri) {
+              r.comprovante = anexos[0].conteudo_data_uri;
+            }
+          } catch (e) { console.warn('Erro ao buscar anexo:', e); }
+          if (r.comprovante) {
+            if (r.comprovante.startsWith('data:image')) comp = `<img src="${r.comprovante}" onclick="ampliarImagem(this.src)" title="Clique para ampliar"/><div style="font-size:11px;color:var(--suave);margin-top:8px;">Clique para ampliar</div>`;
+            else if (r.comprovante.startsWith('data:application/pdf')) comp = `<embed src="${r.comprovante}" type="application/pdf" width="100%" height="320px"/>`;
+            else comp = `<a href="${r.comprovante}" download style="color:var(--azul);font-weight:600;">⬇ Baixar</a>`;
+          }
+          document.getElementById('detBody').innerHTML = `
+      <div class="det-secao"><div class="det-secao-titulo">Informações da Despesa</div>
+        <div class="det-grid">
+          <div class="det-item"><label>Solicitante</label><div class="valor">${r.nome_solicitante}</div></div>
+          <div class="det-item"><label>Setor</label><div class="valor">${r.departamento}</div></div>
+          <div class="det-item"><label>Data da Despesa</label><div class="valor">${formatarData(r.data_despesa)}</div></div>
+          <div class="det-item"><label>Mês de Referência</label><div class="valor">${nomeMes(r.mes_referencia)}</div></div>
+          <div class="det-item"><label>Valor</label><div class="valor destaque">${formatarValor(r.valor)}</div></div>
+          <div class="det-item"><label>Status</label><div class="valor">${statusBadge(r.status)}</div></div>
+        </div>
+        <div class="det-grid full" style="margin-top:14px;">
+          <div class="det-item"><label>Descrição</label><div class="valor desc">${r.descricao}</div></div>
+          ${r.justificativa_rejeicao ? `<div class="det-item" style="margin-top:10px;"><label>Motivo da Rejeição</label><div class="valor desc" style="color:#991b1b;background:#fef2f2;padding:8px 12px;border-radius:6px;border-left:3px solid #fca5a5;">${r.justificativa_rejeicao}</div></div>` : ''}
+        </div>
+      </div>
+      <div class="det-secao"><div class="det-secao-titulo">Datas e Horários</div>
+        <div class="det-grid">
+          <div class="det-item"><label>Criado em</label><div class="valor">${formatarDataHora(r.criado_em)}</div></div>
+          <div class="det-item"><label>${r.status === 'REJEITADO' ? 'Rejeitado em' : 'Aprovado em'}</label><div class="valor">${formatarDataHora(r.data_aprovacao)}</div></div>
+          ${r.data_conclusao ? `<div class="det-item"><label>Concluído em</label><div class="valor">${formatarDataHora(r.data_conclusao)}</div></div>` : ''}
+        </div>
+      </div>
+      <div class="det-secao"><div class="det-secao-titulo">Histórico</div><div class="timeline">${tl}</div></div>
+      <div class="det-secao"><div class="det-secao-titulo">Comprovante</div><div class="comprovante-area">${comp}</div></div>`;
+          document.getElementById('detFooter').innerHTML = `<button class="btn-fechar-det" onclick="fecharDetalhes()">Fechar</button>${r.status === 'APROVADO' ? `<button class="btn-concluir-det" onclick="marcarConcluido('${r.id}');fecharDetalhes()">✓ Marcar como Concluído</button>` : ''}`;
+        } catch (e) { document.getElementById('detBody').innerHTML = '<div class="empty">Erro ao carregar.</div>'; }
+      }
+
+      window.fecharDetalhes = function () { document.getElementById('modalDetalhes').classList.remove('show'); }
+
+      window.marcarConcluido = async function (id) {
+        if (!confirm('Confirma que o reembolso foi pago?')) return;
+        try {
+          await db('PATCH', 'solicitacoes', `?id=eq.${id}`, { status: 'CONCLUIDO', data_conclusao: new Date().toISOString() });
+          await registrarHistorico(id, usuario.usuario_login, 'EDITADO', `Marcado como Concluído pelo Financeiro — ${usuario.nome}`);
+          // ✅ CORRIGIDO: removida query inútil de perfis_usuario (usuario_id não existe no select)
+          // e removido .catch(() => {}) silencioso — erros agora aparecem no console
+          try {
+            const rem = await db('GET', 'solicitacoes', `?id=eq.${id}&select=nome_solicitante,usuario_login,descricao,valor,departamento`);
+            if (rem && rem[0]) {
+              const emailSolic = await buscarEmailSolicitante(rem[0].usuario_login);
+              await emailAtualizacaoStatus({
+                ...rem[0],
+                nome: rem[0].nome_solicitante,
+                email_solicitante: emailSolic
+              }, 'CONCLUIDO');
+            }
+          } catch (e2) { console.warn('Erro ao enviar e-mail de conclusão:', e2); }
+          carregarDados();
+          carregarStats();
+        }
+        catch (e) { alert('Erro ao atualizar.'); }
+      }
+
+      window.exportarCSV = function () {
+        if (!dadosAtuais.length) { alert('Nenhum dado para exportar.'); return; }
+        const h = ['Nome', 'Setor', 'Data Despesa', 'Mês Ref.', 'Valor', 'Descrição', 'Status', 'Data Aprovação', 'Criado em'];
+        const r = dadosAtuais.map(r => [r.nome_solicitante, r.departamento, r.data_despesa, r.mes_referencia || '', r.valor, `"${r.descricao}"`, r.status, r.data_aprovacao ? formatarDataHora(r.data_aprovacao) : '', r.criado_em ? formatarDataHora(r.criado_em) : '']);
+        const csv = [h, ...r].map(r => r.join(';')).join('\n');
+        const b = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `reembolsos_AESA_${new Date().toISOString().slice(0, 10)}.csv`; a.click();
+      }
+
+      window.ampliarImagem = function (src) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;padding:20px;';
+        overlay.innerHTML = `<img src="${src}" style="max-width:100%;max-height:90vh;border-radius:8px;" />`;
+        overlay.onclick = () => document.body.removeChild(overlay);
+        document.body.appendChild(overlay);
+      }
+
+      carregarStats(); carregarDados();
+
+    }).catch(e => {
+      console.error('Bridge erro:', e);
+      const el = document.getElementById('bridge-loading');
+      if (el) { const t = el.querySelector('div:last-child'); if (t) t.textContent = 'Erro ao carregar. Recarregue a página.'; }
+    });
+  </script>
+</body>
+
+</html>
